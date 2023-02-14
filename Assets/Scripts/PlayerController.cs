@@ -76,55 +76,24 @@ namespace TNSR
             // Gets the input and moves the player according to that input
             moveInput = Input.GetAxisRaw("Horizontal");
             rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
-
             // Checks if the direction which the player sprite is facing should be flipped
             transform.localScale = new Vector3(Mathf.Sign(moveInput), 1, 1);
-
             // Checks if the player is on the ground
             grounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
-
             // Coyote time
-            if (grounded)
-            {
-                coyoteTimeCounter = coyoteTime;
-            }
-            else
-            {
-                coyoteTimeCounter -= Time.deltaTime;
-            }
-
-            if (coyoteTimeCounter > 0f)
-            {
-                isGrounded = true;
-            }
-            else
-            {
-                isGrounded = false;
-            }
-
-
+            coyoteTimeCounter = grounded ? coyoteTime : coyoteTimeCounter - Time.deltaTime;
+            isGrounded = coyoteTimeCounter > 0f;
             // Wall sliding
             isTouchingFront = Physics2D.OverlapCircle(frontCheck.position, checkWallRadius, whatIsWall);
 
-            if (isTouchingFront && !isGrounded && moveInput != 0)
-            {
-                wallSliding = true;
-            }
-            else
-            {
-                wallSliding = false;
-            }
+            wallSliding = isTouchingFront && !isGrounded && moveInput != 0;
 
             if (wallSliding)
-            {
                 rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
-            }
 
             // Wall jumping
             if (wallJumping)
-            {
                 rb.velocity = new Vector2(xWallForce * -moveInput, yWallForce);
-            }
 
             // Checks if player is on spring
             spring = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsSpring);
@@ -135,6 +104,7 @@ namespace TNSR
             // Jumping
             if (isGrounded) extraJumps = extraJumpsValue;
 
+            // todo: fix this
             if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && extraJumps > 0 && !wallSliding)
             {
                 coyoteTimeCounter = 0f;

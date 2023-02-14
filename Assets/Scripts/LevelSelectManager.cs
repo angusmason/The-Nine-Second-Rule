@@ -1,22 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace TNSR.Levels
 {
     public class LevelSelectManager : MonoBehaviour
     {
-
-        // Start is called before the first frame update
+        [SerializeField] Transform player;
+        [SerializeField] string[] nonLevelScenes;
+        [SerializeField] GameObject levelPrefab;
+        [SerializeField] float spacing;
         void Start()
         {
+            var scenes = Enumerable
+                .Range(0, SceneManager.sceneCountInBuildSettings)
+                .Select(index => SceneManager.GetSceneByBuildIndex(index))
+                .Where(scene => !nonLevelScenes.Contains(scene.name))
+                .ToList();
 
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+            foreach (var (scene, index) in scenes.Select((scene, index) => (scene, index)))
+            {
+                var level = Instantiate(levelPrefab, new(
+                        index * spacing,
+                        transform.position.y,
+                        transform.position.x
+                    ),
+                    Quaternion.identity,
+                    transform
+                ).GetComponent<Level>();
+                level.player = player;
+                level.buildIndex = index;
+            }
         }
     }
 }
