@@ -67,9 +67,6 @@ LightmapSettings:
     m_LightmapParameters: {fileID: 0}
     m_LightmapsBakeMode: 1
     m_TextureCompression: 1
-    m_FinalGather: 0
-    m_FinalGatherFiltering: 1
-    m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_MixedBakeMode: 2
     m_BakeBackend: 0
@@ -758,6 +755,7 @@ BoxCollider2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 827208900}
   m_Enabled: 1
+  serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -781,7 +779,8 @@ BoxCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -792,7 +791,6 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
   m_Size: {x: 200, y: 1}
   m_EdgeRadius: 0
 --- !u!1001 &1093364855
@@ -1315,9 +1313,13 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2257004464702832907, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
+      propertyPath: r
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2257004464702832907, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
       propertyPath: transition
       value: 
-      objectReference: {fileID: 2070663775}
+      objectReference: {fileID: 2065507624}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1700,21 +1702,10 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2065507623 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2257004464702832907, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
-  m_PrefabInstance: {fileID: 1730130167}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 778aa64f7614f4570887dc0801a30ff4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!95 &2070663775 stripped
+--- !u!95 &2065507624 stripped
 Animator:
-  m_CorrespondingSourceObject: {fileID: 870470179679635137, guid: 8d4c497f1f83a46dea8e7c293a8f9122, type: 3}
-  m_PrefabInstance: {fileID: 7801100070655571449}
+  m_CorrespondingSourceObject: {fileID: 2257004464702832902, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
+  m_PrefabInstance: {fileID: 1730130167}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3681287518928986971
 PrefabInstance:
@@ -1773,7 +1764,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7405439533352242090, guid: 1a825f16ed5a547d2977d900f1d83d6b, type: 3}
-      propertyPath: targets.Array.data[0]
+      propertyPath: 'targets.Array.data[0]'
       value: 
       objectReference: {fileID: 1217153945}
     m_RemovedComponents: []
@@ -1789,14 +1780,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4280111639840181621, guid: 8d4c497f1f83a46dea8e7c293a8f9122, type: 3}
-      propertyPath: playerController
-      value: 
-      objectReference: {fileID: 2065507623}
-    - target: {fileID: 4551417748941766284, guid: 8d4c497f1f83a46dea8e7c293a8f9122, type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 519420031}
     - target: {fileID: 6256380245092498396, guid: 8d4c497f1f83a46dea8e7c293a8f9122, type: 3}
       propertyPath: m_Pivot.x
       value: 0

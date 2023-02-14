@@ -14,11 +14,6 @@ namespace TNSR
             StartCoroutine(ShootProjectile());
         }
 
-        void Update()
-        {
-
-        }
-
         IEnumerator ShootProjectile()
         {
             while (true)
