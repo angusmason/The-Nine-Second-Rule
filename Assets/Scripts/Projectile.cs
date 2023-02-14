@@ -1,26 +1,29 @@
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+namespace TNSR
 {
-    float timer;
-    [SerializeField] float timerValue;
-
-    void Start()
+    public class Projectile : MonoBehaviour
     {
-        timer = timerValue;
-    }
+        float timer;
+        [SerializeField] float timerValue;
 
-    void Update()
-    {
-        timer -= Time.deltaTime;
-        if (timer <= 0)
+        void Start()
+        {
+            timer = timerValue;
+        }
+
+        void Update()
+        {
+            timer -= Time.deltaTime;
+            if (timer <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        void OnCollisionEnter2D(Collision2D collision)
         {
             Destroy(gameObject);
         }
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        Destroy(gameObject);
     }
 }

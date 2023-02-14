@@ -1,31 +1,24 @@
 using UnityEngine;
 
-public class Patrol : MonoBehaviour
+namespace TNSR
 {
-    [SerializeField] float speed;
-    [SerializeField] float distance;
-
-    bool movingRight = true;
-
-    [SerializeField] Transform groundDetection;
-
-    void Update()
+    public class Patrol : MonoBehaviour
     {
-        transform.Translate(Vector2.right * speed * Time.deltaTime);
+        [SerializeField] float speed;
+        [SerializeField] float distance;
 
-        RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distance);
+        bool movingRight = true;
 
-        if (!groundInfo.collider)
+        [SerializeField] Transform groundDetection;
+
+        void Update()
         {
-            if (movingRight)
+            transform.Translate(speed * Time.deltaTime * Vector2.right);
+            RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distance);
+            if (!groundInfo.collider)
             {
-                transform.eulerAngles = new Vector3(0, -180, 0);
-                movingRight = false;
-            }
-            else
-            {
-                transform.eulerAngles = new Vector3(0, 0, 0);
-                movingRight = true;
+                transform.eulerAngles = new Vector3(0, movingRight ? -180 : 0, 0);
+                movingRight = !movingRight;
             }
         }
     }

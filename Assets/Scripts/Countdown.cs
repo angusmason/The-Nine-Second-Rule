@@ -1,44 +1,64 @@
+using System;
 using TMPro;
 using UnityEngine;
 
-public class Countdown : MonoBehaviour
+namespace TNSR
 {
-    public static float timeLeft;
-    public static bool counting = false;
-    public TextMeshProUGUI countdown;
-    public TextMeshProUGUI countup;
-    public static float initialTime = 9;
-    [SerializeField] PlayerController playerController;
-
-    void Start()
+    public class Countdown : MonoBehaviour
     {
-        timeLeft = initialTime;
-        counting = false;
-    }
+        const int TimeAvailable = 9;
+        DateTime startTime;
+        [SerializeField] TextMeshProUGUI countUpText;
+        [SerializeField] TextMeshProUGUI countDownText;
+        public event EventHandler TimeUp;
 
-    void Update()
-    {
-        if (counting)
+        bool counting;
+        public TimeSpan Time => DateTime.Now - startTime;
+
+        void Start()
         {
-            if (timeLeft > 0)
+            startTime = DateTime.Now;
+            UpdateText();
+        }
+
+        void Update()
+        {
+            if (!counting)
             {
-                timeLeft -= Time.deltaTime;
-                countdown.text = timeLeft.ToString("F2");
-                countup.text = (9 - timeLeft).ToString("F2");
+                ResetTime();
+                return;
             }
-            else
+            UpdateText();
+            if (Time >= TimeSpan.FromSeconds(TimeAvailable))
             {
-                timeLeft = 0;
-                counting = false;
+                TimeUp?.Invoke(this, EventArgs.Empty);
             }
         }
-        else
+
+        void UpdateText()
         {
-            if (!playerController.finished)
-            {
-                countdown.text = initialTime.ToString() + ".00";
-                countup.text = "0.00";
-            }
+            countUpText.text = Time.ToString(@"ss\.ff");
+            countDownText.text = TimeSpan
+                .FromSeconds(
+                    Mathf.RoundToInt(
+                        (float)(TimeSpan.FromSeconds(TimeAvailable) - Time)
+                            .TotalSeconds
+                    )
+                )
+                .ToString(@"%s");
+        }
+
+        public void ResetTime() => startTime = DateTime.Now;
+        public void StartCounting()
+        {
+            counting = true;
+            UpdateText();
+        }
+
+        public void StopCounting()
+        {
+            counting = false;
+            UpdateText();
         }
     }
 }

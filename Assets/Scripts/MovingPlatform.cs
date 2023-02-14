@@ -1,22 +1,25 @@
 using System;
 using UnityEngine;
 
-public class MovingPlatform : MonoBehaviour
+namespace TNSR
 {
-    [SerializeField]
-    Vector2 startPosition;
-    [SerializeField]
-
-    Vector2 endPosition;
-    [SerializeField] float t;
-    [SerializeField] float speed;
-
-    void Update()
+    public class MovingPlatform : MonoBehaviour
     {
-        transform.position = Vector2.Lerp(
-            startPosition,
-            endPosition,
-            Mathf.Sin(t + Time.time * speed) / 2 + 0.5f
-        );
+        [SerializeField]
+        Vector2 startPosition;
+        [SerializeField]
+
+        Vector2 endPosition;
+        [SerializeField] float t;
+        [SerializeField] float speed;
+
+        void Update()
+        {
+            transform.position = Vector2.Lerp(
+                startPosition,
+                endPosition,
+                Mathf.Sin(t + Time.time * speed) / 2 + 0.5f
+            );
+        }
     }
 }
