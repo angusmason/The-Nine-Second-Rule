@@ -73,8 +73,6 @@ namespace TNSR
             // Gets the input and moves the player according to that input
             moveInput = Input.GetAxisRaw("Horizontal");
             rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
-            // Checks if the direction which the player sprite is facing should be flipped
-            transform.localScale = new Vector3(Mathf.Sign(moveInput), 1, 1);
             // Checks if the player is on the ground
             grounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
             // Coyote time

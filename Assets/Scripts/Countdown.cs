@@ -34,15 +34,15 @@ namespace TNSR
 
         void UpdateText()
         {
-            countUpText.text = Time.ToString(@"ss\.ff");
+            countUpText.text = Time.ToString(@"s\.ff");
             countDownText.text = TimeSpan
                 .FromSeconds(
-                    Mathf.RoundToInt(
+                    Mathf.Round(
                         (float)(TimeSpan.FromSeconds(TimeAvailable) - Time)
                             .TotalSeconds
-                    )
+                    * 100) / 100
                 )
-                .ToString(@"%s");
+                .ToString(@"s\.ff");
         }
 
         public void ResetTime() => startTime = DateTime.Now;
