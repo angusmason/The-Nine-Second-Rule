@@ -37,7 +37,8 @@ namespace TNSR.Levels
                 .FirstOrDefault(levelData => newLevelDatum.LevelIndex == levelData.LevelIndex);
             if (matchingLevel == null)
             {
-                LevelFile.Levels = LevelFile.Levels.Union(new LevelDatum[] { newLevelDatum }).ToArray();
+                LevelFile.Levels.Append(newLevelDatum);
+                Debug.Log(JsonUtility.ToJson(LevelFile));
                 foreach (var level in LevelFile.Levels)
                 {
                     Debug.Log(level.LevelIndex);
