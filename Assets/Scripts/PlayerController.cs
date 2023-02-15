@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using TNSR.Levels;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,7 +16,6 @@ namespace TNSR
 
         // Finished and at start variables
 
-        [SerializeField] bool finished = false;
         [SerializeField] float r;
 
         // Animations
@@ -65,8 +64,6 @@ namespace TNSR
             rb = GetComponent<Rigidbody2D>();
             // Gets animator
             anim = GetComponent<Animator>();
-            // Not finished
-            finished = false;
             countdown = FindFirstObjectByType<Countdown>();
             countdown.TimeUp += (object sender, EventArgs e) => Respawn();
         }
@@ -142,7 +139,7 @@ namespace TNSR
                 extraJumps = extraJumpsValue;
             if (Input.GetKeyDown(KeyCode.R))
                 Respawn();
-            if (!(Vector3.Distance(transform.localPosition, Vector3.zero) < r || finished))
+            if (!(Vector3.Distance(transform.localPosition, Vector3.zero) < r))
                 countdown.StartCounting();
         }
 
@@ -178,10 +175,9 @@ namespace TNSR
             if (collision.gameObject.CompareTag("Finish"))
             {
                 countdown.StopCounting();
-                finished = true;
-
                 FindFirstObjectByType<Crossfade>().FadeOut
                     (() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1));
+                LevelSaver.Update(new(SceneManager.GetActiveScene().buildIndex));
             }
         }
 

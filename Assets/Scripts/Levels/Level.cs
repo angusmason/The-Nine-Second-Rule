@@ -14,43 +14,68 @@ namespace TNSR.Levels
         [SerializeField] TextMeshProUGUI levelNumber;
         SpriteRenderer spriteRenderer;
         [SerializeField] float playerHeightThreshold;
-        bool levelLoading;
+        float originalHeight;
+        float randomOffset;
+        LevelSelectManager manager;
+        bool completed;
 
         void Start()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
+            originalHeight = transform.position.y;
+            randomOffset = Random.Range(-0.3f, 0.5f);
+            manager = transform.parent.GetComponent<LevelSelectManager>();
+            completed = LevelSaver.LevelCompleted(buildIndex);
         }
 
         void Update()
         {
-            if (levelLoading) return;
+            if (manager.levelLoading) return;
+            var lerpSpeed = 20 * Time.deltaTime;
             var selected = Mathf.Abs
                 (transform.position.x - player.transform.position.x) < threshold;
             transform.localScale = Vector3.one * Mathf.Lerp(
                 transform.localScale.x,
                 selected ? selectedSize : unselectedSize,
-                10 * Time.deltaTime
+                lerpSpeed
             );
+
             levelNumber.color = Color.Lerp(
                 levelNumber.color,
-                selected ? Color.white : Color.black,
-                10 * Time.deltaTime
+                LevelColour(selected, completed),
+                lerpSpeed
             );
             spriteRenderer.color = Color.Lerp(
                 spriteRenderer.color,
-                selected ? Color.white : Color.black,
-                10 * Time.deltaTime
+                LevelColour(selected, completed),
+                lerpSpeed
             );
             spriteRenderer.sortingOrder = selected ? 1 : 0;
             levelNumber.text = (buildIndex + 1).ToString();
 
             if (selected && Mathf.Abs
-                (transform.position.y - player.position.y) < playerHeightThreshold)
+                (originalHeight - player.position.y) < playerHeightThreshold)
             {
                 FindFirstObjectByType<Crossfade>().FadeOut(
                     () => SceneManager.LoadScene(buildIndex));
-                levelLoading = true;
+                manager.levelLoading = true;
             }
+
+            var position = transform.position;
+            position.y = originalHeight
+                + Mathf.Sin(buildIndex + Time.time / 2) / 3
+                + Mathf.Sin(buildIndex + Time.time * 2) / 7
+                + randomOffset;
+            transform.position = position;
         }
+
+        Color LevelColour(bool selected, bool completed)
+            => selected
+                ? completed
+                    ? Color.white
+                    : Color.white
+                : completed
+                    ? Color.black
+                    : Color.black;
     }
 }

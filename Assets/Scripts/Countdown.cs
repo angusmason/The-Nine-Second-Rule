@@ -24,10 +24,7 @@ namespace TNSR
         void Update()
         {
             if (!counting)
-            {
-                ResetTime();
                 return;
-            }
             UpdateText();
             if (Time >= TimeSpan.FromSeconds(TimeAvailable))
             {
