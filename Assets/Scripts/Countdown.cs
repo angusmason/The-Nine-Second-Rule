@@ -18,7 +18,7 @@ namespace TNSR
         void Start()
         {
             startTime = DateTime.Now;
-            UpdateText();
+            countDownText.text = "9.00";
         }
 
         void Update()

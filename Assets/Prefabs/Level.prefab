@@ -104,7 +104,7 @@ MonoBehaviour:
   unselectedSize: 0.3
   buildIndex: 0
   levelNumber: {fileID: 1178192748951406863}
-  playerHeightThreshold: 1
+  playerHeightThreshold: 2
 --- !u!1 &1835677310959585764
 GameObject:
   m_ObjectHideFlags: 0
