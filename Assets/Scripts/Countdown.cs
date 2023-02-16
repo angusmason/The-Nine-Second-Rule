@@ -42,7 +42,7 @@ namespace TNSR
                             .TotalSeconds
                     )
                 )
-                .ToString(@"%s");
+                .ToString(@"%s.f");
         }
 
         public void ResetTime() => startTime = DateTime.Now;
