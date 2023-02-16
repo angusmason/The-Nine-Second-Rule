@@ -17,14 +17,13 @@ namespace TNSR
 
         void Start()
         {
-            startTime = DateTime.Now;
-            countDownText.text = "9.00";
+            ResetTime();
         }
 
         void Update()
         {
             if (!counting)
-                return;
+                ResetTime();
             UpdateText();
             if (Time >= TimeSpan.FromSeconds(TimeAvailable))
             {
