@@ -17,14 +17,13 @@ namespace TNSR
 
         void Start()
         {
-            startTime = DateTime.Now;
-            UpdateText();
+            ResetTime();
         }
 
         void Update()
         {
             if (!counting)
-                return;
+                ResetTime();
             UpdateText();
             if (Time >= TimeSpan.FromSeconds(TimeAvailable))
             {

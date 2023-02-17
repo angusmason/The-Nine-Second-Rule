@@ -57,7 +57,7 @@ namespace TNSR.Levels
                 (originalHeight - player.position.y) < playerHeightThreshold)
             {
                 FindFirstObjectByType<Crossfade>().FadeOut(
-                    () => SceneManager.LoadScene(buildIndex));
+                    () => SceneManager.LoadScene(buildIndex + 1));
                 manager.levelLoading = true;
             }
 

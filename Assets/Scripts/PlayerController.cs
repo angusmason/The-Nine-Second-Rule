@@ -13,6 +13,7 @@ namespace TNSR
         float moveInput;
         [SerializeField] float coyoteTime;
         float coyoteTimeCounter;
+        bool facingRight = true;
 
         // Finished and at start variables
 
@@ -73,6 +74,18 @@ namespace TNSR
             // Gets the input and moves the player according to that input
             moveInput = Input.GetAxisRaw("Horizontal");
             rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
+
+            // Checks if the direction which the player sprite is facing should be flipped
+            // transform.localScale = new Vector3(Mathf.Sign(moveInput) - 0.325f, 0.675f, 0.675f);
+            if (!facingRight && moveInput > 0)
+            {
+                Flip();
+            }
+            else if (facingRight && moveInput < 0)
+            {
+                Flip();
+            }
+
             // Checks if the player is on the ground
             grounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
             // Coyote time
@@ -92,6 +105,8 @@ namespace TNSR
 
             // Checks if player is on spring
             spring = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsSpring);
+
+
         }
 
         void Update()
@@ -139,12 +154,27 @@ namespace TNSR
                 Respawn();
             if (!(Vector3.Distance(transform.localPosition, Vector3.zero) < r))
                 countdown.StartCounting();
+                
+            // Checks if player wants to go to the level select
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                SceneManager.LoadScene(0);
+            }
         }
 
         // Sets wall jumping to false
         void SetWallJumpingToFalse()
         {
             wallJumping = false;
+        }
+
+        // Flips the player
+        void Flip()
+        {
+            facingRight = !facingRight;
+            Vector3 Scaler = transform.localScale;
+            Scaler.x *= -1;
+            transform.localScale = Scaler;
         }
 
         // Respawning
