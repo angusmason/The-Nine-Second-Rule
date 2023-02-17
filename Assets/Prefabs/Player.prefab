@@ -222,12 +222,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 9
   jumpForce: 8.5
-  player: {fileID: 2257004464702832903}
   coyoteTime: 0.2
-  finished: 0
   r: 0.5
-  transition: {fileID: 0}
-  transitionTime: 0.5
   extraJumpsValue: 1
   groundCheck: {fileID: 2257004465348808485}
   checkRadius: 0.28
@@ -321,7 +317,7 @@ BoxCollider2D:
   m_EdgeRadius: 0
 --- !u!95 &2257004464702832902
 Animator:
-  serializedVersion: 6
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -335,7 +331,6 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
