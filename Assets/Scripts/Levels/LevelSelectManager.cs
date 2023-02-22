@@ -23,9 +23,8 @@ namespace TNSR.Levels
             foreach (var (scene, index) in scenes.Select((scene, index) => (scene, index)))
             {
                 var level = Instantiate(levelPrefab, new(
-                        index * spacing,
-                        transform.position.y,
-                        transform.position.x
+                        transform.position.x + index * spacing,
+                        transform.position.y
                     ),
                     Quaternion.identity,
                     transform

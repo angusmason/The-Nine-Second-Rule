@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3873185375984807019}
   - component: {fileID: 3191071077508397482}
   m_Layer: 0
-  m_Name: SpikeSlider
+  m_Name: Spike Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
