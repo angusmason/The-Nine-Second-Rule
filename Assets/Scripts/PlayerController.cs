@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using TNSR.Levels;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -124,8 +126,7 @@ namespace TNSR
             if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && wallSliding)
             {
                 wallJumping = true;
-                // todo: replace this with a coroutine
-                Invoke(nameof(SetWallJumpingToFalse), wallJumpTime);
+                StartCoroutine(DisableWallJumping());
             }
 
             // Spring jumping
@@ -154,8 +155,9 @@ namespace TNSR
         }
 
         // Sets wall jumping to false
-        void SetWallJumpingToFalse()
+        IEnumerator DisableWallJumping()
         {
+            yield return new WaitForSeconds(wallJumpTime);
             wallJumping = false;
         }
 
