@@ -7,7 +7,7 @@ namespace TNSR
     public class Countdown : MonoBehaviour
     {
         const int TimeAvailable = 9;
-        const float flashRate = 0.1f;
+        const float flashRate = 0.2f;
         DateTime startTime;
         [SerializeField] TextMeshProUGUI countUpText;
         [SerializeField] TextMeshProUGUI countDownText;

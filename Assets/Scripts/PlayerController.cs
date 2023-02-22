@@ -107,15 +107,8 @@ namespace TNSR
             // Jumping
             if (isGrounded) extraJumps = extraJumpsValue;
 
-            // todo: fix this
-            if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && extraJumps > 0 && !wallSliding)
-            {
-                coyoteTimeCounter = 0f;
-                anim.SetTrigger("takeOff");
-                rb.velocity = Vector2.up * jumpForce;
-                extraJumps--;
-            }
-            else if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && extraJumps == 0 && isGrounded && !wallSliding)
+            if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+                && !wallSliding && (isGrounded || extraJumps > 0))
             {
                 coyoteTimeCounter = 0f;
                 anim.SetTrigger("takeOff");
