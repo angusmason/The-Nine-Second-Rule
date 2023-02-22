@@ -13,7 +13,7 @@ namespace TNSR
         public event EventHandler TimeUp;
 
         bool counting;
-        public TimeSpan Time => DateTime.Now - startTime;
+        public TimeSpan Time { get; set; }
 
         void Start()
         {
@@ -22,14 +22,16 @@ namespace TNSR
 
         void Update()
         {
-            if (!counting)
-                ResetTime();
+            if (counting)
+                UpdateTime();
             UpdateText();
             if (Time >= TimeSpan.FromSeconds(TimeAvailable))
             {
                 TimeUp?.Invoke(this, EventArgs.Empty);
             }
         }
+
+        void UpdateTime() => Time = DateTime.Now - startTime;
 
         void UpdateText()
         {
@@ -44,13 +46,16 @@ namespace TNSR
                 .ToString(@"s\.ff");
         }
 
-        public void ResetTime() => startTime = DateTime.Now;
+        public void ResetTime()
+        {
+            startTime = DateTime.Now;
+            UpdateTime();
+        }
         public void StartCounting()
         {
             counting = true;
             UpdateText();
         }
-
         public void StopCounting()
         {
             counting = false;

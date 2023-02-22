@@ -12,61 +12,70 @@ namespace TNSR.Levels
         [SerializeField] float unselectedSize;
         [HideInInspector] public int buildIndex;
         [SerializeField] TextMeshProUGUI levelNumber;
+        [SerializeField] ParticleSystem system;
         SpriteRenderer spriteRenderer;
         [SerializeField] float playerHeightThreshold;
-        float originalHeight;
-        float randomOffset;
+        Vector3 originalPosition;
+        float randomX;
+        float randomY;
         LevelSelectManager manager;
         bool completed;
 
         void Start()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
-            originalHeight = transform.position.y;
-            randomOffset = Random.Range(-0.3f, 0.5f);
+            originalPosition = transform.position;
+            randomX = Random.Range(-2 * Mathf.PI, 2 * Mathf.PI);
+            randomY = Random.Range(-0.3f, 0.5f);
             manager = transform.parent.GetComponent<LevelSelectManager>();
             completed = LevelSaver.LevelCompleted(buildIndex);
         }
 
         void Update()
         {
-            if (manager.levelLoading) return;
             var lerpSpeed = 20 * Time.deltaTime;
             var selected = Mathf.Abs
-                (transform.position.x - player.transform.position.x) < threshold;
+                (originalPosition.x - player.transform.position.x) < threshold;
             transform.localScale = Vector3.one * Mathf.Lerp(
                 transform.localScale.x,
                 selected ? selectedSize : unselectedSize,
                 lerpSpeed
             );
 
+            Color colour = LevelColour(selected, completed);
             levelNumber.color = Color.Lerp(
                 levelNumber.color,
-                LevelColour(selected, completed),
+                colour,
                 lerpSpeed
             );
             spriteRenderer.color = Color.Lerp(
                 spriteRenderer.color,
-                LevelColour(selected, completed),
+                colour,
                 lerpSpeed
             );
             spriteRenderer.sortingOrder = selected ? 1 : 0;
             levelNumber.text = (buildIndex + 1).ToString();
-
-            if (selected && Mathf.Abs
-                (originalHeight - player.position.y) < playerHeightThreshold)
-            {
-                FindFirstObjectByType<Crossfade>().FadeOut(
-                    () => SceneManager.LoadScene(buildIndex + 1));
-                manager.levelLoading = true;
-            }
+            var emission = system.emission;
+            emission.rateOverTime = new(selected ? 40 : 0);
 
             var position = transform.position;
-            position.y = originalHeight
+            position.x = originalPosition.x
+                + Mathf.Sin(randomX + Time.time / 2) / 5;
+            position.y = originalPosition.y
                 + Mathf.Sin(buildIndex + Time.time / 2) / 3
                 + Mathf.Sin(buildIndex + Time.time * 2) / 7
-                + randomOffset;
+                + randomY;
             transform.position = position;
+
+            if (manager.levelLoading) return;
+
+            if (selected && Mathf.Abs
+                (originalPosition.y - player.position.y) < playerHeightThreshold)
+            {
+                manager.levelLoading = true;
+                FindFirstObjectByType<Crossfade>().FadeOut(
+                    () => SceneManager.LoadScene(buildIndex + 1));
+            }
         }
 
         Color LevelColour(bool selected, bool completed)

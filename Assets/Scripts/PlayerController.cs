@@ -54,8 +54,8 @@ namespace TNSR
         Collider2D spring;
         public LayerMask whatIsSpring;
         [SerializeField] float springForce;
-
         Countdown countdown;
+        bool finished = false;
 
         void Start()
         {
@@ -76,15 +76,7 @@ namespace TNSR
             rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
 
             // Checks if the direction which the player sprite is facing should be flipped
-            // transform.localScale = new Vector3(Mathf.Sign(moveInput) - 0.325f, 0.675f, 0.675f);
-            if (!facingRight && moveInput > 0)
-            {
-                Flip();
-            }
-            else if (facingRight && moveInput < 0)
-            {
-                Flip();
-            }
+            transform.localScale = new Vector3(Mathf.Sign(moveInput) * 0.675f, 0.675f, 0.675f);
 
             // Checks if the player is on the ground
             grounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
@@ -105,8 +97,6 @@ namespace TNSR
 
             // Checks if player is on spring
             spring = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsSpring);
-
-
         }
 
         void Update()
@@ -134,6 +124,7 @@ namespace TNSR
             if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && wallSliding)
             {
                 wallJumping = true;
+                // todo: replace this with a coroutine
                 Invoke(nameof(SetWallJumpingToFalse), wallJumpTime);
             }
 
@@ -152,9 +143,9 @@ namespace TNSR
                 extraJumps = extraJumpsValue;
             if (Input.GetKeyDown(KeyCode.R))
                 Respawn();
-            if (!(Vector3.Distance(transform.localPosition, Vector3.zero) < r))
+            if (!(Vector3.Distance(transform.localPosition, Vector3.zero) < r) && !finished)
                 countdown.StartCounting();
-                
+
             // Checks if player wants to go to the level select
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -202,6 +193,7 @@ namespace TNSR
         {
             if (collision.gameObject.CompareTag("Finish"))
             {
+                finished = true;
                 countdown.StopCounting();
                 FindFirstObjectByType<Crossfade>().FadeOut
                     (() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1));

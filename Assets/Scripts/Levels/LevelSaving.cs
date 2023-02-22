@@ -38,11 +38,6 @@ namespace TNSR.Levels
             if (matchingLevel == null)
             {
                 LevelFile.Levels.Append(newLevelDatum);
-                Debug.Log(JsonUtility.ToJson(LevelFile));
-                foreach (var level in LevelFile.Levels)
-                {
-                    Debug.Log(level.LevelIndex);
-                }
                 return;
             }
             matchingLevel = newLevelDatum;
