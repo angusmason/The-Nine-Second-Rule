@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TNSR.Levels;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -199,7 +200,7 @@ namespace TNSR
                 countdown.StopCounting();
                 FindFirstObjectByType<Crossfade>().FadeOut
                     (() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1));
-                LevelSaver.Update(new(SceneManager.GetActiveScene().buildIndex));
+                LevelSaver.UpdateData(new(SceneManager.GetActiveScene().buildIndex - 1));
             }
         }
 

@@ -9,35 +9,37 @@ namespace TNSR.Levels
     public static class LevelSaver
     {
         static readonly string _dataPath;
-        static LevelData LevelFile
-        {
-            get => JsonUtility.FromJson<LevelData>(File.ReadAllText(_dataPath));
-            set => File.WriteAllText(_dataPath, JsonUtility.ToJson(value));
-        }
+        static LevelData LevelData;
+        static void Load() => LevelData = JsonUtility.FromJson<LevelData>(File.ReadAllText(_dataPath));
+        static void Save() => File.WriteAllText(_dataPath, JsonUtility.ToJson(LevelData));
         static LevelSaver()
         {
             _dataPath = Application.persistentDataPath + "/levels.json";
             if (!File.Exists(_dataPath))
                 using (var stream = File.Create(_dataPath))
                     stream.Write(Encoding.ASCII.GetBytes("{}"));
+            Load();
         }
         public static LevelDatum GetLevel(int levelIndex)
         {
-            LevelDatum levelData = LevelFile.Levels.FirstOrDefault(levelData => levelData.LevelIndex == levelIndex);
+            Load();
+            LevelDatum levelData = LevelData.Levels.FirstOrDefault(levelData => levelData.LevelIndex == levelIndex);
             if (levelData == null) throw new Exception("Level not completed");
             return levelData;
         }
         public static bool LevelCompleted(int levelIndex)
         {
-            return LevelFile.Levels.Any(levelData => levelData.LevelIndex == levelIndex);
+            Load();
+            return LevelData.Levels.Any(levelData => levelData.LevelIndex == levelIndex);
         }
-        public static void Update(LevelDatum newLevelDatum)
+        public static void UpdateData(LevelDatum newLevelDatum)
         {
-            var matchingLevel = LevelFile.Levels
+            var matchingLevel = LevelData.Levels
                 .FirstOrDefault(levelData => newLevelDatum.LevelIndex == levelData.LevelIndex);
             if (matchingLevel == null)
             {
-                LevelFile.Levels.Append(newLevelDatum);
+                LevelData.Levels = LevelData.Levels.Concat(new LevelDatum[] { newLevelDatum }).ToArray();
+                Save();
                 return;
             }
             matchingLevel = newLevelDatum;

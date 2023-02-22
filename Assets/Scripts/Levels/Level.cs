@@ -81,10 +81,10 @@ namespace TNSR.Levels
         Color LevelColour(bool selected, bool completed)
             => selected
                 ? completed
-                    ? Color.white
-                    : Color.white
+                    ? new Color(61, 227, 105)
+                    : new Color(255, 181, 20)
                 : completed
-                    ? Color.black
-                    : Color.black;
+                    ? new Color(40, 138, 66)
+                    : new Color(0, 0, 0);
     }
 }
