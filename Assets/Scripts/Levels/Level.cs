@@ -1,6 +1,8 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 namespace TNSR.Levels
 {
@@ -12,6 +14,7 @@ namespace TNSR.Levels
         [SerializeField] float unselectedSize;
         [HideInInspector] public int buildIndex;
         [SerializeField] TextMeshProUGUI levelNumber;
+        [SerializeField] TextMeshProUGUI bestTime;
         [SerializeField] ParticleSystem system;
         SpriteRenderer spriteRenderer;
         [SerializeField] float playerHeightThreshold;
@@ -28,7 +31,7 @@ namespace TNSR.Levels
             randomX = Random.Range(-2 * Mathf.PI, 2 * Mathf.PI);
             randomY = Random.Range(-0.3f, 0.5f);
             manager = transform.parent.GetComponent<LevelSelectManager>();
-            completed = LevelSaver.LevelCompleted(buildIndex);
+            completed = LevelSaver.GetLevel(buildIndex) != null;
         }
 
         void Update()
@@ -67,6 +70,15 @@ namespace TNSR.Levels
                 + randomY;
             transform.position = position;
 
+            double? timeCompleted = LevelSaver.GetLevel(buildIndex)?.TimeMilliseconds;
+            bestTime.text =
+                selected
+                    ? timeCompleted == null
+                        ? "Not completed"
+                        : $@"Best Time: {TimeSpan.FromMilliseconds
+                            ((double)timeCompleted).ToString(@"s\.ff")}"
+                    : string.Empty;
+
             if (manager.levelLoading) return;
 
             if (selected && Mathf.Abs
@@ -83,7 +95,7 @@ namespace TNSR.Levels
         Color LevelColour(bool selected, bool completed)
             => selected
                 ? completed
-                    ? new Color(0.94f, 0.45f, 0.78f)
+                    ? new Color(0.99f, 0.5f, 0.83f)
                     : new Color(0.67f, 0.47f, 0.78f)
                 : completed
                     ? new Color(0.84f, 0.35f, 0.68f)

@@ -23,14 +23,8 @@ namespace TNSR.Levels
         public static LevelDatum GetLevel(int levelIndex)
         {
             Load();
-            LevelDatum levelData = LevelData.Levels.FirstOrDefault(levelData => levelData.LevelIndex == levelIndex);
-            if (levelData == null) throw new Exception("Level not completed");
-            return levelData;
-        }
-        public static bool LevelCompleted(int levelIndex)
-        {
-            Load();
-            return LevelData.Levels.Any(levelData => levelData.LevelIndex == levelIndex);
+            return LevelData.Levels.FirstOrDefault
+                (levelData => levelData.LevelIndex == levelIndex);
         }
         public static void UpdateData(LevelDatum newLevelDatum)
         {
@@ -40,8 +34,8 @@ namespace TNSR.Levels
                 LevelData.Levels = LevelData.Levels
                     .Concat(new LevelDatum[] { newLevelDatum })
                     .ToArray();
-            else
-                matchingLevel.TimeCompleted = newLevelDatum.TimeCompleted;
+            else if (newLevelDatum.TimeMilliseconds < matchingLevel.TimeMilliseconds)
+                matchingLevel.TimeMilliseconds = newLevelDatum.TimeMilliseconds;
             Save();
         }
     }
@@ -56,12 +50,12 @@ namespace TNSR.Levels
     public class LevelDatum
     {
         public int LevelIndex;
-        public double TimeCompleted;
+        public double TimeMilliseconds;
 
         public LevelDatum(int levelIndex, TimeSpan timeCompleted)
         {
             LevelIndex = levelIndex;
-            TimeCompleted = timeCompleted.TotalMilliseconds;
+            TimeMilliseconds = timeCompleted.TotalMilliseconds;
         }
     }
 }
