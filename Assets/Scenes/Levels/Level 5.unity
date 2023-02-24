@@ -903,7 +903,7 @@ PrefabInstance:
     - target: {fileID: 2257004464702832907, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
       propertyPath: transition
       value: 
-      objectReference: {fileID: 1326517259}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1319,6 +1319,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7405439533352242090, guid: 1a825f16ed5a547d2977d900f1d83d6b, type: 3}
       propertyPath: targets.Array.data[0]
+      value: 
+      objectReference: {fileID: 390665752}
+    - target: {fileID: 7618710232745659232, guid: 1a825f16ed5a547d2977d900f1d83d6b, type: 3}
+      propertyPath: player
       value: 
       objectReference: {fileID: 390665752}
     m_RemovedComponents: []
@@ -2058,11 +2062,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d4c497f1f83a46dea8e7c293a8f9122, type: 3}
---- !u!95 &1326517259 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 870470179679635137, guid: 8d4c497f1f83a46dea8e7c293a8f9122, type: 3}
-  m_PrefabInstance: {fileID: 1326517258}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1366248400 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7993790277022087632, guid: 2002174530955496f99b546f46bfb778, type: 3}

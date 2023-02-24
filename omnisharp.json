@@ -2,7 +2,7 @@
     "RoslynExtensionsOptions": {
         "EnableAnalyzersSupport": true,
         "LocationPaths": [
-            "./Analysers/"
+            "./NuGet/"
         ]
     }
 }

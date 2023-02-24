@@ -12,32 +12,33 @@ namespace TNSR
         {
             image = GetComponent<Image>();
             image.color = Color.black;
-            StartCoroutine(FadeIn());
+            StartCoroutine(FadeOut());
         }
 
-        IEnumerator FadeIn()
+        IEnumerator FadeOut()
         {
-            for (float i = 1; i >= 0; i -= 0.01f)
+            for (float alpha = 1; alpha >= 0; alpha -= 0.01f)
             {
                 Color colour = image.color;
-                colour.a = i;
+                colour.a = alpha;
                 image.color = colour;
                 yield return new WaitForSeconds(0.01f);
             }
         }
 
-        public void FadeOut(Action callback)
+        public void FadeIn(Action endCallback, Action<float> continuousCallback = null)
         {
             IEnumerator coroutine()
             {
-                for (float i = 0; i <= 1; i += 0.01f)
+                for (float alpha = 0; alpha <= 1; alpha += 0.01f)
                 {
                     Color colour = image.color;
-                    colour.a = i;
+                    colour.a = alpha;
                     image.color = colour;
+                    continuousCallback(alpha);
                     yield return new WaitForSeconds(0.01f);
                 }
-                callback();
+                endCallback();
             }
             StartCoroutine(coroutine());
         }

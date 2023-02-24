@@ -264,7 +264,15 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7405439533352242090, guid: 1a825f16ed5a547d2977d900f1d83d6b, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 2099314014}
+    - target: {fileID: 7405439533352242090, guid: 1a825f16ed5a547d2977d900f1d83d6b, type: 3}
       propertyPath: targets.Array.data[0]
+      value: 
+      objectReference: {fileID: 2099314014}
+    - target: {fileID: 7618710232745659232, guid: 1a825f16ed5a547d2977d900f1d83d6b, type: 3}
+      propertyPath: player
       value: 
       objectReference: {fileID: 2099314014}
     m_RemovedComponents: []

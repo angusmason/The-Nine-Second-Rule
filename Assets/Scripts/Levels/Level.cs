@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 namespace TNSR.Levels
@@ -18,16 +19,16 @@ namespace TNSR.Levels
         [SerializeField] ParticleSystem system;
         SpriteRenderer spriteRenderer;
         [SerializeField] float playerHeightThreshold;
-        Vector3 originalPosition;
         float randomX;
         float randomY;
         LevelSelectManager manager;
         bool completed;
+        Vector3 originalPosition;
 
         void Start()
         {
-            spriteRenderer = GetComponent<SpriteRenderer>();
-            originalPosition = transform.position;
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            originalPosition = spriteRenderer.transform.position;
             randomX = Random.Range(-2 * Mathf.PI, 2 * Mathf.PI);
             randomY = Random.Range(-0.3f, 0.5f);
             manager = transform.parent.GetComponent<LevelSelectManager>();
@@ -38,13 +39,15 @@ namespace TNSR.Levels
         {
             var lerpSpeed = 20 * Time.deltaTime;
             var selected = Mathf.Abs
-                (originalPosition.x - player.transform.position.x) < threshold;
-            transform.localScale = Vector3.one * Mathf.Lerp(
-                transform.localScale.x,
+                (transform.position.x - player.transform.position.x) < threshold;
+
+            spriteRenderer.transform.localScale = Vector3.one * Mathf.Lerp(
+                spriteRenderer.transform.localScale.x,
                 selected ? selectedSize : unselectedSize,
                 lerpSpeed
             );
-
+            levelNumber.transform.localScale = 8.5f * spriteRenderer.transform.localScale;
+            spriteRenderer.sortingOrder = selected ? 1 : 0;
             Color colour = LevelColour(selected, completed);
             levelNumber.color = Color.Lerp(
                 levelNumber.color,
@@ -56,19 +59,18 @@ namespace TNSR.Levels
                 colour,
                 lerpSpeed
             );
-            spriteRenderer.sortingOrder = selected ? 1 : 0;
             levelNumber.text = (buildIndex + 1).ToString();
             var emission = system.emission;
             emission.rateOverTime = new(selected ? 40 : 0);
 
-            var position = transform.position;
+            var position = spriteRenderer.transform.position;
             position.x = originalPosition.x
                 + Mathf.Sin(randomX + Time.time / 2) / 5;
             position.y = originalPosition.y
                 + Mathf.Sin(buildIndex + Time.time / 2) / 3
                 + Mathf.Sin(buildIndex + Time.time * 2) / 7
                 + randomY;
-            transform.position = position;
+            spriteRenderer.transform.position = position;
 
             double? timeCompleted = LevelSaver.GetLevel(buildIndex)?.TimeMilliseconds;
             bestTime.text =
@@ -76,19 +78,22 @@ namespace TNSR.Levels
                     ? timeCompleted == null
                         ? "Not completed"
                         : $@"Best Time: {TimeSpan.FromMilliseconds
-                            ((double)timeCompleted).ToString(@"s\.ff")}"
+                            ((double)timeCompleted):s\.ff}"
                     : string.Empty;
 
             if (manager.levelLoading) return;
 
             if (selected && Mathf.Abs
-                (originalPosition.y - player.position.y) < playerHeightThreshold)
+                (transform.position.y - player.position.y) < playerHeightThreshold)
             {
                 manager.levelLoading = true;
                 player.GetComponent<PlayerController>()
-                    .DisableMoving();
-                FindFirstObjectByType<Crossfade>().FadeOut(
-                    () => SceneManager.LoadScene(buildIndex + 1));
+                    .DisableMotion();
+                var startSize = player.localScale.y;
+                FindFirstObjectByType<Crossfade>().FadeIn(
+                    () => SceneManager.LoadScene(buildIndex + 1),
+                    (alpha) => player.localScale = (1 - alpha) * startSize * Vector3.one
+                );
             }
         }
 

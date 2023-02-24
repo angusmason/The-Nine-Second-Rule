@@ -67,6 +67,9 @@ LightmapSettings:
     m_LightmapParameters: {fileID: 0}
     m_LightmapsBakeMode: 1
     m_TextureCompression: 1
+    m_FinalGather: 0
+    m_FinalGatherFiltering: 1
+    m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_MixedBakeMode: 2
     m_BakeBackend: 0
@@ -755,7 +758,6 @@ BoxCollider2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 827208900}
   m_Enabled: 1
-  serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -779,8 +781,7 @@ BoxCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
+  m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -791,6 +792,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
+  serializedVersion: 2
   m_Size: {x: 200, y: 1}
   m_EdgeRadius: 0
 --- !u!1001 &1093364855
@@ -1764,7 +1766,11 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7405439533352242090, guid: 1a825f16ed5a547d2977d900f1d83d6b, type: 3}
-      propertyPath: 'targets.Array.data[0]'
+      propertyPath: targets.Array.data[0]
+      value: 
+      objectReference: {fileID: 1217153945}
+    - target: {fileID: 7618710232745659232, guid: 1a825f16ed5a547d2977d900f1d83d6b, type: 3}
+      propertyPath: player
       value: 
       objectReference: {fileID: 1217153945}
     m_RemovedComponents: []

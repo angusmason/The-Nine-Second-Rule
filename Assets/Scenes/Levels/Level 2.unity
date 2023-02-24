@@ -457,7 +457,7 @@ PrefabInstance:
     - target: {fileID: 2257004464702832907, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
       propertyPath: transition
       value: 
-      objectReference: {fileID: 843623770}
+      objectReference: {fileID: 0}
     - target: {fileID: 2257004464702832907, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
       propertyPath: transitionTime
       value: 0.5
@@ -992,11 +992,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d4c497f1f83a46dea8e7c293a8f9122, type: 3}
---- !u!95 &843623770 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 870470179679635137, guid: 8d4c497f1f83a46dea8e7c293a8f9122, type: 3}
-  m_PrefabInstance: {fileID: 843623769}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1125208376
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1662,6 +1657,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7405439533352242090, guid: 1a825f16ed5a547d2977d900f1d83d6b, type: 3}
       propertyPath: targets.Array.data[0]
+      value: 
+      objectReference: {fileID: 495364539}
+    - target: {fileID: 7618710232745659232, guid: 1a825f16ed5a547d2977d900f1d83d6b, type: 3}
+      propertyPath: player
       value: 
       objectReference: {fileID: 495364539}
     m_RemovedComponents: []

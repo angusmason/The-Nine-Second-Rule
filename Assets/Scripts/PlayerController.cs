@@ -1,7 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using TNSR.Levels;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,7 +14,6 @@ namespace TNSR
         float moveInput;
         [SerializeField] float coyoteTime;
         float coyoteTimeCounter;
-        bool facingRight = true;
 
         // Finished and at start variables
 
@@ -78,8 +75,9 @@ namespace TNSR
             moveInput = Input.GetAxisRaw("Horizontal");
             rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
 
-            // Checks if the direction which the player sprite is facing should be flipped
-            transform.localScale = new Vector3(Mathf.Sign(moveInput) * 0.675f, 0.675f, 0.675f);
+            if (rb.simulated)
+                // Checks if the direction which the player sprite is facing should be flipped
+                transform.localScale = new Vector3(Mathf.Sign(moveInput) * 0.675f, 0.675f, 0.675f);
 
             // Checks if the player is on the ground
             grounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
@@ -155,18 +153,10 @@ namespace TNSR
             wallJumping = false;
         }
 
-        // Flips the player
-        void Flip()
-        {
-            facingRight = !facingRight;
-            Vector3 Scaler = transform.localScale;
-            Scaler.x *= -1;
-            transform.localScale = Scaler;
-        }
-
         // Respawning
         void Respawn()
         {
+            if (!rb.simulated) return;
             transform.position = Vector3.zero;
             rb.velocity = Vector3.zero;
             countdown.ResetTime();
@@ -185,16 +175,24 @@ namespace TNSR
             }
         }
 
-        public void DisableMoving() => rb.simulated = false;
+        public void DisableMotion()
+        {
+            rb.simulated = false;
+        }
         void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.gameObject.CompareTag("Finish"))
             {
                 finished = true;
-                DisableMoving();
+                DisableMotion();
                 countdown.StopCounting();
-                FindFirstObjectByType<Crossfade>().FadeOut
-                    (() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1));
+                var startSize = transform.localScale.y;
+                FindFirstObjectByType<Crossfade>().FadeIn
+                    (
+                        () => SceneManager.LoadScene
+                            (SceneManager.GetActiveScene().buildIndex + 1),
+                        (alpha) => transform.localScale = (1 - alpha) * startSize * Vector3.one
+                    );
                 LevelSaver.UpdateData(new(SceneManager.GetActiveScene().buildIndex - 1, countdown.Time));
             }
         }
