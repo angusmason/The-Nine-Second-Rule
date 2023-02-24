@@ -193,7 +193,7 @@ namespace TNSR
                 countdown.StopCounting();
                 FindFirstObjectByType<Crossfade>().FadeOut
                     (() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1));
-                LevelSaver.UpdateData(new(SceneManager.GetActiveScene().buildIndex - 1));
+                LevelSaver.UpdateData(new(SceneManager.GetActiveScene().buildIndex - 1, countdown.Time));
             }
         }
 

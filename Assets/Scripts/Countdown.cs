@@ -42,7 +42,8 @@ namespace TNSR
                 .FromSeconds(Mathf.Round(timeLeft * 100) / 100)
                 .ToString(@"s\.ff");
 
-            countDownText.color = timeLeft < 3 && Mathf.Round(timeLeft / flashRate) % 2 == 0  ? Color.red : Color.white;
+            countUpText.color = countDownText.color = timeLeft < 3
+                && Mathf.Round(timeLeft / flashRate) % 2 == 0 ? Color.red : Color.white;
         }
 
         public void ResetTime()

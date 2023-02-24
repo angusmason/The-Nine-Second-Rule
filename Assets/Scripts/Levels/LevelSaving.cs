@@ -37,12 +37,12 @@ namespace TNSR.Levels
             var matchingLevel = LevelData.Levels
                 .FirstOrDefault(levelData => newLevelDatum.LevelIndex == levelData.LevelIndex);
             if (matchingLevel == null)
-            {
-                LevelData.Levels = LevelData.Levels.Concat(new LevelDatum[] { newLevelDatum }).ToArray();
-                Save();
-                return;
-            }
-            matchingLevel = newLevelDatum;
+                LevelData.Levels = LevelData.Levels
+                    .Concat(new LevelDatum[] { newLevelDatum })
+                    .ToArray();
+            else
+                matchingLevel.TimeCompleted = newLevelDatum.TimeCompleted;
+            Save();
         }
     }
 
@@ -56,10 +56,12 @@ namespace TNSR.Levels
     public class LevelDatum
     {
         public int LevelIndex;
+        public double TimeCompleted;
 
-        public LevelDatum(int levelIndex)
+        public LevelDatum(int levelIndex, TimeSpan timeCompleted)
         {
             LevelIndex = levelIndex;
+            TimeCompleted = timeCompleted.TotalMilliseconds;
         }
     }
 }
