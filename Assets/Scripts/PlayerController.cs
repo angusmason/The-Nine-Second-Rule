@@ -185,11 +185,13 @@ namespace TNSR
             }
         }
 
+        public void DisableMoving() => rb.simulated = false;
         void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.gameObject.CompareTag("Finish"))
             {
                 finished = true;
+                DisableMoving();
                 countdown.StopCounting();
                 FindFirstObjectByType<Crossfade>().FadeOut
                     (() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1));
