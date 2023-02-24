@@ -8,6 +8,7 @@ namespace TNSR
 {
     public class PlayerController : MonoBehaviour
     {
+
         // Basic movement variables
         [SerializeField] float speed;
         [SerializeField] float jumpForce;
@@ -56,6 +57,7 @@ namespace TNSR
         [SerializeField] float springForce;
         Countdown countdown;
         bool finished = false;
+        public float PlayerSize;
 
         void Start()
         {
@@ -67,6 +69,7 @@ namespace TNSR
             anim = GetComponent<Animator>();
             countdown = FindFirstObjectByType<Countdown>();
             countdown.TimeUp += (object sender, EventArgs e) => Respawn();
+            PlayerSize = transform.localScale.y;
         }
 
         void FixedUpdate()
@@ -77,7 +80,7 @@ namespace TNSR
 
             if (rb.simulated)
                 // Checks if the direction which the player sprite is facing should be flipped
-                transform.localScale = new Vector3(Mathf.Sign(moveInput) * 0.675f, 0.675f, 0.675f);
+                transform.localScale = new Vector3(Mathf.Sign(moveInput) * PlayerSize, PlayerSize, PlayerSize);
 
             // Checks if the player is on the ground
             grounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
@@ -190,8 +193,7 @@ namespace TNSR
                 FindFirstObjectByType<Crossfade>().FadeIn
                     (
                         () => SceneManager.LoadScene
-                            (SceneManager.GetActiveScene().buildIndex + 1),
-                        (alpha) => transform.localScale = (1 - alpha) * startSize * Vector3.one
+                            (SceneManager.GetActiveScene().buildIndex + 1)
                     );
                 LevelSaver.UpdateData(new(SceneManager.GetActiveScene().buildIndex - 1, countdown.Time));
             }

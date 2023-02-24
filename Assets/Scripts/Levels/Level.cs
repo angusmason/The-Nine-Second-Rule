@@ -24,6 +24,7 @@ namespace TNSR.Levels
         LevelSelectManager manager;
         bool completed;
         Vector3 originalPosition;
+        Crossfade crossfade;
 
         void Start()
         {
@@ -33,6 +34,7 @@ namespace TNSR.Levels
             randomY = Random.Range(-0.3f, 0.5f);
             manager = transform.parent.GetComponent<LevelSelectManager>();
             completed = LevelSaver.GetLevel(buildIndex) != null;
+            crossfade = FindFirstObjectByType<Crossfade>();
         }
 
         void Update()
@@ -78,9 +80,12 @@ namespace TNSR.Levels
                     ? timeCompleted == null
                         ? "Not completed"
                         : $@"Best Time: {TimeSpan.FromMilliseconds
-                            ((double)timeCompleted):s\.ff}"
+                            ((double)timeCompleted):s's 'fff'ms'}"
                     : string.Empty;
 
+            player.localScale = (1 - crossfade.Alpha)
+                * player.GetComponent<PlayerController>().PlayerSize
+                * Vector3.one;
             if (manager.levelLoading) return;
 
             if (selected && Mathf.Abs
@@ -89,10 +94,8 @@ namespace TNSR.Levels
                 manager.levelLoading = true;
                 player.GetComponent<PlayerController>()
                     .DisableMotion();
-                var startSize = player.localScale.y;
-                FindFirstObjectByType<Crossfade>().FadeIn(
-                    () => SceneManager.LoadScene(buildIndex + 1),
-                    (alpha) => player.localScale = (1 - alpha) * startSize * Vector3.one
+                crossfade.FadeIn(
+                    () => SceneManager.LoadScene(buildIndex + 1)
                 );
             }
         }

@@ -8,6 +8,7 @@ namespace TNSR
     public class Crossfade : MonoBehaviour
     {
         Image image;
+        public float Alpha;
         void Start()
         {
             image = GetComponent<Image>();
@@ -22,11 +23,12 @@ namespace TNSR
                 Color colour = image.color;
                 colour.a = alpha;
                 image.color = colour;
+                Alpha = alpha;
                 yield return new WaitForSeconds(0.01f);
             }
         }
 
-        public void FadeIn(Action endCallback, Action<float> continuousCallback = null)
+        public void FadeIn(Action endCallback)
         {
             IEnumerator coroutine()
             {
@@ -35,7 +37,7 @@ namespace TNSR
                     Color colour = image.color;
                     colour.a = alpha;
                     image.color = colour;
-                    continuousCallback(alpha);
+                    Alpha = alpha;
                     yield return new WaitForSeconds(0.01f);
                 }
                 endCallback();
