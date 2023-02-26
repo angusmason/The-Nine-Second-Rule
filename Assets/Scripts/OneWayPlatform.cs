@@ -5,19 +5,22 @@ namespace TNSR
     public class OneWayPlatform : MonoBehaviour
     {
         // Ground check variables
-        private bool isGrounded;
-        public Transform groundCheck;
-        public float checkRadius;
-        public LayerMask whatIsGround;
+        bool isGrounded;
+        [SerializeField] Transform groundCheck;
+        [SerializeField] float checkRadius;
+        [SerializeField] LayerMask whatIsGround;
 
         // One way platform variables
-        private PlatformEffector2D effector;
-        private float waitTimeCounter;
-        public float waitTime = 0.1f;
+        PlatformEffector2D effector;
+        float waitTimeCounter;
+        [SerializeField] float waitTime = 0.1f;
+
+        PlayerController playerController;
 
         void Start()
         {
             effector = GetComponent<PlatformEffector2D>();
+            playerController = FindFirstObjectByType<PlayerController>();
         }
 
         void FixedUpdate()
@@ -28,12 +31,11 @@ namespace TNSR
 
         void Update()
         {
-            if (Input.GetKeyUp(KeyCode.DownArrow) || Input.GetKeyUp(KeyCode.S))
+            if (playerController.MoveInput.y >= 0)
             {
                 waitTimeCounter = waitTime;
             }
-
-            if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+            else
             {
                 if (waitTimeCounter <= 0)
                 {
@@ -46,15 +48,11 @@ namespace TNSR
                 }
             }
 
-            if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
-            {
-                effector.rotationalOffset = 0f;
-            }
-
+            if (!(playerController.MoveInput.y > 0))
+                return;
             if (!isGrounded)
-            {
-                effector.rotationalOffset = 0f;
-            }
+                return;
+            effector.rotationalOffset = 0f;
         }
     }
 }

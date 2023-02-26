@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using TNSR.Levels;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace TNSR
@@ -12,7 +13,7 @@ namespace TNSR
         // Basic movement variables
         [SerializeField] float speed;
         [SerializeField] float jumpForce;
-        float moveInput;
+        public Vector2 MoveInput;
         [SerializeField] float coyoteTime;
         float coyoteTimeCounter;
 
@@ -74,13 +75,11 @@ namespace TNSR
 
         void FixedUpdate()
         {
-            // Gets the input and moves the player according to that input
-            moveInput = Input.GetAxisRaw("Horizontal");
-            rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
+            rb.velocity = new Vector2(MoveInput.x * speed, rb.velocity.y);
 
             if (rb.simulated)
                 // Checks if the direction which the player sprite is facing should be flipped
-                transform.localScale = new Vector3(Mathf.Sign(moveInput) * PlayerSize, PlayerSize, PlayerSize);
+                transform.localScale = new Vector3(Mathf.Sign(MoveInput.x) * PlayerSize, PlayerSize, PlayerSize);
 
             // Checks if the player is on the ground
             grounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
@@ -90,14 +89,14 @@ namespace TNSR
             // Wall sliding
             isTouchingFront = Physics2D.OverlapCircle(frontCheck.position, checkWallRadius, whatIsWall);
 
-            wallSliding = isTouchingFront && !isGrounded && moveInput != 0;
+            wallSliding = isTouchingFront && !isGrounded && MoveInput.x != 0;
 
             if (wallSliding)
                 rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
 
             // Wall jumping
             if (wallJumping)
-                rb.velocity = new Vector2(xWallForce * -moveInput, yWallForce);
+                rb.velocity = new Vector2(xWallForce * -MoveInput.x, yWallForce);
 
             // Checks if player is on spring
             spring = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsSpring);
@@ -108,7 +107,7 @@ namespace TNSR
             // Jumping
             if (isGrounded) extraJumps = extraJumpsValue;
 
-            if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+            if (MoveInput.y > 0
                 && !wallSliding && (isGrounded || extraJumps > 0))
             {
                 coyoteTimeCounter = 0f;
@@ -118,7 +117,7 @@ namespace TNSR
             }
 
             // Wall jumping
-            if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && wallSliding)
+            if (MoveInput.y > 0 && wallSliding)
             {
                 wallJumping = true;
                 StartCoroutine(DisableWallJumping());
@@ -131,22 +130,14 @@ namespace TNSR
                 rb.velocity = spring.transform.up * springForce;
                 extraJumps = -1;
             }
-            anim.SetBool("isRunning", moveInput != 0);
+            anim.SetBool("isRunning", MoveInput.x != 0);
             anim.SetBool("isJumping", !isGrounded);
             anim.SetBool("isWallSliding", wallSliding);
 
             if (wallSliding)
                 extraJumps = extraJumpsValue;
-            if (Input.GetKeyDown(KeyCode.R))
-                Respawn();
             if (!(Vector3.Distance(transform.localPosition, Vector3.zero) < r) && !finished)
                 countdown.StartCounting();
-
-            // Checks if player wants to go to the level select
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                SceneManager.LoadScene(0);
-            }
         }
 
         // Sets wall jumping to false
@@ -217,6 +208,21 @@ namespace TNSR
                 // Clear the parent of the player
                 transform.parent = null;
             }
+        }
+
+        public void OnMove(InputValue value)
+        {
+            MoveInput = value.Get<Vector2>();
+        }
+        public void OnReset()
+        {
+            Respawn();
+        }
+        public void OnEscape()
+        {
+            if (SceneManager.GetActiveScene().buildIndex == 0)
+                return;
+            SceneManager.LoadScene(0);
         }
     }
 }
