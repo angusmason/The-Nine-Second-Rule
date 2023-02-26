@@ -19,10 +19,10 @@ namespace TNSR
 
         // Finished and at start variables
 
-        [SerializeField] float r;
+        [SerializeField] float startDistance;
 
         // Animations
-        Animator anim;
+        Animator animator;
 
         // Rigidbody variable
         Rigidbody2D rb;
@@ -53,8 +53,8 @@ namespace TNSR
         [SerializeField] float wallJumpTime;
 
         // Spring variables
-        Collider2D spring;
-        public LayerMask whatIsSpring;
+        Collider2D currentSpring;
+        public LayerMask spring;
         [SerializeField] float springForce;
         Countdown countdown;
         bool finished = false;
@@ -67,7 +67,7 @@ namespace TNSR
             // Gets rigidbody of player
             rb = GetComponent<Rigidbody2D>();
             // Gets animator
-            anim = GetComponent<Animator>();
+            animator = GetComponent<Animator>();
             countdown = FindFirstObjectByType<Countdown>();
             countdown.TimeUp += (object sender, EventArgs e) => Respawn();
             PlayerSize = transform.localScale.y;
@@ -99,7 +99,7 @@ namespace TNSR
                 rb.velocity = new Vector2(xWallForce * -MoveInput.x, yWallForce);
 
             // Checks if player is on spring
-            spring = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsSpring);
+            currentSpring = Physics2D.OverlapCircle(groundCheck.position, checkRadius, spring);
         }
 
         void Update()
@@ -111,7 +111,7 @@ namespace TNSR
                 && !wallSliding && (isGrounded || extraJumps > 0))
             {
                 coyoteTimeCounter = 0f;
-                anim.SetTrigger("takeOff");
+                animator.SetTrigger("takeOff");
                 rb.velocity = Vector2.up * jumpForce;
                 extraJumps--;
             }
@@ -124,19 +124,19 @@ namespace TNSR
             }
 
             // Spring jumping
-            if (spring)
+            if (currentSpring != null)
             {
-                anim.SetTrigger("takeOff");
-                rb.velocity = spring.transform.up * springForce;
+                animator.SetTrigger("takeOff");
+                rb.velocity = currentSpring.transform.up * springForce;
                 extraJumps = -1;
             }
-            anim.SetBool("isRunning", MoveInput.x != 0);
-            anim.SetBool("isJumping", !isGrounded);
-            anim.SetBool("isWallSliding", wallSliding);
+            animator.SetBool("isRunning", MoveInput.x != 0);
+            animator.SetBool("isJumping", !isGrounded);
+            animator.SetBool("isWallSliding", wallSliding);
 
             if (wallSliding)
                 extraJumps = extraJumpsValue;
-            if (!(Vector3.Distance(transform.localPosition, Vector3.zero) < r) && !finished)
+            if (!(Vector3.Distance(transform.localPosition, Vector3.zero) < startDistance) && !finished)
                 countdown.StartCounting();
         }
 

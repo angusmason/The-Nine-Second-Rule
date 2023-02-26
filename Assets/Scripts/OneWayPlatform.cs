@@ -8,7 +8,7 @@ namespace TNSR
         bool isGrounded;
         [SerializeField] Transform groundCheck;
         [SerializeField] float checkRadius;
-        [SerializeField] LayerMask whatIsGround;
+        [SerializeField] LayerMask ground;
 
         // One way platform variables
         PlatformEffector2D effector;
@@ -26,7 +26,7 @@ namespace TNSR
         void FixedUpdate()
         {
             // Ground check
-            isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
+            isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, ground);
         }
 
         void Update()
@@ -48,7 +48,7 @@ namespace TNSR
                 }
             }
 
-            if (!(playerController.MoveInput.y > 0))
+            if (playerController.MoveInput.y <= 0)
                 return;
             if (!isGrounded)
                 return;

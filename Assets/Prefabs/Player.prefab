@@ -223,8 +223,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 9
   jumpForce: 8.5
+  MoveInput: {x: 0, y: 0}
   coyoteTime: 0.2
-  r: 0.5
+  startDistance: 0.25
   extraJumpsValue: 1
   groundCheck: {fileID: 2257004465348808485}
   checkRadius: 0.28
@@ -240,7 +241,7 @@ MonoBehaviour:
   xWallForce: 7.5
   yWallForce: 8.5
   wallJumpTime: 0.08
-  whatIsSpring:
+  spring:
     serializedVersion: 2
     m_Bits: 512
   springForce: 25
