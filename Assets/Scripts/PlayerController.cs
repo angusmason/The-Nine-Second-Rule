@@ -168,6 +168,7 @@ namespace TNSR
                 finished = true;
                 DisableMotion();
                 countdown.StopCounting();
+                countdown.Finished = true;
                 FindFirstObjectByType<Crossfade>().FadeIn
                     (
                         () => SceneManager.LoadScene

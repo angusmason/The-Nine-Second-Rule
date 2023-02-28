@@ -14,6 +14,7 @@ namespace TNSR
         public event EventHandler TimeUp;
         bool counting;
         public TimeSpan Time;
+        [HideInInspector] public bool Finished;
 
         void Start()
         {
@@ -24,7 +25,7 @@ namespace TNSR
         {
             if (counting)
                 UpdateTime();
-            else
+            else if (!Finished)
                 ResetTime();
             UpdateText();
             if (Time >= TimeSpan.FromSeconds(TimeAvailable))
