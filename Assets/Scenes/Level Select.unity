@@ -296,6 +296,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2342270648685339911, guid: 8d4c497f1f83a46dea8e7c293a8f9122, type: 3}
+      propertyPath: DoFadeIn
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4533513176147468319, guid: 8d4c497f1f83a46dea8e7c293a8f9122, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -644,51 +648,17 @@ PrefabInstance:
       propertyPath: speed
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 2257004464702832907, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
+      propertyPath: extraJumpsValue
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2257004464702832903, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2099314016}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
 --- !u!4 &2099314014 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2257004464702832906, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
   m_PrefabInstance: {fileID: 2099314013}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2099314015 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2257004464702832903, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
-  m_PrefabInstance: {fileID: 2099314013}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2099314016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2099314015}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: e83d3c499462849ddbfe3ef72aac8540, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}

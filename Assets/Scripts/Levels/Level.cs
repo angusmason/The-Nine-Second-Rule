@@ -83,9 +83,6 @@ namespace TNSR.Levels
                             ((double)timeCompleted):s's 'fff'ms'}"
                     : string.Empty;
 
-            player.localScale = (1 - crossfade.Alpha)
-                * player.GetComponent<PlayerController>().PlayerSize
-                * Vector3.one;
             if (manager.levelLoading) return;
 
             if (selected && Mathf.Abs
