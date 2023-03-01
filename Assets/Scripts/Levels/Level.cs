@@ -71,13 +71,13 @@ namespace TNSR.Levels
                 + randomY;
             spriteRenderer.transform.position = position;
 
-            double? timeCompleted = LevelSaver.GetLevel(buildIndex)?.TimeMilliseconds;
+            var timeCompleted = LevelSaver.GetLevel(buildIndex)?.TimeMilliseconds;
             bestTime.text =
                 selected
                     ? timeCompleted == null
                         ? "Not completed"
                         : $@"Best Time: {TimeSpan.FromMilliseconds
-                            ((double)timeCompleted):s's 'fff'ms'}"
+                            ((double)timeCompleted):s\.fff\s}"
                     : string.Empty;
 
             if (manager.levelLoading) return;

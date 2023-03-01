@@ -32,7 +32,7 @@ namespace TNSR
             }
         }
 
-        public void FadeIn(Action endCallback)
+        public void FadeIn(Action endCallback, Action<float> alphaCallback = null)
         {
             IEnumerator coroutine()
             {
@@ -42,6 +42,7 @@ namespace TNSR
                     colour.a = alpha;
                     image.color = colour;
                     Alpha = alpha;
+                    alphaCallback?.Invoke(alpha);
                     yield return new WaitForSeconds(0.01f);
                 }
                 endCallback();

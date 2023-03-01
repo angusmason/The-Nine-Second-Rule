@@ -188,7 +188,8 @@ namespace TNSR
                 FindFirstObjectByType<Crossfade>().FadeIn
                     (
                         () => SceneManager.LoadScene
-                            (SceneManager.GetActiveScene().buildIndex + 1)
+                            (SceneManager.GetActiveScene().buildIndex + 1),
+                        (alpha) => PlayerSize = 1 - alpha
                     );
                 LevelSaver.UpdateData(new(SceneManager.GetActiveScene().buildIndex - 1, countdown.Time));
             }
