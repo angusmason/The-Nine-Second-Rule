@@ -149,7 +149,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1745878696275866387, guid: 0461e2b3e4b344045bce4bbd395e52d8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 25.37
+      value: 11.49
       objectReference: {fileID: 0}
     - target: {fileID: 1745878696275866387, guid: 0461e2b3e4b344045bce4bbd395e52d8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -415,11 +415,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6611436022271601483, guid: 4098723659b67414d8df04a461d4728c, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.515
+      value: 1.46
       objectReference: {fileID: 0}
     - target: {fileID: 6611436022271601483, guid: 4098723659b67414d8df04a461d4728c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.31
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6611436022271601483, guid: 4098723659b67414d8df04a461d4728c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -491,7 +491,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1363673213}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.75, y: 2.5, z: 0}
+  m_LocalPosition: {x: -8.99, y: 2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -542,7 +542,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1745878696275866387, guid: 0461e2b3e4b344045bce4bbd395e52d8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.1
+      value: -12.84
       objectReference: {fileID: 0}
     - target: {fileID: 1745878696275866387, guid: 0461e2b3e4b344045bce4bbd395e52d8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -643,14 +643,6 @@ PrefabInstance:
     - target: {fileID: 2257004464702832906, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2257004464702832907, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
-      propertyPath: speed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2257004464702832907, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
-      propertyPath: extraJumpsValue
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

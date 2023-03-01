@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using TNSR.Levels;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -60,6 +61,7 @@ namespace TNSR
         bool finished = false;
         [HideInInspector] public float PlayerSize;
         PlatformEffector2D[] oneWayPlatforms;
+        bool flipping;
 
         void Start()
         {
@@ -121,11 +123,14 @@ namespace TNSR
                 extraJumps = extraJumpsValue;
             if (!(Vector3.Distance(transform.localPosition, Vector3.zero) < startDistance) && !finished)
                 countdown.StartCounting();
-
-            foreach (var platform in oneWayPlatforms)
-            {
-                platform.rotationalOffset = MoveInput.y < 0 ? 180 : 0;
-            }
+            if (oneWayPlatforms.Length > 0)
+                if (oneWayPlatforms[0].rotationalOffset == 180 && !flipping)
+                    StartCoroutine(FlipEffectors());
+            if (MoveInput.y < 0)
+                foreach (var platform in oneWayPlatforms)
+                {
+                    platform.rotationalOffset = 180;
+                }
         }
 
         // Sets wall jumping to false
@@ -133,6 +138,17 @@ namespace TNSR
         {
             yield return new WaitForSeconds(wallJumpTime);
             wallJumping = false;
+        }
+
+        IEnumerator FlipEffectors()
+        {
+            flipping = true;
+            yield return new WaitForSeconds(0.25f);
+            foreach (var platform in oneWayPlatforms)
+            {
+                platform.rotationalOffset = 0;
+            }
+            flipping = false;
         }
 
         // Respawning
