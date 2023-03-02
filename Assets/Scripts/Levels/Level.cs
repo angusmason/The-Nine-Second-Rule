@@ -97,10 +97,10 @@ namespace TNSR.Levels
         Color LevelColour(bool selected, bool completed)
             => selected
                 ? completed
-                    ? new Color(0.99f, 0.5f, 0.83f)
-                    : new Color(0.67f, 0.47f, 0.78f)
+                    ? new Color(0.486f, 0.894f, 0.58f) // Selected and completed
+                    : new Color(1f, 1f, 1f) // Selected and not completed
                 : completed
-                    ? new Color(0.84f, 0.35f, 0.68f)
-                    : new Color(0, 0, 0);
+                    ? new Color(0.486f, 0.894f, 0.58f, 0.5f) // Not selected and completed
+                    : new Color(1f, 1f, 1f, 0.5f); // Not selected and not completed
     }
 }

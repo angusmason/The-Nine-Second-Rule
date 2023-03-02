@@ -339,16 +339,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      LevelSprites2_1: -230485063
+      Enemy: -1386085361
       Level: -1813462666
       LevelSprites2_0: -1624359889
-      SlidingEnemy: 2006531550
+      LevelSprites2_1: -230485063
       Projectile: 30412974
-      Enemy: -1386085361
-      SpikeSlider: 35076157
-      Turret: 466864866
+      SlidingEnemy: 2006531550
       SlidingSpike: 806065612
       Spike: 865059139
+      SpikeSlider: 35076157
+      Turret: 466864866
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
