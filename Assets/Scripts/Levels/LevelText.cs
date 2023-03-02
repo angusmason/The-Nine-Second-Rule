@@ -22,7 +22,7 @@ namespace TNSR.Levels
                 {(timeCompleted == null
                     ? "Not completed"
                     : $@"Best Time: {TimeSpan.FromMilliseconds
-                        ((double)timeCompleted):s\.fff\s}")}";
+                        ((double)timeCompleted):s\.ff\s}")}";
         }
     }
 }
