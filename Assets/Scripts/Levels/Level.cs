@@ -16,7 +16,6 @@ namespace TNSR.Levels
         [HideInInspector] public int buildIndex;
         [SerializeField] TextMeshProUGUI levelNumber;
         [SerializeField] TextMeshProUGUI bestTime;
-        [SerializeField] ParticleSystem system;
         SpriteRenderer spriteRenderer;
         [SerializeField] float playerHeightThreshold;
         float randomX;
@@ -62,8 +61,6 @@ namespace TNSR.Levels
                 lerpSpeed
             );
             levelNumber.text = (buildIndex + 1).ToString();
-            var emission = system.emission;
-            emission.rateOverTime = new(selected ? 40 : 0);
 
             var position = spriteRenderer.transform.position;
             position.x = originalPosition.x
@@ -74,13 +71,13 @@ namespace TNSR.Levels
                 + randomY;
             spriteRenderer.transform.position = position;
 
-            double? timeCompleted = LevelSaver.GetLevel(buildIndex)?.TimeMilliseconds;
+            var timeCompleted = LevelSaver.GetLevel(buildIndex)?.TimeMilliseconds;
             bestTime.text =
                 selected
                     ? timeCompleted == null
                         ? "Not completed"
                         : $@"Best Time: {TimeSpan.FromMilliseconds
-                            ((double)timeCompleted):s's 'fff'ms'}"
+                            ((double)timeCompleted):s\.fff\s}"
                     : string.Empty;
 
             if (manager.levelLoading) return;
