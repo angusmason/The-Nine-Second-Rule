@@ -177,19 +177,22 @@ namespace TNSR
         {
             rb.simulated = false;
         }
-        void OnTriggerEnter2D(Collider2D collision)
+        void OnTriggerEnter2D(Collider2D collider)
         {
-            if (collision.gameObject.CompareTag("Finish"))
+            if (collider.gameObject.CompareTag("Finish"))
             {
                 finished = true;
                 DisableMotion();
                 countdown.StopCounting();
                 countdown.Finished = true;
+                var vacuum = new GameObject("Vacuum");
+                vacuum.transform.position = collider.transform.position;
+                transform.parent = vacuum.transform;
                 FindFirstObjectByType<Crossfade>().FadeIn
                     (
                         () => SceneManager.LoadScene
                             (SceneManager.GetActiveScene().buildIndex + 1),
-                        (alpha) => PlayerSize = 1 - alpha
+                        (alpha) => vacuum.transform.localScale = Vector3.one * (1 - alpha)
                     );
                 LevelSaver.UpdateData(new(SceneManager.GetActiveScene().buildIndex - 1, countdown.Time));
             }
