@@ -24,6 +24,7 @@ namespace TNSR.Levels
         bool completed;
         Vector3 originalPosition;
         Crossfade crossfade;
+        [HideInInspector] public Color colour;
 
         void Start()
         {

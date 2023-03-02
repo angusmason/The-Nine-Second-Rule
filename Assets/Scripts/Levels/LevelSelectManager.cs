@@ -11,9 +11,12 @@ namespace TNSR.Levels
         [SerializeField] GameObject levelPrefab;
         [SerializeField] float spacing;
         [HideInInspector] public bool levelLoading;
+        [SerializeField] Color[] _levelColours;
+        public static Color[] levelColours;
 
         void Start()
         {
+            levelColours = _levelColours;
             var scenes = Enumerable
                 .Range(0, SceneManager.sceneCountInBuildSettings)
                 .Select(index => SceneManager.GetSceneByBuildIndex(index))
@@ -31,6 +34,7 @@ namespace TNSR.Levels
                 ).GetComponent<Level>();
                 level.player = player;
                 level.buildIndex = index;
+                level.colour = _levelColours[index];
             }
         }
     }
