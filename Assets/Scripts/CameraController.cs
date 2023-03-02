@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 namespace TNSR
 {
-    [RequireComponent(typeof(Camera))]
-    public class Camera : MonoBehaviour
+    [RequireComponent(typeof(CameraController))]
+    public class CameraController : MonoBehaviour
     {
         [SerializeField] Transform player;
         const float smoothTime = .2f;
