@@ -13,7 +13,8 @@ namespace TNSR
         [SerializeField] TextMeshProUGUI countDownText;
         public event EventHandler TimeUp;
         bool counting;
-        public TimeSpan Time { get; set; }
+        public TimeSpan Time;
+        [HideInInspector] public bool Finished;
 
         void Start()
         {
@@ -24,11 +25,11 @@ namespace TNSR
         {
             if (counting)
                 UpdateTime();
+            else if (!Finished)
+                ResetTime();
             UpdateText();
             if (Time >= TimeSpan.FromSeconds(TimeAvailable))
-            {
                 TimeUp?.Invoke(this, EventArgs.Empty);
-            }
         }
 
         void UpdateTime() => Time = DateTime.Now - startTime;
@@ -51,15 +52,7 @@ namespace TNSR
             startTime = DateTime.Now;
             UpdateTime();
         }
-        public void StartCounting()
-        {
-            counting = true;
-            UpdateText();
-        }
-        public void StopCounting()
-        {
-            counting = false;
-            UpdateText();
-        }
+        public void StartCounting() => counting = true;
+        public void StopCounting() => counting = false;
     }
 }

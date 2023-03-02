@@ -296,6 +296,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2342270648685339911, guid: 8d4c497f1f83a46dea8e7c293a8f9122, type: 3}
+      propertyPath: DoFadeIn
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4533513176147468319, guid: 8d4c497f1f83a46dea8e7c293a8f9122, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -643,6 +647,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
+    m_AddedComponents: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
 --- !u!4 &2099314014 stripped

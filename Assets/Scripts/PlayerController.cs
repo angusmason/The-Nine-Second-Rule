@@ -13,7 +13,7 @@ namespace TNSR
         // Basic movement variables
         [SerializeField] float speed;
         [SerializeField] float jumpForce;
-        public Vector2 MoveInput;
+        [HideInInspector] public Vector2 MoveInput;
         [SerializeField] float coyoteTime;
         float coyoteTimeCounter;
 
@@ -58,7 +58,8 @@ namespace TNSR
         [SerializeField] float springForce;
         Countdown countdown;
         bool finished = false;
-        public float PlayerSize;
+        [HideInInspector] public float PlayerSize;
+        PlatformEffector2D[] oneWayPlatforms;
 
         void Start()
         {
@@ -71,17 +72,15 @@ namespace TNSR
             countdown = FindFirstObjectByType<Countdown>();
             countdown.TimeUp += (object sender, EventArgs e) => Respawn();
             PlayerSize = transform.localScale.y;
+            oneWayPlatforms = FindObjectsByType<PlatformEffector2D>(FindObjectsSortMode.None);
         }
 
         void FixedUpdate()
         {
             rb.velocity = new Vector2(MoveInput.x * speed, rb.velocity.y);
-
             if (rb.simulated)
                 // Checks if the direction which the player sprite is facing should be flipped
                 transform.localScale = new Vector3(Mathf.Sign(MoveInput.x) * PlayerSize, PlayerSize, PlayerSize);
-
-            // Checks if the player is on the ground
             grounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
             // Coyote time
             coyoteTimeCounter = grounded ? coyoteTime : coyoteTimeCounter - Time.deltaTime;
@@ -107,22 +106,6 @@ namespace TNSR
             // Jumping
             if (isGrounded) extraJumps = extraJumpsValue;
 
-            if (MoveInput.y > 0
-                && !wallSliding && (isGrounded || extraJumps > 0))
-            {
-                coyoteTimeCounter = 0f;
-                animator.SetTrigger("takeOff");
-                rb.velocity = Vector2.up * jumpForce;
-                extraJumps--;
-            }
-
-            // Wall jumping
-            if (MoveInput.y > 0 && wallSliding)
-            {
-                wallJumping = true;
-                StartCoroutine(DisableWallJumping());
-            }
-
             // Spring jumping
             if (currentSpring != null)
             {
@@ -138,6 +121,11 @@ namespace TNSR
                 extraJumps = extraJumpsValue;
             if (!(Vector3.Distance(transform.localPosition, Vector3.zero) < startDistance) && !finished)
                 countdown.StartCounting();
+
+            foreach (var platform in oneWayPlatforms)
+            {
+                platform.rotationalOffset = MoveInput.y < 0 ? 180 : 0;
+            }
         }
 
         // Sets wall jumping to false
@@ -153,8 +141,8 @@ namespace TNSR
             if (!rb.simulated) return;
             transform.position = Vector3.zero;
             rb.velocity = Vector3.zero;
-            countdown.ResetTime();
             countdown.StopCounting();
+            countdown.ResetTime();
         }
 
         // Collisions
@@ -180,7 +168,7 @@ namespace TNSR
                 finished = true;
                 DisableMotion();
                 countdown.StopCounting();
-                var startSize = transform.localScale.y;
+                countdown.Finished = true;
                 FindFirstObjectByType<Crossfade>().FadeIn
                     (
                         () => SceneManager.LoadScene
@@ -211,18 +199,32 @@ namespace TNSR
         }
 
         public void OnMove(InputValue value)
-        {
-            MoveInput = value.Get<Vector2>();
-        }
+            => MoveInput = value.Get<Vector2>();
         public void OnReset()
-        {
-            Respawn();
-        }
+            => Respawn();
         public void OnEscape()
         {
             if (SceneManager.GetActiveScene().buildIndex == 0)
                 return;
             SceneManager.LoadScene(0);
+        }
+        public void OnJump()
+        {
+            if (!wallSliding)
+            {
+                if (isGrounded || extraJumps > 0)
+                {
+                    coyoteTimeCounter = 0f;
+                    animator.SetTrigger("takeOff");
+                    rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                    extraJumps--;
+                }
+            }
+            else
+            {
+                wallJumping = true;
+                StartCoroutine(DisableWallJumping());
+            }
         }
     }
 }
