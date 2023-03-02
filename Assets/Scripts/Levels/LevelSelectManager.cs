@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,11 +13,9 @@ namespace TNSR.Levels
         [SerializeField] float spacing;
         [HideInInspector] public bool levelLoading;
         [SerializeField] Color[] _levelColours;
-        public static Color[] levelColours;
 
         void Start()
         {
-            levelColours = _levelColours;
             var scenes = Enumerable
                 .Range(0, SceneManager.sceneCountInBuildSettings)
                 .Select(index => SceneManager.GetSceneByBuildIndex(index))
