@@ -184,6 +184,8 @@ namespace TNSR
                 DisableMotion();
                 countdown.StopCounting();
                 countdown.Finished = true;
+                FindFirstObjectByType<NewBest>().Show();
+
                 var vacuum = new GameObject("Vacuum");
                 vacuum.transform.position = collider.transform.position;
                 transform.parent = vacuum.transform;
