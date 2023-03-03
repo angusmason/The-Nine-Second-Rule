@@ -135,17 +135,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Invisible Wall
       objectReference: {fileID: 0}
-    - target: {fileID: 1745878696275866386, guid: 0461e2b3e4b344045bce4bbd395e52d8, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1745878696275866387, guid: 0461e2b3e4b344045bce4bbd395e52d8, type: 3}
       propertyPath: m_RootOrder
       value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1745878696275866387, guid: 0461e2b3e4b344045bce4bbd395e52d8, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2.106
       objectReference: {fileID: 0}
     - target: {fileID: 1745878696275866387, guid: 0461e2b3e4b344045bce4bbd395e52d8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -187,11 +179,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1745878696275866381, guid: 0461e2b3e4b344045bce4bbd395e52d8, type: 3}
-    m_RemovedGameObjects:
-    - {fileID: 1745878697094327486, guid: 0461e2b3e4b344045bce4bbd395e52d8, type: 3}
-    - {fileID: 1745878697917962971, guid: 0461e2b3e4b344045bce4bbd395e52d8, type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0461e2b3e4b344045bce4bbd395e52d8, type: 3}
@@ -516,16 +505,6 @@ MonoBehaviour:
   levelPrefab: {fileID: 1109500659930310179, guid: 934c8b10a42b64537881022cb68a2272, type: 3}
   spacing: 2
   levelLoading: 0
-  _levelColours:
-  - {r: 0.81960785, g: 0.6117647, b: 0.48235294, a: 0}
-  - {r: 0.49411765, g: 0.81960785, b: 0.48235294, a: 0}
-  - {r: 0.48235294, g: 0.7764706, b: 0.81960785, a: 0}
-  - {r: 0.81960785, g: 0.48235294, b: 0.4862745, a: 0}
-  - {r: 0.627451, g: 0.48235294, b: 0.81960785, a: 0}
-  - {r: 0.81960785, g: 0.7607843, b: 0.48235294, a: 0}
-  - {r: 0.4862745, g: 0.81960785, b: 0.59607846, a: 0}
-  - {r: 0.48235294, g: 0.6313726, b: 0.81960785, a: 0}
-  - {r: 0.81960785, g: 0.48235294, b: 0.8, a: 0}
 --- !u!1001 &1983319571
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -552,7 +531,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1745878696275866387, guid: 0461e2b3e4b344045bce4bbd395e52d8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.84
+      value: -0.86
       objectReference: {fileID: 0}
     - target: {fileID: 1745878696275866387, guid: 0461e2b3e4b344045bce4bbd395e52d8, type: 3}
       propertyPath: m_LocalPosition.y

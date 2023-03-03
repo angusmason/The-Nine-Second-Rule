@@ -192,7 +192,11 @@ namespace TNSR
                     (
                         () => SceneManager.LoadScene
                             (SceneManager.GetActiveScene().buildIndex + 1),
-                        (alpha) => vacuum.transform.localScale = Vector3.one * (1 - alpha)
+                        (alpha) =>
+                        {
+                            vacuum.transform.localScale = Vector3.one * (1 - alpha);
+                            vacuum.transform.localRotation = Quaternion.Euler(0, 0, 360 * alpha);
+                        }
                     );
                 LevelSaver.UpdateData(new(SceneManager.GetActiveScene().buildIndex - 1, countdown.Time));
             }

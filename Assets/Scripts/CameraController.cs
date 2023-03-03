@@ -17,7 +17,7 @@ namespace TNSR
             int buildIndex = SceneManager.GetActiveScene().buildIndex;
             if (buildIndex != 0)
                 camera.backgroundColor = Resources
-                    .Load<LevelColours>("Assets/Scripts/Levels/LevelColours.asset")
+                    .Load<LevelColours>("LevelColours")
                     .levelColours[buildIndex - 1];
         }
 

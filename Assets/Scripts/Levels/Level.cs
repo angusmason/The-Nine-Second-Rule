@@ -93,8 +93,16 @@ namespace TNSR.Levels
                 manager.levelLoading = true;
                 player.GetComponent<PlayerController>()
                     .DisableMotion();
+                var vacuum = new GameObject("Vacuum");
+                vacuum.transform.position = transform.position;
+                player.transform.parent = vacuum.transform;
                 crossfade.FadeIn(
-                    () => SceneManager.LoadScene(buildIndex + 1)
+                    () => SceneManager.LoadScene(buildIndex + 1),
+                    (alpha) =>
+                    {
+                        vacuum.transform.localScale = Vector3.one * (1 - alpha);
+                        vacuum.transform.localRotation = Quaternion.Euler(0, 0, 360 * alpha);
+                    }
                 );
             }
 
