@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -33,8 +32,7 @@ namespace TNSR.Levels
                 ).GetComponent<Level>();
                 level.player = player;
                 level.buildIndex = index;
-                level.colour = AssetDatabase
-                    .LoadAssetAtPath<LevelColours>("Assets/Scripts/Levels/LevelColours.asset")
+                level.colour = Resources.Load<LevelColours>("Assets/Scripts/Levels/LevelColours.asset")
                     .levelColours[index];
             }
         }

@@ -1,5 +1,3 @@
-using TNSR.Levels;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,8 +16,8 @@ namespace TNSR
 
             int buildIndex = SceneManager.GetActiveScene().buildIndex;
             if (buildIndex != 0)
-                camera.backgroundColor = AssetDatabase
-                    .LoadAssetAtPath<LevelColours>("Assets/Scripts/Levels/LevelColours.asset")
+                camera.backgroundColor = Resources
+                    .Load<LevelColours>("Assets/Scripts/Levels/LevelColours.asset")
                     .levelColours[buildIndex - 1];
         }
 
