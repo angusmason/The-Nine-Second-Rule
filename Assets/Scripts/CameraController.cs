@@ -14,7 +14,7 @@ namespace TNSR
 
         void Start()
         {
-            var camera = GetComponent<UnityEngine.Camera>();
+            var camera = GetComponent<Camera>();
 
             int buildIndex = SceneManager.GetActiveScene().buildIndex;
             if (buildIndex != 0)

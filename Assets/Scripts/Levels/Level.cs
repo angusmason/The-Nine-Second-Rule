@@ -24,7 +24,7 @@ namespace TNSR.Levels
         bool completed;
         Vector3 originalPosition;
         Crossfade crossfade;
-        [HideInInspector] public Color colour;
+        public Color colour;
 
         void Start()
         {
@@ -39,7 +39,7 @@ namespace TNSR.Levels
 
         void Update()
         {
-            var lerpSpeed = 20 * Time.deltaTime;
+            var lerpSpeed = 6 * Time.deltaTime;
             var selected = Mathf.Abs
                 (transform.position.x - player.transform.position.x) < threshold;
 
@@ -50,15 +50,15 @@ namespace TNSR.Levels
             );
             levelNumber.transform.localScale = 8.5f * spriteRenderer.transform.localScale;
             spriteRenderer.sortingOrder = selected ? 1 : 0;
-            Color colour = LevelColour(selected, completed);
+            Color spriteColour = LevelColour(selected, completed);
             levelNumber.color = Color.Lerp(
                 levelNumber.color,
-                colour,
+                spriteColour,
                 lerpSpeed
             );
             spriteRenderer.color = Color.Lerp(
                 spriteRenderer.color,
-                colour,
+                spriteColour,
                 lerpSpeed
             );
             levelNumber.text = (buildIndex + 1).ToString();
@@ -72,6 +72,12 @@ namespace TNSR.Levels
                 + randomY;
             spriteRenderer.transform.position = position;
 
+            Camera.main.backgroundColor = Color.Lerp(
+                Camera.main.backgroundColor,
+                selected ? colour : Camera.main.backgroundColor,
+                lerpSpeed
+            );
+
             var timeCompleted = LevelSaver.GetLevel(buildIndex)?.TimeMilliseconds;
             bestTime.text =
                 selected
@@ -82,9 +88,8 @@ namespace TNSR.Levels
                     : string.Empty;
 
             if (manager.levelLoading) return;
-
-            if (selected && Mathf.Abs
-                (transform.position.y - player.position.y) < playerHeightThreshold)
+            if (!selected) return;
+            if (Mathf.Abs(transform.position.y - player.position.y) < playerHeightThreshold)
             {
                 manager.levelLoading = true;
                 player.GetComponent<PlayerController>()
@@ -93,6 +98,7 @@ namespace TNSR.Levels
                     () => SceneManager.LoadScene(buildIndex + 1)
                 );
             }
+
         }
 
         Color LevelColour(bool selected, bool completed)

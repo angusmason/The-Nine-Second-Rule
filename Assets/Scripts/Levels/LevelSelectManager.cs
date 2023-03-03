@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,7 +13,6 @@ namespace TNSR.Levels
         [SerializeField] GameObject levelPrefab;
         [SerializeField] float spacing;
         [HideInInspector] public bool levelLoading;
-        [SerializeField] Color[] _levelColours;
 
         void Start()
         {
@@ -33,7 +33,9 @@ namespace TNSR.Levels
                 ).GetComponent<Level>();
                 level.player = player;
                 level.buildIndex = index;
-                level.colour = _levelColours[index];
+                level.colour = AssetDatabase
+                    .LoadAssetAtPath<LevelColours>("Assets/Scripts/Levels/LevelColours.asset")
+                    .levelColours[index];
             }
         }
     }
