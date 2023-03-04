@@ -135,17 +135,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Invisible Wall
       objectReference: {fileID: 0}
-    - target: {fileID: 1745878696275866386, guid: 0461e2b3e4b344045bce4bbd395e52d8, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1745878696275866387, guid: 0461e2b3e4b344045bce4bbd395e52d8, type: 3}
       propertyPath: m_RootOrder
       value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1745878696275866387, guid: 0461e2b3e4b344045bce4bbd395e52d8, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2.106
       objectReference: {fileID: 0}
     - target: {fileID: 1745878696275866387, guid: 0461e2b3e4b344045bce4bbd395e52d8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -187,11 +179,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1745878696275866381, guid: 0461e2b3e4b344045bce4bbd395e52d8, type: 3}
-    m_RemovedGameObjects:
-    - {fileID: 1745878697094327486, guid: 0461e2b3e4b344045bce4bbd395e52d8, type: 3}
-    - {fileID: 1745878697917962971, guid: 0461e2b3e4b344045bce4bbd395e52d8, type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0461e2b3e4b344045bce4bbd395e52d8, type: 3}
@@ -542,7 +531,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1745878696275866387, guid: 0461e2b3e4b344045bce4bbd395e52d8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.84
+      value: -0.86
       objectReference: {fileID: 0}
     - target: {fileID: 1745878696275866387, guid: 0461e2b3e4b344045bce4bbd395e52d8, type: 3}
       propertyPath: m_LocalPosition.y

@@ -10,15 +10,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8249294835718478788, guid: 1def6bbc3496643e39ccd04db2541ada, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8249294835718478788, guid: 1def6bbc3496643e39ccd04db2541ada, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.106
       objectReference: {fileID: 0}
     - target: {fileID: 8249294835718478788, guid: 1def6bbc3496643e39ccd04db2541ada, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 16.91
       objectReference: {fileID: 0}
     - target: {fileID: 8249294835718478788, guid: 1def6bbc3496643e39ccd04db2541ada, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: 8249294835718478788, guid: 1def6bbc3496643e39ccd04db2541ada, type: 3}
       propertyPath: m_LocalPosition.z
@@ -56,9 +60,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Invisible Wall
       objectReference: {fileID: 0}
+    - target: {fileID: 8249294835718478789, guid: 1def6bbc3496643e39ccd04db2541ada, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8249294835718478810, guid: 1def6bbc3496643e39ccd04db2541ada, type: 3}
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 8249294834926191721, guid: 1def6bbc3496643e39ccd04db2541ada, type: 3}
+    - {fileID: 8249294835145863692, guid: 1def6bbc3496643e39ccd04db2541ada, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1def6bbc3496643e39ccd04db2541ada, type: 3}

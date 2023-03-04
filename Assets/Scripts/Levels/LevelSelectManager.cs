@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -31,6 +32,9 @@ namespace TNSR.Levels
                 ).GetComponent<Level>();
                 level.player = player;
                 level.buildIndex = index;
+                level.colour = Resources
+                    .Load<LevelColours>("LevelColours")
+                    .levelColours[index];
             }
         }
     }
