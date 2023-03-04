@@ -86,10 +86,14 @@ namespace TNSR.Levels
                 (transform.position.y - player.position.y) < playerHeightThreshold)
             {
                 manager.levelLoading = true;
+                var vacuum = new GameObject("Vacuum");
+                vacuum.transform.position = transform.position;
+                player.transform.parent = vacuum.transform;
                 player.GetComponent<PlayerController>()
                     .DisableMotion();
                 crossfade.FadeIn(
-                    () => SceneManager.LoadScene(buildIndex + 1)
+                    () => SceneManager.LoadScene(buildIndex + 1),
+                    (alpha) => vacuum.transform.localScale = Vector3.one * (1 - alpha)
                 );
             }
         }
