@@ -96,7 +96,6 @@ namespace TNSR.Levels
                 player.transform.parent = vacuum.transform;
                 player.GetComponent<PlayerController>()
                     .DisableMotion();
-                var vacuum = new GameObject("Vacuum");
                 vacuum.transform.position = transform.position;
                 player.transform.parent = vacuum.transform;
                 crossfade.FadeIn(
