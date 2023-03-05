@@ -142,7 +142,7 @@ namespace TNSR
         IEnumerator FlipEffectors()
         {
             flipping = true;
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.3f);
             foreach (var platform in oneWayPlatforms)
             {
                 platform.rotationalOffset = 0;
