@@ -184,7 +184,9 @@ namespace TNSR
                 DisableMotion();
                 countdown.StopCounting();
                 countdown.Finished = true;
-                FindFirstObjectByType<NewBest>().Show();
+                int buildIndex = SceneManager.GetActiveScene().buildIndex;
+                if (countdown.Time.TotalMilliseconds < LevelSaver.GetLevel(buildIndex - 1).TimeMilliseconds)
+                    FindFirstObjectByType<NewBest>().Show();
 
                 var vacuum = new GameObject("Vacuum");
                 vacuum.transform.position = collider.transform.position;
@@ -192,14 +194,14 @@ namespace TNSR
                 FindFirstObjectByType<Crossfade>().FadeIn
                     (
                         () => SceneManager.LoadScene
-                            (SceneManager.GetActiveScene().buildIndex + 1),
+                            (buildIndex + 1),
                         (alpha) =>
                         {
                             vacuum.transform.localScale = Vector3.one * (1 - alpha);
                             vacuum.transform.localRotation = Quaternion.Euler(0, 0, 360 * alpha);
                         }
                     );
-                LevelSaver.UpdateData(new(SceneManager.GetActiveScene().buildIndex - 1, countdown.Time));
+                LevelSaver.UpdateData(new(buildIndex - 1, countdown.Time));
             }
         }
 
