@@ -9,19 +9,17 @@ namespace TNSR
     {
         Image image;
         public float Alpha;
-        [SerializeField] bool DoFadeIn;
+        public bool Fading;
         void Start()
         {
             image = GetComponent<Image>();
             image.color = Color.black;
-            if (DoFadeIn)
-                StartCoroutine(FadeOut());
-            else
-                image.color = Color.clear;
+            StartCoroutine(FadeOut());
         }
 
         IEnumerator FadeOut()
         {
+            Fading = true;
             for (float alpha = 1; alpha >= 0; alpha -= 0.01f)
             {
                 var colour = image.color;
@@ -30,12 +28,14 @@ namespace TNSR
                 Alpha = alpha;
                 yield return new WaitForSeconds(0.01f);
             }
+            Fading = false;
         }
 
         public void FadeIn(Action endCallback, Action<float> alphaCallback = null)
         {
-            IEnumerator coroutine()
+            IEnumerator Coroutine()
             {
+                Fading = true;
                 for (float alpha = 0; alpha <= 1; alpha += 0.01f)
                 {
                     var colour = image.color;
@@ -46,8 +46,9 @@ namespace TNSR
                     yield return new WaitForSeconds(0.01f);
                 }
                 endCallback();
+                Fading = false;
             }
-            StartCoroutine(coroutine());
+            StartCoroutine(Coroutine());
         }
     }
 }

@@ -61,6 +61,7 @@ namespace TNSR
         [HideInInspector] public float PlayerSize;
         PlatformEffector2D[] oneWayPlatforms;
         bool flipping;
+        Crossfade crossfade;
 
         void Start()
         {
@@ -74,6 +75,7 @@ namespace TNSR
             countdown.TimeUp += (object sender, EventArgs e) => Respawn();
             PlayerSize = transform.localScale.y;
             oneWayPlatforms = FindObjectsByType<PlatformEffector2D>(FindObjectsSortMode.None);
+            crossfade = FindFirstObjectByType<Crossfade>();
         }
 
         void FixedUpdate()
@@ -178,7 +180,7 @@ namespace TNSR
         }
         void OnTriggerEnter2D(Collider2D collider)
         {
-            if (collider.gameObject.CompareTag("Finish"))
+            if (collider.gameObject.CompareTag("Finish") && !crossfade.Fading)
             {
                 finished = true;
                 DisableMotion();
@@ -191,7 +193,7 @@ namespace TNSR
                 var vacuum = new GameObject("Vacuum");
                 vacuum.transform.position = collider.transform.position;
                 transform.parent = vacuum.transform;
-                FindFirstObjectByType<Crossfade>().FadeIn
+                crossfade.FadeIn
                     (
                         () => SceneManager.LoadScene
                             (buildIndex + 1),
@@ -199,6 +201,7 @@ namespace TNSR
                         {
                             vacuum.transform.localScale = Vector3.one * (1 - alpha);
                             vacuum.transform.localRotation = Quaternion.Euler(0, 0, 360 * alpha);
+                            transform.localRotation = Quaternion.Euler(0, 0, 360 * 2 * alpha);
                         }
                     );
                 LevelSaver.UpdateData(new(buildIndex - 1, countdown.Time));
@@ -231,9 +234,16 @@ namespace TNSR
             => Respawn();
         public void OnEscape()
         {
-            if (SceneManager.GetActiveScene().buildIndex == 0)
-                return;
-            SceneManager.LoadScene(0);
+            if (!crossfade.Fading && SceneManager.GetActiveScene().buildIndex != 0)
+            {
+                DisableMotion();
+                var originalSize = transform.localScale.y;
+                crossfade.FadeIn
+                    (
+                        () => SceneManager.LoadScene(0),
+                        (alpha) => transform.localScale = (1 - alpha) * originalSize * Vector3.one
+                    );
+            }
         }
         public void OnJump()
         {
