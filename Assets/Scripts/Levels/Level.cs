@@ -71,12 +71,6 @@ namespace TNSR.Levels
                 + randomY;
             spriteRenderer.transform.position = position;
 
-            Camera.main.backgroundColor = Color.Lerp(
-                Camera.main.backgroundColor,
-                selected ? colour : Camera.main.backgroundColor,
-                lerpSpeed
-            );
-
             var timeCompleted = LevelSaver.GetLevel(buildIndex)?.TimeMilliseconds;
             bestTime.text =
                 selected
@@ -87,6 +81,11 @@ namespace TNSR.Levels
                     : string.Empty;
 
             if (manager.levelLoading) return;
+            Camera.main.backgroundColor = Color.Lerp(
+                Camera.main.backgroundColor,
+                selected ? colour : Camera.main.backgroundColor,
+                lerpSpeed
+            );
             if (!selected) return;
             if (Mathf.Abs(transform.position.y - player.position.y) < playerHeightThreshold)
             {
