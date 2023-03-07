@@ -27,8 +27,10 @@ public class NewBest : MonoBehaviour
     void Update()
     {
         text.transform.position = new Vector3(
-            Mathf.Sin(Time.time * 2 + random.x) * 0.1f,
-            Mathf.Sin(Time.time * 2 + random.y) * 0.1f
+            Mathf.Sin(Time.time * 2 + random.x) * 20f,
+            Mathf.Sin(Time.time * 2 + random.y) * 20f
         ) + transform.position;
+
+        text.transform.localEulerAngles = Vector3.forward * 2;
     }
 }
