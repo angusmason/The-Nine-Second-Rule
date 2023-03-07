@@ -19,7 +19,6 @@ namespace TNSR.Levels
         [SerializeField] float playerHeightThreshold;
         float randomX;
         float randomY;
-        LevelSelectManager manager;
         bool completed;
         Vector3 originalPosition;
         Crossfade crossfade;
