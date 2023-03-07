@@ -9,6 +9,7 @@ namespace TNSR
     {
         Image image;
         public float Alpha;
+        public bool Fading;
         void Start()
         {
             image = GetComponent<Image>();
@@ -18,6 +19,7 @@ namespace TNSR
 
         IEnumerator FadeOut()
         {
+            Fading = true;
             for (float alpha = 1; alpha >= 0; alpha -= 0.01f)
             {
                 var colour = image.color;
@@ -26,12 +28,14 @@ namespace TNSR
                 Alpha = alpha;
                 yield return new WaitForSeconds(0.01f);
             }
+            Fading = false;
         }
 
         public void FadeIn(Action endCallback, Action<float> alphaCallback = null)
         {
-            IEnumerator coroutine()
+            IEnumerator Coroutine()
             {
+                Fading = true;
                 for (float alpha = 0; alpha <= 1; alpha += 0.01f)
                 {
                     var colour = image.color;
@@ -42,8 +46,9 @@ namespace TNSR
                     yield return new WaitForSeconds(0.01f);
                 }
                 endCallback();
+                Fading = false;
             }
-            StartCoroutine(coroutine());
+            StartCoroutine(Coroutine());
         }
     }
 }

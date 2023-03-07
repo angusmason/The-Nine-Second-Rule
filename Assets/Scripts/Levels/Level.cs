@@ -80,7 +80,7 @@ namespace TNSR.Levels
                             ((double)timeCompleted):s\.fff\s}"
                     : string.Empty;
 
-            if (manager.levelLoading) return;
+            if (crossfade.Fading) return;
             Camera.main.backgroundColor = Color.Lerp(
                 Camera.main.backgroundColor,
                 selected ? colour : Camera.main.backgroundColor,
@@ -89,7 +89,6 @@ namespace TNSR.Levels
             if (!selected) return;
             if (Mathf.Abs(transform.position.y - player.position.y) < playerHeightThreshold)
             {
-                manager.levelLoading = true;
                 var vacuum = new GameObject("Vacuum");
                 vacuum.transform.position = transform.position;
                 player.transform.parent = vacuum.transform;
@@ -101,6 +100,7 @@ namespace TNSR.Levels
                     {
                         vacuum.transform.localScale = Vector3.one * (1 - alpha);
                         vacuum.transform.localRotation = Quaternion.Euler(0, 0, 360 * alpha);
+                        player.transform.localRotation = Quaternion.Euler(0, 0, 360 * 2 * alpha);
                     }
                 );
             }
