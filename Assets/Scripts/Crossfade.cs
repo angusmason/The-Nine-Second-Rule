@@ -9,15 +9,11 @@ namespace TNSR
     {
         Image image;
         public float Alpha;
-        [SerializeField] bool DoFadeIn;
         void Start()
         {
             image = GetComponent<Image>();
             image.color = Color.black;
-            if (DoFadeIn)
-                StartCoroutine(FadeOut());
-            else
-                image.color = Color.clear;
+            StartCoroutine(FadeOut());
         }
 
         IEnumerator FadeOut()

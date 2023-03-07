@@ -227,9 +227,15 @@ namespace TNSR
             => Respawn();
         public void OnEscape()
         {
-            if (SceneManager.GetActiveScene().buildIndex == 0)
-                return;
-            SceneManager.LoadScene(0);
+            DisableMotion();
+            FindFirstObjectByType<Crossfade>().FadeIn
+                (
+                    () => SceneManager.LoadScene(0),
+                    (alpha) =>
+                    {
+                        transform.localScale = Vector3.one * (1 - alpha);
+                    }
+                );
         }
         public void OnJump()
         {
