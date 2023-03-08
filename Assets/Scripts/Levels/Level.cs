@@ -30,7 +30,6 @@ namespace TNSR.Levels
             originalPosition = spriteRenderer.transform.position;
             randomX = Random.Range(-2 * Mathf.PI, 2 * Mathf.PI);
             randomY = Random.Range(-0.3f, 0.5f);
-            manager = transform.parent.GetComponent<LevelSelectManager>();
             completed = LevelSaver.GetLevel(buildIndex) != null;
             crossfade = FindFirstObjectByType<Crossfade>();
         }
