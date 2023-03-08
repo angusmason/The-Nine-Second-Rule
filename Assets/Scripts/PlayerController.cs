@@ -233,7 +233,11 @@ namespace TNSR
 
             if (SceneManager.GetActiveScene().buildIndex == 0)
             {
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+#else
                 Application.Quit();
+#endif
                 return;
             }
             if (crossfade.Fading)
