@@ -230,23 +230,27 @@ namespace TNSR
             => Respawn();
         public void OnEscape()
         {
-            if (!crossfade.Fading && SceneManager.GetActiveScene().buildIndex != 0)
+
+            if (SceneManager.GetActiveScene().buildIndex == 0)
             {
-                DisableMotion();
-                crossfade.FadeIn(() => SceneManager.LoadScene(0));
+                Application.Quit();
+                return;
             }
+            if (crossfade.Fading)
+                return;
+            DisableMotion();
+            crossfade.FadeIn(() => SceneManager.LoadScene(0));
         }
         public void OnJump()
         {
             if (!wallSliding)
             {
-                if (isGrounded || extraJumps > 0)
-                {
-                    coyoteTimeCounter = 0f;
-                    animator.SetTrigger("takeOff");
-                    rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-                    extraJumps--;
-                }
+                if (!isGrounded && extraJumps <= 0)
+                    return;
+                coyoteTimeCounter = 0f;
+                animator.SetTrigger("takeOff");
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                extraJumps--;
             }
             else
             {
