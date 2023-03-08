@@ -11,7 +11,6 @@ namespace TNSR.Levels
         [SerializeField] string[] nonLevelScenes;
         [SerializeField] GameObject levelPrefab;
         [SerializeField] float spacing;
-        [HideInInspector] public bool levelLoading;
 
         void Start()
         {
