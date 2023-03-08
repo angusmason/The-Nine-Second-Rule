@@ -233,12 +233,7 @@ namespace TNSR
             if (!crossfade.Fading && SceneManager.GetActiveScene().buildIndex != 0)
             {
                 DisableMotion();
-                var originalSize = transform.localScale.y;
-                crossfade.FadeIn
-                    (
-                        () => SceneManager.LoadScene(0),
-                        (alpha) => transform.localScale = (1 - alpha) * originalSize * Vector3.one
-                    );
+                crossfade.FadeIn(() => SceneManager.LoadScene(0));
             }
         }
         public void OnJump()
