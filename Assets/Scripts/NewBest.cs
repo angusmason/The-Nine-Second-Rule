@@ -33,11 +33,7 @@ public class NewBest : MonoBehaviour
             1,
             Time.deltaTime * 10
         );
-        text.text =
-        $@"
-            NEW BEST
-            OF {countdown.Time:s\.ff}
-        ";
+        text.text =$"NEW BEST\nOF {countdown.Time:s'.'ff}!";
         if (1 - text.transform.localScale.x >= 0.01f)
             return;
         text.transform.localScale = Vector3.one;
