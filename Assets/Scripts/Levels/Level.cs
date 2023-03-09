@@ -19,7 +19,6 @@ namespace TNSR.Levels
         [SerializeField] float playerHeightThreshold;
         float randomX;
         float randomY;
-        LevelSelectManager manager;
         bool completed;
         Vector3 originalPosition;
         Crossfade crossfade;
@@ -31,7 +30,6 @@ namespace TNSR.Levels
             originalPosition = spriteRenderer.transform.position;
             randomX = Random.Range(-2 * Mathf.PI, 2 * Mathf.PI);
             randomY = Random.Range(-0.3f, 0.5f);
-            manager = transform.parent.GetComponent<LevelSelectManager>();
             completed = LevelSaver.GetLevel(buildIndex) != null;
             crossfade = FindFirstObjectByType<Crossfade>();
         }
@@ -79,13 +77,12 @@ namespace TNSR.Levels
                         : $@"Best Time: {TimeSpan.FromMilliseconds
                             ((double)timeCompleted):s\.fff\s}"
                     : string.Empty;
-
-            if (crossfade.Fading) return;
             Camera.main.backgroundColor = Color.Lerp(
                 Camera.main.backgroundColor,
                 selected ? colour : Camera.main.backgroundColor,
                 lerpSpeed
             );
+            if (crossfade.Fading) return;
             if (!selected) return;
             if (Mathf.Abs(transform.position.y - player.position.y) < playerHeightThreshold)
             {
@@ -104,7 +101,6 @@ namespace TNSR.Levels
                     }
                 );
             }
-
         }
 
         Color LevelColour(bool selected, bool completed)

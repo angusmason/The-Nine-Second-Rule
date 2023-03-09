@@ -19,12 +19,14 @@ _The Nine Second Rule_ is a 2D platformer game made in Unity.
 
 There is currently no information about controls in the game, so here you go:
 
-| Control       | Keys           | Description                              |
-| ------------- | -------------- | ---------------------------------------- |
-| (Double) Jump | W, Up Arrow    | Travel across large gaps and scale walls |
-| Fallthrough   | S, Down Arrow  | Fall through one way platforms           |
-| Move Left     | A, Left Arrow  | Traverse the level and hold walls        |
-| Move Right    | D, Right Arrow | Traverse the level and hold walls        |
+| Control       | Keys           | Description                                 |
+| ------------- | -------------- | ------------------------------------------- |
+| (Double) Jump | W, Up Arrow    | Travel across large gaps and scale walls    |
+| Fallthrough   | S, Down Arrow  | Fall through one way platforms              |
+| Move Left     | A, Left Arrow  | Traverse the level and hold walls           |
+| Move Right    | D, Right Arrow | Traverse the level and hold walls           |
+| Select Level  | Escape         | Play another level or quit the game         |
+| Reset         | R              | Respawn the player at the starting position |
 
 ### Game Elements
 
