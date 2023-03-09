@@ -289,9 +289,29 @@ PrefabInstance:
       propertyPath: DoFadeIn
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3589010229494794397, guid: 8d4c497f1f83a46dea8e7c293a8f9122, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4533513176147468319, guid: 8d4c497f1f83a46dea8e7c293a8f9122, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5651422258233791674, guid: 8d4c497f1f83a46dea8e7c293a8f9122, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5651422258233791674, guid: 8d4c497f1f83a46dea8e7c293a8f9122, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5651422258233791674, guid: 8d4c497f1f83a46dea8e7c293a8f9122, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5651422258233791674, guid: 8d4c497f1f83a46dea8e7c293a8f9122, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6256380245092498396, guid: 8d4c497f1f83a46dea8e7c293a8f9122, type: 3}
       propertyPath: m_Pivot.x
@@ -504,7 +524,6 @@ MonoBehaviour:
   - Level Select
   levelPrefab: {fileID: 1109500659930310179, guid: 934c8b10a42b64537881022cb68a2272, type: 3}
   spacing: 2
-  levelLoading: 0
 --- !u!1001 &1983319571
 PrefabInstance:
   m_ObjectHideFlags: 0

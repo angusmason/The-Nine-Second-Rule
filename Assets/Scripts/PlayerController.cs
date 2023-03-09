@@ -62,6 +62,7 @@ namespace TNSR
         PlatformEffector2D[] oneWayPlatforms;
         bool flipping;
         Crossfade crossfade;
+        NewBest newBest;
 
         void Start()
         {
@@ -76,11 +77,21 @@ namespace TNSR
             PlayerSize = transform.localScale.y;
             oneWayPlatforms = FindObjectsByType<PlatformEffector2D>(FindObjectsSortMode.None);
             crossfade = FindFirstObjectByType<Crossfade>();
+            newBest = FindFirstObjectByType<NewBest>();
         }
 
         void FixedUpdate()
         {
-            rb.velocity = new Vector2(MoveInput.x * speed, rb.velocity.y);
+            rb.velocity = new Vector2(
+                (
+                    MoveInput.x == 0
+                        ? 0
+                        : MoveInput.x > 0
+                            ? 1
+                            : -1
+                ) * speed,
+                rb.velocity.y
+            );
             if (rb.simulated)
                 // Checks if the direction which the player sprite is facing should be flipped
                 transform.localScale = new Vector3(Mathf.Sign(MoveInput.x) * PlayerSize, PlayerSize, PlayerSize);
@@ -187,20 +198,31 @@ namespace TNSR
                 countdown.StopCounting();
                 countdown.Finished = true;
                 int buildIndex = SceneManager.GetActiveScene().buildIndex;
-                if (countdown.Time.TotalMilliseconds < LevelSaver.GetLevel(buildIndex - 1).TimeMilliseconds)
-                    FindFirstObjectByType<NewBest>().Show();
-
                 var vacuum = new GameObject("Vacuum");
                 vacuum.transform.position = collider.transform.position;
                 transform.parent = vacuum.transform;
                 crossfade.FadeIn
                     (
-                        () => SceneManager.LoadScene
-                            (
-                                SceneManager.sceneCountInBuildSettings == buildIndex + 1
-                                    ? 0
-                                    : buildIndex + 1
-                            ),
+                        () =>
+                        {
+                            print($"{countdown.Time.TotalMilliseconds} < {LevelSaver.GetLevel(buildIndex - 1).TimeMilliseconds}");
+                            if (countdown.Time.TotalMilliseconds < LevelSaver
+                                    .GetLevel(buildIndex - 1).TimeMilliseconds)
+                            {
+                                print("show");
+                                newBest.Showing = true;
+                                newBest.OnDone += (object sender, EventArgs e) =>
+                                {
+                                    newBest.Showing = false;
+                                    LoadNextScene(buildIndex);
+                                };
+                            }
+                            else
+                            {
+                                LoadNextScene(buildIndex);
+                            }
+                            LevelSaver.UpdateData(new(buildIndex - 1, countdown.Time));
+                        },
                         (alpha) =>
                         {
                             vacuum.transform.localScale = Vector3.one * (1 - alpha);
@@ -208,7 +230,16 @@ namespace TNSR
                             transform.localRotation = Quaternion.Euler(0, 0, 360 * 2 * alpha);
                         }
                     );
-                LevelSaver.UpdateData(new(buildIndex - 1, countdown.Time));
+            }
+
+            static void LoadNextScene(int buildIndex)
+            {
+                SceneManager.LoadScene
+                    (
+                        SceneManager.sceneCountInBuildSettings == buildIndex + 1
+                            ? 0
+                            : buildIndex + 1
+                    );
             }
         }
 

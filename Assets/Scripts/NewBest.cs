@@ -1,4 +1,7 @@
+using System;
+using System.Collections;
 using TMPro;
+using TNSR;
 using UnityEngine;
 
 public class NewBest : MonoBehaviour
@@ -6,31 +9,36 @@ public class NewBest : MonoBehaviour
     ParticleSystem system;
     TextMeshProUGUI text;
     ParticleSystem.EmissionModule module;
-    Vector2 random;
-
+    public bool Showing;
+    public event DoneEventHandler OnDone;
+    public delegate void DoneEventHandler(object sender, EventArgs args);
     void Start()
     {
         system = GetComponent<ParticleSystem>();
         text = GetComponentInChildren<TextMeshProUGUI>();
-        text.gameObject.SetActive(false);
+        text.gameObject.SetActive(true);
+        text.transform.localScale = Vector3.zero;
         module = system.emission;
         module.enabled = false;
-        random = new Vector2(Random.Range(0, 2 * Mathf.PI), Random.Range(0, 2 * Mathf.PI));
-    }
-
-    public void Show()
-    {
-        text.gameObject.SetActive(true);
-        module.enabled = true;
     }
 
     void Update()
     {
-        text.transform.position = new Vector3(
-            Mathf.Sin(Time.time * 2 + random.x) * 20f,
-            Mathf.Sin(Time.time * 2 + random.y) * 20f
-        ) + transform.position;
-
-        text.transform.localEulerAngles = Vector3.forward * 2;
+        if (!Showing)
+            return;
+        text.transform.localScale = Vector3.one * Mathf.Lerp(
+            text.transform.localScale.x,
+            1,
+            Time.deltaTime * 10
+        );
+        if (1 - text.transform.localScale.x >= 0.01f)
+            return;
+        text.transform.localScale = Vector3.one;
+        IEnumerator KeepOnScreen()
+        {
+            yield return new WaitForSeconds(3);
+            OnDone?.Invoke(this, EventArgs.Empty);
+        }
+        StartCoroutine(KeepOnScreen());
     }
 }
