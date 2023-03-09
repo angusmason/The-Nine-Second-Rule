@@ -205,11 +205,9 @@ namespace TNSR
                     (
                         () =>
                         {
-                            print($"{countdown.Time.TotalMilliseconds} < {LevelSaver.GetLevel(buildIndex - 1).TimeMilliseconds}");
                             if (countdown.Time.TotalMilliseconds < LevelSaver
                                     .GetLevel(buildIndex - 1).TimeMilliseconds)
                             {
-                                print("show");
                                 newBest.Showing = true;
                                 newBest.OnDone += (object sender, EventArgs e) =>
                                 {
