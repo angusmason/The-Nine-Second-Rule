@@ -196,7 +196,11 @@ namespace TNSR
                 crossfade.FadeIn
                     (
                         () => SceneManager.LoadScene
-                            (buildIndex + 1),
+                            (
+                                SceneManager.sceneCountInBuildSettings == buildIndex + 1
+                                    ? 0
+                                    : buildIndex + 1
+                            ),
                         (alpha) =>
                         {
                             vacuum.transform.localScale = Vector3.one * (1 - alpha);
