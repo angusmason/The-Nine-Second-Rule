@@ -225,7 +225,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Alpha: 0
-  DoFadeIn: 1
+  Fading: 0
 --- !u!1 &3589010229494794397
 GameObject:
   m_ObjectHideFlags: 0
@@ -253,7 +253,7 @@ RectTransform:
   m_GameObject: {fileID: 3589010229494794397}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4329159944808576849}
@@ -413,6 +413,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f929095e43a8f48508d7e23c0da117e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Showing: 0
 --- !u!198 &799627804
 ParticleSystem:
   m_ObjectHideFlags: 0
