@@ -26,7 +26,7 @@ namespace TNSR.Levels
             return LevelData.Levels.FirstOrDefault
                 (levelData => levelData.LevelIndex == levelIndex);
         }
-        public static void UpdateData(LevelDatum newLevelDatum)
+        public static void UpdateData(LevelDatum newLevelDatum, bool force = false)
         {
             var matchingLevel = LevelData.Levels
                 .FirstOrDefault(levelData => newLevelDatum.LevelIndex == levelData.LevelIndex);
@@ -34,7 +34,7 @@ namespace TNSR.Levels
                 LevelData.Levels = LevelData.Levels
                     .Concat(new LevelDatum[] { newLevelDatum })
                     .ToArray();
-            else if (newLevelDatum.TimeMilliseconds < matchingLevel.TimeMilliseconds)
+            else if (force || newLevelDatum.TimeMilliseconds < matchingLevel.TimeMilliseconds)
                 matchingLevel.TimeMilliseconds = newLevelDatum.TimeMilliseconds;
             Save();
         }

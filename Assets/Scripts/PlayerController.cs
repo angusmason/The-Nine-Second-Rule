@@ -208,10 +208,9 @@ namespace TNSR
                             if (countdown.Time.TotalMilliseconds < LevelSaver
                                     .GetLevel(buildIndex - 1).TimeMilliseconds)
                             {
-                                newBest.Showing = true;
+                                newBest.Show();
                                 newBest.OnDone += (object sender, EventArgs e) =>
                                 {
-                                    newBest.Showing = false;
                                     LoadNextScene(buildIndex);
                                 };
                             }

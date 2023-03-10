@@ -1,47 +1,63 @@
 using System;
 using System.Collections;
 using TMPro;
-using TNSR;
+using TNSR.Levels;
+using UnityEditor;
 using UnityEngine;
 
-public class NewBest : MonoBehaviour
+namespace TNSR
 {
-    ParticleSystem system;
-    TextMeshProUGUI text;
-    ParticleSystem.EmissionModule module;
-    public bool Showing;
-    Countdown countdown;
-    public event DoneEventHandler OnDone;
-    public delegate void DoneEventHandler(object sender, EventArgs args);
-    void Start()
+    public class NewBest : MonoBehaviour
     {
-        system = GetComponent<ParticleSystem>();
-        text = GetComponentInChildren<TextMeshProUGUI>();
-        text.gameObject.SetActive(true);
-        text.transform.localScale = Vector3.zero;
-        module = system.emission;
-        module.enabled = false;
-        countdown = FindFirstObjectByType<Countdown>();
-    }
-
-    void Update()
-    {
-        if (!Showing)
-            return;
-        text.transform.localScale = Vector3.one * Mathf.Lerp(
-            text.transform.localScale.x,
-            1,
-            Time.deltaTime * 10
-        );
-        text.text =$"NEW BEST\nOF {countdown.Time:s'.'ff}!";
-        if (1 - text.transform.localScale.x >= 0.01f)
-            return;
-        text.transform.localScale = Vector3.one;
-        IEnumerator KeepOnScreen()
+        ParticleSystem system;
+        TextMeshProUGUI text;
+        ParticleSystem.EmissionModule module;
+        bool showing;
+        Countdown countdown;
+        public event DoneEventHandler OnDone;
+        public delegate void DoneEventHandler(object sender, EventArgs args);
+        bool keeping;
+        void Start()
         {
-            yield return new WaitForSeconds(3);
-            OnDone?.Invoke(this, EventArgs.Empty);
+            system = GetComponent<ParticleSystem>();
+            text = GetComponentInChildren<TextMeshProUGUI>();
+            text.gameObject.SetActive(true);
+            text.transform.localScale = Vector3.zero;
+            module = system.emission;
+            module.enabled = false;
+            countdown = FindFirstObjectByType<Countdown>();
+            keeping = false;
         }
-        StartCoroutine(KeepOnScreen());
+
+        void Update()
+        {
+            text.transform.localScale = Vector3.one * Mathf.Lerp(
+                text.transform.localScale.x,
+                showing ? 1 : 0,
+                Time.deltaTime * 10
+            );
+            if (!showing)
+                return;
+            text.text = $"NEW BEST\nOF {countdown.Time:s'.'ff}!";
+            if (text.transform.localScale.x < 0.99f)
+                return;
+            text.transform.localScale = Vector3.one;
+            if (keeping)
+                return;
+            StartCoroutine(KeepOnScreen());
+            IEnumerator KeepOnScreen()
+            {
+                keeping = true;
+                yield return new WaitForSeconds(2);
+                showing = false;
+                yield return new WaitUntil(() => text.transform.localScale.x <= 0.01f);
+                OnDone?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        public void Show() => showing = true;
+
+        [MenuItem("TNSR/Modify Level One Time")]
+        static void ModifyLevelOneTime() => LevelSaver.UpdateData(new LevelDatum(0, TimeSpan.FromSeconds(9)), true);
     }
 }
