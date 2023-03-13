@@ -62,6 +62,7 @@ namespace TNSR
         PlatformEffector2D[] oneWayPlatforms;
         bool flipping;
         Crossfade crossfade;
+        TrailRenderer trailRenderer;
         NewBest newBest;
 
         void Start()
@@ -77,6 +78,7 @@ namespace TNSR
             PlayerSize = transform.localScale.y;
             oneWayPlatforms = FindObjectsByType<PlatformEffector2D>(FindObjectsSortMode.None);
             crossfade = FindFirstObjectByType<Crossfade>();
+            trailRenderer = GetComponentInChildren<TrailRenderer>();
             newBest = FindFirstObjectByType<NewBest>();
         }
 
@@ -166,11 +168,14 @@ namespace TNSR
         // Respawning
         void Respawn()
         {
+            trailRenderer.enabled = false;
             if (!rb.simulated) return;
             transform.position = Vector3.zero;
             rb.velocity = Vector3.zero;
             countdown.StopCounting();
             countdown.ResetTime();
+            trailRenderer.Clear();
+            trailRenderer.enabled = true;
         }
 
         // Collisions
