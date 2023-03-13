@@ -504,7 +504,6 @@ MonoBehaviour:
   - Level Select
   levelPrefab: {fileID: 1109500659930310179, guid: 934c8b10a42b64537881022cb68a2272, type: 3}
   spacing: 2
-  levelLoading: 0
 --- !u!1001 &1983319571
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -585,6 +584,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1408063434495416519, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
+      propertyPath: m_Time
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1408063434495416519, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2257004464702832903, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
       propertyPath: m_Name
       value: Player
