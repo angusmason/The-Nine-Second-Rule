@@ -4,22 +4,21 @@ namespace TNSR
 {
     public class Patrol : MonoBehaviour
     {
-        [SerializeField] float speed;
-        [SerializeField] float distance;
+        Vector2 StartPosition;
+        const float distance = 4.689f;
+        [SerializeField] float offset;
 
-        bool movingRight = true;
-
-        [SerializeField] Transform groundDetection;
-
+        void Start()
+        {
+            StartPosition = transform.position;
+        }
         void Update()
         {
-            transform.Translate(speed * Time.deltaTime * Vector2.right);
-            RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distance);
-            if (!groundInfo.collider)
-            {
-                transform.eulerAngles = new Vector3(0, movingRight ? -180 : 0, 0);
-                movingRight = !movingRight;
-            }
+            transform.position = Vector2.Lerp(
+                StartPosition,
+                StartPosition + Vector2.right * distance,
+                Mathf.PingPong(Time.time + offset, 1)
+            );
         }
     }
 }
