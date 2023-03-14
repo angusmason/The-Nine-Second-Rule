@@ -5,19 +5,15 @@ namespace TNSR
 {
     public class Turret : MonoBehaviour
     {
-        [SerializeField][Range(0, 2)] float delay;
         [SerializeField][Range(1, 500)] float shootForce;
         [SerializeField] GameObject projectilePrefab;
+        float lastShotTime;
 
-        void Start()
+        void Update()
         {
-            StartCoroutine(ShootProjectile());
-        }
-
-        IEnumerator ShootProjectile()
-        {
-            while (true)
+            if (Time.time - lastShotTime > 1)
             {
+                lastShotTime = Time.time;
                 Rigidbody2D projectileRigidbody2D = Instantiate(
                     projectilePrefab,
                     transform.position,
@@ -25,7 +21,6 @@ namespace TNSR
                     transform
                 ).GetComponent<Rigidbody2D>();
                 projectileRigidbody2D.AddForce(-transform.right * shootForce);
-                yield return new WaitForSeconds(delay);
             }
         }
     }
