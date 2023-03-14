@@ -143,10 +143,10 @@ TextureImporter:
       name: Projectile
       rect:
         serializedVersion: 2
-        x: 2025
-        y: 661
-        width: 215
-        height: 214
+        x: 2033
+        y: 665
+        width: 216
+        height: 216
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -248,10 +248,10 @@ TextureImporter:
       name: SpikeSlider
       rect:
         serializedVersion: 2
-        x: 2585
-        y: 1496
-        width: 974
-        height: 285
+        x: 2688
+        y: 1564
+        width: 769
+        height: 158
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -261,27 +261,6 @@ TextureImporter:
       bones: []
       spriteID: c9d07c34f35154ebd9e658f1f93a9663
       internalID: 35076157
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SlidingSpike
-      rect:
-        serializedVersion: 2
-        x: 3381
-        y: 817
-        width: 549
-        height: 538
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4884581203f2c4b578e6f46ebd508ecc
-      internalID: 806065612
       vertices: []
       indices: 
       edges: []
@@ -314,7 +293,7 @@ TextureImporter:
         x: 3303
         y: 417
         width: 316
-        height: 205
+        height: 209
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -324,6 +303,27 @@ TextureImporter:
       bones: []
       spriteID: 6d1d5ac41d50e403ca2e50fdd717b0b1
       internalID: 2006531550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Particle
+      rect:
+        serializedVersion: 2
+        x: 1710
+        y: 101
+        width: 341
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d39ad098f3c2640858d8430621c0c4cd
+      internalID: 1321663869
       vertices: []
       indices: 
       edges: []
@@ -343,6 +343,7 @@ TextureImporter:
       Level: -1813462666
       LevelSprites2_0: -1624359889
       LevelSprites2_1: -230485063
+      Particle: 1321663869
       Projectile: 30412974
       SlidingEnemy: 2006531550
       SlidingSpike: 806065612
