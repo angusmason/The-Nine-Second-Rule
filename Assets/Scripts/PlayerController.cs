@@ -16,6 +16,7 @@ namespace TNSR
         [HideInInspector] public Vector2 MoveInput;
         [SerializeField] float coyoteTime;
         float coyoteTimeCounter;
+        bool sliding = false;
 
         // Finished and at start variables
 
@@ -119,6 +120,7 @@ namespace TNSR
             animator.SetBool("isRunning", MoveInput.x != 0);
             animator.SetBool("isJumping", !isGrounded);
             animator.SetBool("isWallSliding", wallSliding);
+            animator.SetBool("isSliding", sliding);
 
             if (wallSliding)
                 extraJumps = extraJumpsValue;
@@ -132,6 +134,17 @@ namespace TNSR
                 {
                     platform.rotationalOffset = 180;
                 }
+
+            // Sliding
+            if (isGrounded && (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)))
+            {
+                sliding = true;
+                animator.SetTrigger("startSliding");
+            }
+            else
+            {
+                sliding = false;
+            }
         }
 
         // Sets wall jumping to false
