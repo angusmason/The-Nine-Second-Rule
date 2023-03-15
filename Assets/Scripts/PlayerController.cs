@@ -149,18 +149,10 @@ namespace TNSR
                 }
 
             // Sliding
-            if (isGrounded && (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)))
-            {
-                sliding = true;
+            if (sliding = isGrounded && MoveInput.y < 0)
                 animator.SetTrigger("startSliding");
-            }
-            else
-            {
-                sliding = false;
-            }
         }
 
-        // Sets wall jumping to false
         IEnumerator DisableWallJumping()
         {
             yield return new WaitForSeconds(wallJumpTime);
