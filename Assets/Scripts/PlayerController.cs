@@ -10,7 +10,6 @@ namespace TNSR
     public class PlayerController : MonoBehaviour
     {
 
-        // Basic movement variables
         [SerializeField] float speed;
         [SerializeField] float jumpForce;
         [HideInInspector] public Vector2 MoveInput;
@@ -23,39 +22,25 @@ namespace TNSR
         // Finished and at start variables
 
         [SerializeField] float startDistance;
-
-        // Animations
         Animator animator;
-
-        // Rigidbody variable
         Rigidbody2D rb;
-
-        // Jumping variables
-        int extraJumps;
-        [SerializeField] int extraJumpsValue;
-
-        // Ground check variables
+        int extraJumpsRemaining;
+        [SerializeField] int extraJumps;
         bool grounded;
-        bool isGrounded;
         [SerializeField] Transform groundCheck;
         [SerializeField] float checkRadius;
         [SerializeField] LayerMask whatIsGround;
-
-        // Wall sliding variables
-        bool isTouchingFront;
         [SerializeField] Transform frontCheck;
         bool wallSliding;
         [SerializeField] float wallSlidingSpeed;
         [SerializeField] LayerMask whatIsWall;
         [SerializeField] float checkWallRadius;
 
-        // Wall jumping variables
         bool wallJumping;
         [SerializeField] float xWallForce;
         [SerializeField] float yWallForce;
         [SerializeField] float wallJumpTime;
 
-        // Spring variables
         Collider2D currentSpring;
         public LayerMask spring;
         [SerializeField] float springForce;
@@ -67,14 +52,13 @@ namespace TNSR
         Crossfade crossfade;
         TrailRenderer trailRenderer;
         NewBest newBest;
+        ParticleSystem dust;
+        ParticleSystem jumpParticles;
 
         void Start()
         {
-            // Jumping
-            extraJumps = extraJumpsValue;
-            // Gets rigidbody of player
+            extraJumpsRemaining = extraJumps;
             rb = GetComponent<Rigidbody2D>();
-            // Gets animator
             animator = GetComponent<Animator>();
             countdown = FindFirstObjectByType<Countdown>();
             countdown.TimeUp += (object sender, EventArgs e) => Respawn();
@@ -83,6 +67,8 @@ namespace TNSR
             crossfade = FindFirstObjectByType<Crossfade>();
             trailRenderer = GetComponentInChildren<TrailRenderer>();
             newBest = FindFirstObjectByType<NewBest>();
+            dust = transform.Find("Dust").GetComponent<ParticleSystem>();
+            jumpParticles = transform.Find("Jump Particles").GetComponent<ParticleSystem>();
             dashed = false;
         }
 
@@ -99,46 +85,31 @@ namespace TNSR
                 rb.velocity.y
             );
             if (rb.simulated)
-                // Checks if the direction which the player sprite is facing should be flipped
                 transform.localScale = new Vector3(Mathf.Sign(MoveInput.x) * PlayerSize, PlayerSize, PlayerSize);
             grounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
-            // Coyote time
-            coyoteTimeCounter = grounded ? coyoteTime : coyoteTimeCounter - Time.deltaTime;
-            isGrounded = coyoteTimeCounter > 0f;
-            // Wall sliding
-            isTouchingFront = Physics2D.OverlapCircle(frontCheck.position, checkWallRadius, whatIsWall);
-
-            wallSliding = isTouchingFront && !isGrounded && MoveInput.x != 0;
-
+            wallSliding = Physics2D.OverlapCircle
+                (frontCheck.position, checkWallRadius, whatIsWall)
+                && !grounded && MoveInput.x != 0;
             if (wallSliding)
                 rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
-
-            // Wall jumping
             if (wallJumping)
                 rb.velocity = new Vector2(xWallForce * -MoveInput.x, yWallForce);
-
-            // Checks if player is on spring
             currentSpring = Physics2D.OverlapCircle(groundCheck.position, checkRadius, spring);
         }
 
         void Update()
         {
-            // Jumping
-            if (isGrounded) extraJumps = extraJumpsValue;
-
-            // Spring jumping
+            if (grounded || wallSliding) extraJumpsRemaining = extraJumps;
             if (currentSpring != null)
             {
                 animator.SetTrigger("takeOff");
                 rb.velocity = currentSpring.transform.up * springForce;
-                extraJumps = -1;
+                extraJumpsRemaining = -1;
             }
             animator.SetBool("isRunning", MoveInput.x != 0);
-            animator.SetBool("isJumping", !isGrounded);
+            animator.SetBool("isJumping", !grounded);
             animator.SetBool("isWallSliding", wallSliding);
 
-            if (wallSliding)
-                extraJumps = extraJumpsValue;
             if (!(Vector3.Distance(transform.localPosition, Vector3.zero) < startDistance) && !finished)
                 countdown.StartCounting();
             if (oneWayPlatforms.Length > 0)
@@ -149,6 +120,14 @@ namespace TNSR
                 {
                     platform.rotationalOffset = 180;
                 }
+
+            if (sliding = grounded && MoveInput.y < 0)
+                animator.SetTrigger("startSliding");
+
+            if (MoveInput.x != 0)
+                dust.Play();
+            else
+                dust.Stop();
         }
 
         IEnumerator DisableWallJumping()
@@ -189,7 +168,6 @@ namespace TNSR
             currentSpring = null;
         }
 
-        // Collisions
         void OnCollisionEnter2D(Collision2D collision)
         {
             switch (collision.gameObject.tag)
@@ -257,22 +235,18 @@ namespace TNSR
             }
         }
 
-        // Called on every frame that the player is on the moving platform
         void OnTriggerStay2D(Collider2D collider)
         {
             if (collider.GetComponent<MovingPlatform>())
             {
-                // Set the parent of the player to the moving platform, so it moves with it
                 transform.parent = collider.transform;
             }
         }
 
-        // Called on the frame that the player exits the trigger
         void OnTriggerExit2D(Collider2D collider)
         {
             if (collider.GetComponent<MovingPlatform>())
             {
-                // Clear the parent of the player
                 transform.parent = null;
             }
         }
@@ -305,12 +279,12 @@ namespace TNSR
         {
             if (!wallSliding)
             {
-                if (!isGrounded && extraJumps <= 0)
+                if (!grounded && extraJumpsRemaining <= 0)
                     return;
-                coyoteTimeCounter = 0f;
                 animator.SetTrigger("takeOff");
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-                extraJumps--;
+                extraJumpsRemaining--;
+                jumpParticles.Play();
             }
             else
             {
