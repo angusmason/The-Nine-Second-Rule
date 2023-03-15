@@ -1369,38 +1369,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 313065933, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
-      propertyPath: playOnAwake
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 313065933, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
-      propertyPath: ShapeModule.m_Position.y
-      value: -0.46
-      objectReference: {fileID: 0}
-    - target: {fileID: 313065933, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
-      propertyPath: ShapeModule.randomPositionAmount
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 313065933, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
-      propertyPath: InitialModule.startSize.minScalar
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 313065933, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
-      propertyPath: ShapeModule.randomDirectionAmount
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 313065933, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
-      propertyPath: InitialModule.startSize.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 313065933, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
-      propertyPath: InitialModule.startSizeY.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 313065933, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
-      propertyPath: InitialModule.startSizeZ.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 2257004464702832903, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
       propertyPath: m_Name
       value: Player
