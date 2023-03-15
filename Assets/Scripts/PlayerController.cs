@@ -117,10 +117,8 @@ namespace TNSR
             if (sliding = grounded && MoveInput.y < 0)
                 animator.SetTrigger("startSliding");
 
-            if (MoveInput.x != 0)
-                dust.Play();
-            else
-                dust.Stop();
+            var dustEmission = dust.emission;
+            dustEmission.rateOverTime = MoveInput.x != 0 && grounded ? 50 : 0;
         }
 
         IEnumerator DisableWallJumping()
