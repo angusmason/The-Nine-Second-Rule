@@ -215,7 +215,7 @@ namespace TNSR
                     (
                         () =>
                         {
-                            if (countdown.Time.TotalMilliseconds < LevelSaver
+                            if (countdown.TimeTaken.TotalMilliseconds < LevelSaver
                                     .GetLevel(buildIndex - 1).TimeMilliseconds)
                             {
                                 newBest.Show();
@@ -228,7 +228,7 @@ namespace TNSR
                             {
                                 LoadNextScene(buildIndex);
                             }
-                            LevelSaver.UpdateData(new(buildIndex - 1, countdown.Time));
+                            LevelSaver.UpdateData(new(buildIndex - 1, countdown.TimeTaken));
                         },
                         (alpha) =>
                         {
