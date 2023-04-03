@@ -16,7 +16,9 @@ namespace TNSR
         [HideInInspector] public Vector2 MoveInput;
         [SerializeField] float coyoteTime;
         float coyoteTimeCounter;
-        bool sliding = false;
+        // Dashing variables
+        bool dashed = false;
+        [SerializeField] float dashTime;
 
         // Finished and at start variables
 
@@ -81,6 +83,7 @@ namespace TNSR
             crossfade = FindFirstObjectByType<Crossfade>();
             trailRenderer = GetComponentInChildren<TrailRenderer>();
             newBest = FindFirstObjectByType<NewBest>();
+            dashed = false;
         }
 
         void FixedUpdate()
@@ -133,7 +136,6 @@ namespace TNSR
             animator.SetBool("isRunning", MoveInput.x != 0);
             animator.SetBool("isJumping", !isGrounded);
             animator.SetBool("isWallSliding", wallSliding);
-            animator.SetBool("isSliding", sliding);
 
             if (wallSliding)
                 extraJumps = extraJumpsValue;
@@ -147,17 +149,6 @@ namespace TNSR
                 {
                     platform.rotationalOffset = 180;
                 }
-
-            // Sliding
-            if (isGrounded && (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)))
-            {
-                sliding = true;
-                animator.SetTrigger("startSliding");
-            }
-            else
-            {
-                sliding = false;
-            }
         }
 
         // Sets wall jumping to false
@@ -178,6 +169,12 @@ namespace TNSR
             flipping = false;
         }
 
+        IEnumerator Dash()
+        {
+            yield return new WaitForSeconds(dashTime);
+            speed /= 2;
+        }
+
         // Respawning
         void Respawn()
         {
@@ -189,6 +186,7 @@ namespace TNSR
             countdown.ResetTime();
             trailRenderer.Clear();
             trailRenderer.enabled = true;
+            dashed = false;
         }
 
         // Collisions
@@ -315,6 +313,13 @@ namespace TNSR
                 wallJumping = true;
                 StartCoroutine(DisableWallJumping());
             }
+        }
+        public void OnDash()
+        {
+            if (dashed) return;
+            speed *= 2;
+            dashed = true;
+            StartCoroutine(Dash());
         }
     }
 }
