@@ -82,7 +82,7 @@ namespace TNSR.Levels
                 selected ? colour : Camera.main.backgroundColor,
                 lerpSpeed
             );
-            if (crossfade.Fading) return;
+            if (crossfade.FadingState == Crossfade.Fading.FadingIn) return;
             if (!selected) return;
             if (Mathf.Abs(transform.position.y - player.position.y) < playerHeightThreshold)
             {
@@ -95,9 +95,13 @@ namespace TNSR.Levels
                     () => SceneManager.LoadScene(buildIndex + 1),
                     (alpha) =>
                     {
-                        vacuum.transform.localScale = Vector3.one * (1 - alpha);
-                        vacuum.transform.localRotation = Quaternion.Euler(0, 0, 360 * alpha);
-                        player.transform.localRotation = Quaternion.Euler(0, 0, 360 * 2 * alpha);
+                        vacuum.transform.localScale = Vector3.one * Mathf.Lerp(vacuum.transform.localScale.x, 1 - alpha, 0.01f);
+                        vacuum.transform.localRotation = Quaternion.Euler(0, 0,
+                            Mathf.Lerp(vacuum.transform.localRotation.eulerAngles.z, 360 * alpha, 0.01f)
+                        );
+                        player.transform.localRotation = Quaternion.Euler(0, 0,
+                            Mathf.Lerp(player.transform.localRotation.eulerAngles.z, 360 * 2 * alpha, 0.01f)
+                        );
                     }
                 );
             }

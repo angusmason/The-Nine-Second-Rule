@@ -151,7 +151,6 @@ namespace TNSR
                 }
         }
 
-        // Sets wall jumping to false
         IEnumerator DisableWallJumping()
         {
             yield return new WaitForSeconds(wallJumpTime);
@@ -207,7 +206,7 @@ namespace TNSR
         }
         void OnTriggerEnter2D(Collider2D collider)
         {
-            if (collider.gameObject.CompareTag("Finish") && !crossfade.Fading)
+            if (collider.gameObject.CompareTag("Finish") && crossfade.FadingState != Crossfade.Fading.FadingIn)
             {
                 finished = true;
                 DisableMotion();
@@ -285,14 +284,17 @@ namespace TNSR
 
             if (SceneManager.GetActiveScene().buildIndex == 0)
             {
+                if (crossfade.FadingState == Crossfade.Fading.NotFading)
+                {
 #if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
+                    UnityEditor.EditorApplication.isPlaying = false;
 #else
-                Application.Quit();
+                    Application.Quit();
 #endif
+                }
                 return;
             }
-            if (crossfade.Fading)
+            if (crossfade.FadingState == Crossfade.Fading.FadingIn)
                 return;
             DisableMotion();
             crossfade.FadeIn(() => SceneManager.LoadScene(0));
