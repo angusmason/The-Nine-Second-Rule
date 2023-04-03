@@ -320,7 +320,10 @@ namespace TNSR
         {
             if (dashed) return;
             speed *= 2;
-            dashed = true;
+            if (SceneManager.GetActiveScene().buildIndex != 0)
+            {
+                dashed = true;
+            }
             StartCoroutine(Dash());
         }
     }
