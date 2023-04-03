@@ -2418,6 +2418,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 6812433471780223332, guid: 2002174530955496f99b546f46bfb778, type: 3}
+      propertyPath: offset
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 7993790277022087632, guid: 2002174530955496f99b546f46bfb778, type: 3}
       propertyPath: m_RootOrder
       value: 0
