@@ -215,7 +215,8 @@ namespace TNSR
                     (
                         () =>
                         {
-                            if (countdown.Time.TotalMilliseconds < LevelSaver
+                            if (LevelSaver.GetLevel(buildIndex - 1) != null
+                                && countdown.Time.TotalMilliseconds < LevelSaver
                                     .GetLevel(buildIndex - 1).TimeMilliseconds)
                             {
                                 newBest.Show();
