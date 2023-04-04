@@ -905,6 +905,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2257004464702832907, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
+      propertyPath: dashTime
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2257004464702832907, guid: 9b684bc8dbaed4488804bf9569bd8ca7, type: 3}
       propertyPath: transition
       value: 
       objectReference: {fileID: 0}
@@ -2417,6 +2421,10 @@ PrefabInstance:
     - target: {fileID: 4971851150669590412, guid: 2002174530955496f99b546f46bfb778, type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 6812433471780223332, guid: 2002174530955496f99b546f46bfb778, type: 3}
+      propertyPath: offset
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 7993790277022087632, guid: 2002174530955496f99b546f46bfb778, type: 3}
       propertyPath: m_RootOrder
