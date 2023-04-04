@@ -144,7 +144,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2033
-        y: 665
+        y: 661
         width: 216
         height: 216
       alignment: 0
@@ -328,6 +328,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Light
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 899
+        width: 262
+        height: 367
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e4ebcd5443914de9b5345d6b649ded7
+      internalID: 1756735661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -343,6 +364,7 @@ TextureImporter:
       Level: -1813462666
       LevelSprites2_0: -1624359889
       LevelSprites2_1: -230485063
+      Light: 1756735661
       Particle: 1321663869
       Projectile: 30412974
       SlidingEnemy: 2006531550
