@@ -266,13 +266,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LevelSprites2_0
+      name: Key
       rect:
         serializedVersion: 2
-        x: 3063
-        y: 1174
-        width: 6
-        height: 8
+        x: 3036
+        y: 955
+        width: 228
+        height: 391
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -361,8 +361,8 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Enemy: -1386085361
+      Key: -1624359889
       Level: -1813462666
-      LevelSprites2_0: -1624359889
       LevelSprites2_1: -230485063
       Light: 1756735661
       Particle: 1321663869

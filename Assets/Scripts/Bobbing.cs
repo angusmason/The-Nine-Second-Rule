@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Finish : MonoBehaviour
+public class Bobbing : MonoBehaviour
 {
     Transform sprite;
     float rotation;
@@ -18,7 +18,10 @@ public class Finish : MonoBehaviour
 
     void Update()
     {
-        sprite.Rotate(0, 0, rotation * Time.deltaTime);
+        if (gameObject.name == "Finish")
+        {
+            sprite.Rotate(0, 0, rotation * Time.deltaTime);
+        }
         sprite.transform.localPosition = new Vector3(
             Mathf.Sin(Time.time * 2 + randomOffset.x) * 0.5f,
             Mathf.Sin(Time.time * 2 + randomOffset.y) * 0.5f,
