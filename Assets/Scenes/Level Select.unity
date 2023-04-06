@@ -135,22 +135,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
-    - target: {fileID: 5398228475663072356, guid: 1a825f16ed5a547d2977d900f1d83d6b, type: 3}
-      propertyPath: m_BackGroundColor.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5398228475663072356, guid: 1a825f16ed5a547d2977d900f1d83d6b, type: 3}
-      propertyPath: m_BackGroundColor.b
-      value: 0.4245283
-      objectReference: {fileID: 0}
-    - target: {fileID: 5398228475663072356, guid: 1a825f16ed5a547d2977d900f1d83d6b, type: 3}
-      propertyPath: m_BackGroundColor.g
-      value: 0.4245283
-      objectReference: {fileID: 0}
-    - target: {fileID: 5398228475663072356, guid: 1a825f16ed5a547d2977d900f1d83d6b, type: 3}
-      propertyPath: m_BackGroundColor.r
-      value: 0.4245283
-      objectReference: {fileID: 0}
     - target: {fileID: 5829053267097539231, guid: 1a825f16ed5a547d2977d900f1d83d6b, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -195,14 +179,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7405439533352242090, guid: 1a825f16ed5a547d2977d900f1d83d6b, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 2099314014}
-    - target: {fileID: 7405439533352242090, guid: 1a825f16ed5a547d2977d900f1d83d6b, type: 3}
-      propertyPath: targets.Array.data[0]
-      value: 
-      objectReference: {fileID: 2099314014}
     - target: {fileID: 7618710232745659232, guid: 1a825f16ed5a547d2977d900f1d83d6b, type: 3}
       propertyPath: player
       value: 
@@ -545,10 +521,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1776201363}
     m_Modifications:
-    - target: {fileID: 6234168469251569728, guid: bcb9e1584950245c6a718a3ab76c90cb, type: 3}
-      propertyPath: m_Intensity
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 6234168469251569729, guid: bcb9e1584950245c6a718a3ab76c90cb, type: 3}
       propertyPath: m_Name
       value: Global Light
@@ -662,10 +634,6 @@ PrefabInstance:
     - target: {fileID: 7868816096380075707, guid: d387859df1f474b379618fb5e0c3d54f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7868816098407839905, guid: d387859df1f474b379618fb5e0c3d54f, type: 3}
-      propertyPath: m_Intensity
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -815,6 +783,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3742579317566306992, guid: 4098723659b67414d8df04a461d4728c, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 1336878521}
+    - target: {fileID: 3742579317566306992, guid: 4098723659b67414d8df04a461d4728c, type: 3}
+      propertyPath: m_InstanceId
+      value: -886720
+      objectReference: {fileID: 0}
+    - target: {fileID: 3742579317566306992, guid: 4098723659b67414d8df04a461d4728c, type: 3}
+      propertyPath: m_SelfShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6611436022271601480, guid: 4098723659b67414d8df04a461d4728c, type: 3}
       propertyPath: m_Name
       value: Platform
@@ -876,7 +856,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4098723659b67414d8df04a461d4728c, type: 3}
---- !u!43 &1278507060
+--- !u!43 &1336878521
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
