@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using TMPro;
-using TNSR.Levels;
-using UnityEditor;
 using UnityEngine;
 
 namespace TNSR
@@ -56,9 +54,5 @@ namespace TNSR
         }
 
         public void Show() => showing = true;
-#if UNITY_EDITOR
-        [MenuItem("TNSR/Modify Level One Time")]
-        static void ModifyLevelOneTime() => LevelSaver.UpdateData(new LevelDatum(0, TimeSpan.FromSeconds(9)), true);
-#endif
     }
 }

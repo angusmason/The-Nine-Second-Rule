@@ -27,6 +27,7 @@ There is currently no information about controls in the game, so here you go:
 | Move Right    | D, Right Arrow | Traverse the level and hold walls           |
 | Select Level  | Escape         | Play another level or quit the game         |
 | Reset         | R              | Respawn the player at the starting position |
+| Dash          | Space          | Run faster than ever before                 |
 
 ### Game Elements
 
