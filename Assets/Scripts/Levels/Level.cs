@@ -23,6 +23,7 @@ namespace TNSR.Levels
         Vector3 originalPosition;
         Crossfade crossfade;
         public Color colour;
+        public SpriteRenderer background;
 
         void Start()
         {
@@ -80,6 +81,11 @@ namespace TNSR.Levels
             Camera.main.backgroundColor = Color.Lerp(
                 Camera.main.backgroundColor,
                 selected ? colour : Camera.main.backgroundColor,
+                lerpSpeed
+            );
+            background.color = Color.Lerp(
+                background.color,
+                selected ? colour : background.color,
                 lerpSpeed
             );
             if (crossfade.FadingState == Crossfade.Fading.FadingIn) return;
