@@ -13,6 +13,28 @@ _The Nine Second Rule_ is a 2D platformer game made in Unity.
 - [Windows](https://nightly.link/notangoose/The-Nine-Second-Rule/workflows/main/main/Build-StandaloneWindows.zip)
 - [Windows 64-bit](https://nightly.link/notangoose/The-Nine-Second-Rule/workflows/main/main/Build-StandaloneWindows64.zip)
 
+### Notes on Downloads
+
+#### Linux and Windows
+
+Linux and Windows builds do not need any special permissions to run.
+
+#### macOS
+
+macOS builds are not signed yet, so permissions are needed to run them.
+
+1. Add `+x` permissions to the executable (not the `.app`!). Open _Terminal_ and run the following command:
+
+   ```bash
+    chmod +x ~/Downloads/The\ Nine\ Second\ Rule\ -\ StandaloneOSX.app/Contents/MacOS/The\ Nine\ Second\ Rule
+    # assuming the game is in your Downloads folder
+   ```
+
+2. Attempt to open the game by double-clicking the `.app`. This should fail.
+3. Open System Preferences (or System Settings on macOS Ventura).
+4. Navigate to _Privacy and Security_. You should see a message about the game being blocked. Click _Open Anyway_. You may need to enter your password.
+5. Double click the `.app` again. This time it should open successfully.
+
 ## Usage
 
 ### Controls
