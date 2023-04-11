@@ -33,7 +33,6 @@ There is currently no information about controls in the game, so here you go:
 
 - **Platform**
   - Horizontal
-  - Can vary in size
   - Both sides have collision
   - Always supports you :D
 - **One Way Platform**
@@ -41,21 +40,23 @@ There is currently no information about controls in the game, so here you go:
   - Fall through it with the _Fallthrough_ key
 - **Wall**
   - Vertical
-  - Can vary in size
   - Both sides have collision
-  - Can be scaled easily by moving towards it and jumping
-- **Invisible Wall**
-  - Like a **Wall** but is invisible
-  - Currently only used in _Level Select_
-  - Cannot be climbed
+  - Can be scaled easily by moving towards it and jumping like no-one's watching
+- **Spring**
+  - Jump on it to go higher and higher and higher
+  - And higher
 - **Spike**
   - Triangular
   - Don't touch!
 - **Turret**
   - Shoots projectiles straight at regular intervals
-- **Moving Platform**
-  - Also like a **Platform**
-  - Moves
+- **Enemies**
+  - Diamond shaped
+  - Moves back and forth and tries to kill you
+- **Key**
+  - Looks like a... key
+  - Bobs up and down and glows
+  - Collect it and finish the level to unlock the next secret level
 - **Finish**
   - Circular
   - Get here to win!
