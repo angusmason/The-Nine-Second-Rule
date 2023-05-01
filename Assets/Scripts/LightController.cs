@@ -10,10 +10,10 @@ public class LightController : MonoBehaviour
     {
         distanceJoint = gameObject.AddComponent<DistanceJoint2D>();
         distanceJoint.anchor = Vector2.up * 1.8f;
-        distanceJoint.connectedAnchor = transform.position + Vector3.up * 4;
+        distanceJoint.connectedAnchor = transform.position + Vector3.up * 2;
 
         lineRenderer = gameObject.AddComponent<LineRenderer>();
-        lineRenderer.startWidth = lineRenderer.endWidth = 0.04f;
+        lineRenderer.startWidth = lineRenderer.endWidth = 0.14f;
         lineRenderer.startColor = lineRenderer.endColor = Color.white;
         lineRenderer.numCapVertices = 5;
         Addressables.LoadAssetAsync<Material>("Sprite-Lit-Default").Completed += (material) => {
