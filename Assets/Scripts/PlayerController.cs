@@ -186,6 +186,7 @@ namespace TNSR
             trailRenderer.Clear();
             trailRenderer.enabled = true;
             dashed = false;
+            currentSpring = null;
         }
 
         // Collisions
