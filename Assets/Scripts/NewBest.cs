@@ -7,9 +7,7 @@ namespace TNSR
 {
     public class NewBest : MonoBehaviour
     {
-        ParticleSystem system;
         TextMeshProUGUI text;
-        ParticleSystem.EmissionModule module;
         bool showing;
         Countdown countdown;
         public event DoneEventHandler OnDone;
@@ -17,12 +15,9 @@ namespace TNSR
         bool keeping;
         void Start()
         {
-            system = GetComponent<ParticleSystem>();
             text = GetComponentInChildren<TextMeshProUGUI>();
             text.gameObject.SetActive(true);
             text.transform.localScale = Vector3.zero;
-            module = system.emission;
-            module.enabled = false;
             countdown = FindFirstObjectByType<Countdown>();
             keeping = false;
         }
