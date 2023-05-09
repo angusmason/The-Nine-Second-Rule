@@ -34,6 +34,10 @@ namespace TNSR.Levels
                 level.colour = Resources
                     .Load<LevelColours>("LevelColours")
                     .levelColours[index];
+                level.background = SceneManager.GetActiveScene().GetRootGameObjects()
+                    .Where(gameObject => gameObject.name == "Background")
+                    .Single()
+                    .GetComponent<SpriteRenderer>();
             }
         }
     }
