@@ -13,6 +13,21 @@ _The Nine Second Rule_ is a 2D platformer game made in Unity.
 - [Windows](https://nightly.link/notangoose/The-Nine-Second-Rule/workflows/main/main/Build-StandaloneWindows.zip)
 - [Windows 64-bit](https://nightly.link/notangoose/The-Nine-Second-Rule/workflows/main/main/Build-StandaloneWindows64.zip)
 
+Alternatively, use `nightly.link` to generate a download link for a specific branch other than `main` (the branch that'll be used for full game releases).
+
+1. View branches [here](https://github.com/notangoose/The-Nine-Second-Rule/branches) and pick one.
+2. Copy the branch name (e.g. `main`).
+3. Use the link `https://nightly.link/notangoose/The-Nine-Second-Rule/workflows/main/<BRANCH>/Build-Standalone<PLATFORM>.zip`.
+   |                 | \<BRANCH>                           | \<PLATFORM>                              |
+   | --------------- | ----------------------------------- | ---------------------------------------- |
+   | Description     | Branch to get the latest build from | Platform to build for                    |
+   | Accepted values | Any branch name from step 2         | `Linux64`, `OSX`, `Windows`, `Windows64` |
+   | Example         | `main`                              | `OSX`                                    |
+
+   **Examples:**
+   `main` branch, macOS: `https://nightly.link/notangoose/The-Nine-Second-Rule/workflows/main/main/Build-StandaloneOSX.zip`
+   `cool-new-feature` branch, Windows 64-bit: `https://nightly.link/notangoose/The-Nine-Second-Rule/workflows/main/cool-new-feature/Build-StandaloneWindows64.zip`
+
 ### Notes on Downloads
 
 #### Linux and Windows
