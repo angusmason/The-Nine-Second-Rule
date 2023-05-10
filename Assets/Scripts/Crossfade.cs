@@ -8,47 +8,59 @@ namespace TNSR
     public class Crossfade : MonoBehaviour
     {
         Image image;
-        public float Alpha;
-        public bool Fading;
+        public float Alpha
+        {
+            get => image.color.a;
+            set => image.color = new Color(image.color.r, image.color.g, image.color.b, value);
+        }
+        public Fading FadingState;
+        const float FadeSpeedSeconds = 1f;
+        const float FadeStep = 0.01f;
+
+        public enum Fading { NotFading, FadingOut, FadingIn }
         void Start()
         {
             image = GetComponent<Image>();
             image.color = Color.black;
-            StartCoroutine(FadeOut());
+            FadeOut();
         }
 
-        IEnumerator FadeOut()
+        public void FadeOut(Action endCallback = null, Action<float> stepCallback = null)
         {
-            Fading = true;
-            for (float alpha = 1; alpha >= 0; alpha -= 0.01f)
+            IEnumerator FadeOutCoroutine()
             {
-                var colour = image.color;
-                colour.a = alpha;
-                image.color = colour;
-                Alpha = alpha;
-                yield return new WaitForSeconds(0.01f);
-            }
-            Fading = false;
-        }
-
-        public void FadeIn(Action endCallback, Action<float> alphaCallback = null)
-        {
-            IEnumerator Coroutine()
-            {
-                Fading = true;
-                for (float alpha = 0; alpha <= 1; alpha += 0.01f)
+                FadingState = Fading.FadingOut;
+                while (Alpha >= 0)
                 {
-                    var colour = image.color;
-                    colour.a = alpha;
-                    image.color = colour;
-                    Alpha = alpha;
-                    alphaCallback?.Invoke(alpha);
-                    yield return new WaitForSeconds(0.01f);
+                    if (FadingState == Fading.FadingIn)
+                        yield break;
+                    Alpha -= FadeStep;
+                    stepCallback?.Invoke(Alpha);
+                    yield return new WaitForSeconds(FadeSpeedSeconds * FadeStep);
                 }
-                endCallback();
-                Fading = false;
+                endCallback?.Invoke();
+                FadingState = Fading.NotFading;
             }
-            StartCoroutine(Coroutine());
+            StartCoroutine(FadeOutCoroutine());
+        }
+
+        public void FadeIn(Action endCallback = null, Action<float> stepCallback = null)
+        {
+            IEnumerator FadeInCoroutine()
+            {
+                FadingState = Fading.FadingIn;
+                while (Alpha <= 1)
+                {
+                    if (FadingState == Fading.FadingOut)
+                        yield break;
+                    Alpha += FadeStep;
+                    stepCallback?.Invoke(Alpha);
+                    yield return new WaitForSeconds(FadeSpeedSeconds * FadeStep);
+                }
+                endCallback?.Invoke();
+                FadingState = Fading.NotFading;
+            }
+            StartCoroutine(FadeInCoroutine());
         }
     }
 }

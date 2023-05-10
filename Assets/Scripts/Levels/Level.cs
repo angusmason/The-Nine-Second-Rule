@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
@@ -23,6 +24,8 @@ namespace TNSR.Levels
         Vector3 originalPosition;
         Crossfade crossfade;
         public Color colour;
+        public SpriteRenderer background;
+        new Light2D light;
 
         void Start()
         {
@@ -32,6 +35,7 @@ namespace TNSR.Levels
             randomY = Random.Range(-0.3f, 0.5f);
             completed = LevelSaver.GetLevel(buildIndex) != null;
             crossfade = FindFirstObjectByType<Crossfade>();
+            light = spriteRenderer.GetComponent<Light2D>();
         }
 
         void Update()
@@ -82,7 +86,22 @@ namespace TNSR.Levels
                 selected ? colour : Camera.main.backgroundColor,
                 lerpSpeed
             );
-            if (crossfade.Fading) return;
+            background.color = Color.Lerp(
+                background.color,
+                selected ? colour : background.color,
+                lerpSpeed
+            );
+            light.color = Color.Lerp(
+                light.color,
+                selected ? colour : light.color,
+                lerpSpeed
+            );
+            light.intensity = Mathf.Lerp(
+                light.intensity,
+                selected ? 1 : 0,
+                lerpSpeed
+            );
+            if (crossfade.FadingState == Crossfade.Fading.FadingIn) return;
             if (!selected) return;
             if (Mathf.Abs(transform.position.y - player.position.y) < playerHeightThreshold)
             {
@@ -95,9 +114,13 @@ namespace TNSR.Levels
                     () => SceneManager.LoadScene(buildIndex + 1),
                     (alpha) =>
                     {
-                        vacuum.transform.localScale = Vector3.one * (1 - alpha);
-                        vacuum.transform.localRotation = Quaternion.Euler(0, 0, 360 * alpha);
-                        player.transform.localRotation = Quaternion.Euler(0, 0, 360 * 2 * alpha);
+                        vacuum.transform.localScale = Vector3.one * Mathf.Lerp(vacuum.transform.localScale.x, 1 - alpha, 0.1f);
+                        vacuum.transform.localRotation = Quaternion.Euler(0, 0,
+                            Mathf.Lerp(vacuum.transform.localRotation.eulerAngles.z, 360 * alpha, 0.1f)
+                        );
+                        player.transform.localRotation = Quaternion.Euler(0, 0,
+                            Mathf.Lerp(player.transform.localRotation.eulerAngles.z, 360 * 2 * alpha, 0.1f)
+                        );
                     }
                 );
             }

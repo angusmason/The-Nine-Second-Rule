@@ -169,7 +169,7 @@ TextureImporter:
         width: 2067
         height: 1986
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -190,7 +190,7 @@ TextureImporter:
         width: 1134
         height: 1167
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -211,7 +211,7 @@ TextureImporter:
         width: 1167
         height: 1132
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -232,7 +232,7 @@ TextureImporter:
         width: 1134
         height: 1170
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -253,7 +253,7 @@ TextureImporter:
         width: 1136
         height: 1170
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -261,6 +261,27 @@ TextureImporter:
       bones: []
       spriteID: 87ee1265aeb3647938d3878e9d60d923
       internalID: 1641074796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EscBtn
+      rect:
+        serializedVersion: 2
+        x: 747
+        y: 315
+        width: 1909
+        height: 1194
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a08ee382efb684982bcf2a6e514dd7d7
+      internalID: -1836012045
       vertices: []
       indices: 
       edges: []
@@ -276,6 +297,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      EscBtn: -1836012045
       UI_0: -1191515881
       UI_1: -1552977662
       UI_2: -732261382
