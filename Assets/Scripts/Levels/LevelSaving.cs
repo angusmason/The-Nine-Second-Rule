@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
+using UnityEditor;
 using UnityEngine;
 
 namespace TNSR.Levels
@@ -38,6 +39,28 @@ namespace TNSR.Levels
                 matchingLevel.TimeMilliseconds = newLevelDatum.TimeMilliseconds;
             Save();
         }
+        public static void ClearAllData()
+        {
+            LevelData.Levels = Array.Empty<LevelDatum>();
+            Save();
+        }
+        public static void ClearDataForLevel(int levelIndex)
+        {
+            LevelData.Levels = LevelData.Levels
+                .Where(levelData => levelData.LevelIndex != levelIndex)
+                .ToArray();
+            Save();
+        }
+
+
+#if UNITY_EDITOR
+        [MenuItem("TNSR/Modify Level One Time")]
+        static void ModifyLevelOneTime() => UpdateData(new LevelDatum(0, TimeSpan.FromSeconds(9)), true);
+        [MenuItem("TNSR/Clear Level One Time")]
+        static void ClearLevelOneTime() => ClearDataForLevel(0);
+        [MenuItem("TNSR/Clear All Level Times")]
+        static void ClearAllLevelTimes() => ClearAllData();
+#endif
     }
 
     [Serializable]

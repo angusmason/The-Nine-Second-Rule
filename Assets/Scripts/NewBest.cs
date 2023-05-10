@@ -1,17 +1,13 @@
 using System;
 using System.Collections;
 using TMPro;
-using TNSR.Levels;
-using UnityEditor;
 using UnityEngine;
 
 namespace TNSR
 {
     public class NewBest : MonoBehaviour
     {
-        ParticleSystem system;
         TextMeshProUGUI text;
-        ParticleSystem.EmissionModule module;
         bool showing;
         Countdown countdown;
         public event DoneEventHandler OnDone;
@@ -19,12 +15,9 @@ namespace TNSR
         bool keeping;
         void Start()
         {
-            system = GetComponent<ParticleSystem>();
             text = GetComponentInChildren<TextMeshProUGUI>();
             text.gameObject.SetActive(true);
             text.transform.localScale = Vector3.zero;
-            module = system.emission;
-            module.enabled = false;
             countdown = FindFirstObjectByType<Countdown>();
             keeping = false;
         }
@@ -56,9 +49,5 @@ namespace TNSR
         }
 
         public void Show() => showing = true;
-#if UNITY_EDITOR
-        [MenuItem("TNSR/Modify Level One Time")]
-        static void ModifyLevelOneTime() => LevelSaver.UpdateData(new LevelDatum(0, TimeSpan.FromSeconds(9)), true);
-#endif
     }
 }

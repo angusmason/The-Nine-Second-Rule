@@ -16,7 +16,9 @@ namespace TNSR
         [HideInInspector] public Vector2 MoveInput;
         [SerializeField] float coyoteTime;
         float coyoteTimeCounter;
-        bool sliding = false;
+        // Dashing variables
+        bool dashed = false;
+        [SerializeField] float dashTime;
 
         // Finished and at start variables
 
@@ -81,6 +83,7 @@ namespace TNSR
             crossfade = FindFirstObjectByType<Crossfade>();
             trailRenderer = GetComponentInChildren<TrailRenderer>();
             newBest = FindFirstObjectByType<NewBest>();
+            dashed = false;
         }
 
         void FixedUpdate()
@@ -133,7 +136,6 @@ namespace TNSR
             animator.SetBool("isRunning", MoveInput.x != 0);
             animator.SetBool("isJumping", !isGrounded);
             animator.SetBool("isWallSliding", wallSliding);
-            animator.SetBool("isSliding", sliding);
 
             if (wallSliding)
                 extraJumps = extraJumpsValue;
@@ -147,10 +149,6 @@ namespace TNSR
                 {
                     platform.rotationalOffset = 180;
                 }
-
-            // Sliding
-            if (sliding = isGrounded && MoveInput.y < 0)
-                animator.SetTrigger("startSliding");
         }
 
         IEnumerator DisableWallJumping()
@@ -170,6 +168,12 @@ namespace TNSR
             flipping = false;
         }
 
+        IEnumerator Dash()
+        {
+            yield return new WaitForSeconds(dashTime);
+            speed /= 2;
+        }
+
         // Respawning
         void Respawn()
         {
@@ -181,6 +185,8 @@ namespace TNSR
             countdown.ResetTime();
             trailRenderer.Clear();
             trailRenderer.enabled = true;
+            dashed = false;
+            currentSpring = null;
         }
 
         // Collisions
@@ -201,7 +207,7 @@ namespace TNSR
         }
         void OnTriggerEnter2D(Collider2D collider)
         {
-            if (collider.gameObject.CompareTag("Finish") && !crossfade.Fading)
+            if (collider.gameObject.CompareTag("Finish") && crossfade.FadingState != Crossfade.Fading.FadingIn)
             {
                 finished = true;
                 DisableMotion();
@@ -215,7 +221,8 @@ namespace TNSR
                     (
                         () =>
                         {
-                            if (countdown.TimeTaken.TotalMilliseconds < LevelSaver
+                            if (LevelSaver.GetLevel(buildIndex - 1) != null
+                                && countdown.TimeTaken.TotalMilliseconds < LevelSaver
                                     .GetLevel(buildIndex - 1).TimeMilliseconds)
                             {
                                 newBest.Show();
@@ -279,14 +286,17 @@ namespace TNSR
 
             if (SceneManager.GetActiveScene().buildIndex == 0)
             {
+                if (crossfade.FadingState == Crossfade.Fading.NotFading)
+                {
 #if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
+                    UnityEditor.EditorApplication.isPlaying = false;
 #else
-                Application.Quit();
+                    Application.Quit();
 #endif
+                }
                 return;
             }
-            if (crossfade.Fading)
+            if (crossfade.FadingState == Crossfade.Fading.FadingIn)
                 return;
             DisableMotion();
             crossfade.FadeIn(() => SceneManager.LoadScene(0));
@@ -307,6 +317,16 @@ namespace TNSR
                 wallJumping = true;
                 StartCoroutine(DisableWallJumping());
             }
+        }
+        public void OnDash()
+        {
+            if (dashed) return;
+            speed *= 2;
+            if (SceneManager.GetActiveScene().buildIndex != 0)
+            {
+                dashed = true;
+            }
+            StartCoroutine(Dash());
         }
     }
 }

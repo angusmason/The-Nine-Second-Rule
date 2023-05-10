@@ -169,7 +169,7 @@ TextureImporter:
         width: 2067
         height: 1986
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -178,7 +178,7 @@ TextureImporter:
       spriteID: 037631b672ca14ac2a7ff6692240c446
       internalID: -1191515881
       vertices: []
-      indices: 
+      indices:
       edges: []
       weights: []
     - serializedVersion: 2
@@ -190,7 +190,7 @@ TextureImporter:
         width: 1134
         height: 1167
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -199,7 +199,7 @@ TextureImporter:
       spriteID: c5181e3c96ba6452a8d24a14d0c58c8e
       internalID: -1552977662
       vertices: []
-      indices: 
+      indices:
       edges: []
       weights: []
     - serializedVersion: 2
@@ -211,7 +211,7 @@ TextureImporter:
         width: 1167
         height: 1132
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -220,7 +220,7 @@ TextureImporter:
       spriteID: 22f6837f7351f4ff78837bb3ca0754f5
       internalID: -732261382
       vertices: []
-      indices: 
+      indices:
       edges: []
       weights: []
     - serializedVersion: 2
@@ -232,7 +232,7 @@ TextureImporter:
         width: 1747
         height: 1696
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -241,7 +241,7 @@ TextureImporter:
       spriteID: bb74618b4be8146f2b6dd0a4704dcd28
       internalID: -1157381026
       vertices: []
-      indices: 
+      indices:
       edges: []
       weights: []
     - serializedVersion: 2
@@ -262,7 +262,7 @@ TextureImporter:
       spriteID: 87ee1265aeb3647938d3878e9d60d923
       internalID: 1641074796
       vertices: []
-      indices: 
+      indices:
       edges: []
       weights: []
     - serializedVersion: 2
@@ -283,7 +283,7 @@ TextureImporter:
       spriteID: b74ce845218244b3d92c47da8888cd6d
       internalID: -1371980724
       vertices: []
-      indices: 
+      indices:
       edges: []
       weights: []
     - serializedVersion: 2
@@ -295,7 +295,7 @@ TextureImporter:
         width: 1136
         height: 1170
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -304,7 +304,28 @@ TextureImporter:
       spriteID: 5258c48e1cce445348d215f2ffa02c19
       internalID: -533006421
       vertices: []
-      indices: 
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EscBtn
+      rect:
+        serializedVersion: 2
+        x: 747
+        y: 315
+        width: 1909
+        height: 1194
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a08ee382efb684982bcf2a6e514dd7d7
+      internalID: -1836012045
+      vertices: []
+      indices:
       edges: []
       weights: []
     outline: []
@@ -313,7 +334,7 @@ TextureImporter:
     spriteID: 282f5a7f53f3944c995124e9e75006ce
     internalID: 0
     vertices: []
-    indices: 
+    indices:
     edges: []
     weights: []
     secondaryTextures: []
@@ -325,8 +346,8 @@ TextureImporter:
       Play Button: -1191515881
       Reset: -533006421
       Unmute: -1371980724
-  mipmapLimitGroupName: 
+  mipmapLimitGroupName:
   pSDRemoveMatte: 0
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+  userData:
+  assetBundleName:
+  assetBundleVariant:
