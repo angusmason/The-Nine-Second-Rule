@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using TNSR.Levels;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -54,6 +55,7 @@ namespace TNSR
         NewBest newBest;
         ParticleSystem dust;
         ParticleSystem jumpParticles;
+        ParticleSystem deathParticles;
 
         void Start()
         {
@@ -69,6 +71,7 @@ namespace TNSR
             newBest = FindFirstObjectByType<NewBest>();
             dust = transform.Find("Dust").GetComponent<ParticleSystem>();
             jumpParticles = transform.Find("Jump Particles").GetComponent<ParticleSystem>();
+            deathParticles = transform.Find("Death Particles").GetComponent<ParticleSystem>();
             dashed = false;
         }
 
@@ -152,6 +155,9 @@ namespace TNSR
         void Respawn()
         {
             trailRenderer.enabled = false;
+            var newDeathParticles = Instantiate(deathParticles.gameObject, transform.position, Quaternion.identity).GetComponent<ParticleSystem>();
+            newDeathParticles.Play();
+            Destroy(newDeathParticles.gameObject, newDeathParticles.main.startLifetime.constantMax);
             if (!rb.simulated) return;
             transform.position = Vector3.zero;
             rb.velocity = Vector3.zero;
