@@ -13,6 +13,43 @@ _The Nine Second Rule_ is a 2D platformer game made in Unity.
 - [Windows](https://nightly.link/notangoose/The-Nine-Second-Rule/workflows/main/main/Build-StandaloneWindows.zip)
 - [Windows 64-bit](https://nightly.link/notangoose/The-Nine-Second-Rule/workflows/main/main/Build-StandaloneWindows64.zip)
 
+Alternatively, use `nightly.link` to generate a download link for a specific branch other than `main` (the branch that'll be used for full game releases).
+
+1. View branches [here](https://github.com/notangoose/The-Nine-Second-Rule/branches) and pick one.
+2. Copy the branch name (e.g. `main`).
+3. Use the link `https://nightly.link/notangoose/The-Nine-Second-Rule/workflows/main/<BRANCH>/Build-Standalone<PLATFORM>.zip`.
+   |                 | \<BRANCH>                           | \<PLATFORM>                              |
+   | --------------- | ----------------------------------- | ---------------------------------------- |
+   | Description     | Branch to get the latest build from | Platform to build for                    |
+   | Accepted values | Any branch name from step 2         | `Linux64`, `OSX`, `Windows`, `Windows64` |
+   | Example         | `main`                              | `OSX`                                    |
+
+   **Examples:**
+   `main` branch, macOS: `https://nightly.link/notangoose/The-Nine-Second-Rule/workflows/main/main/Build-StandaloneOSX.zip`
+   `cool-new-feature` branch, Windows 64-bit: `https://nightly.link/notangoose/The-Nine-Second-Rule/workflows/main/cool-new-feature/Build-StandaloneWindows64.zip`
+
+### Notes on Downloads
+
+#### Linux and Windows
+
+Linux and Windows builds do not need any special permissions to run.
+
+#### macOS
+
+macOS builds are not signed yet, so permissions are needed to run them.
+
+1. Add `+x` permissions to the executable (not the `.app`!). Open _Terminal_ and run the following command:
+
+   ```bash
+    chmod +x ~/Downloads/The\ Nine\ Second\ Rule\ -\ StandaloneOSX.app/Contents/MacOS/The\ Nine\ Second\ Rule
+    # assuming the game is in your Downloads folder
+   ```
+
+2. Attempt to open the game by double-clicking the `.app`. This should fail.
+3. Open System Preferences (or System Settings on macOS Ventura).
+4. Navigate to _Privacy and Security_. You should see a message about the game being blocked. Click _Open Anyway_. You may need to enter your password.
+5. Double click the `.app` again. This time it should open successfully.
+
 ## Usage
 
 ### Controls
@@ -27,12 +64,12 @@ There is currently no information about controls in the game, so here you go:
 | Move Right    | D, Right Arrow | Traverse the level and hold walls           |
 | Select Level  | Escape         | Play another level or quit the game         |
 | Reset         | R              | Respawn the player at the starting position |
+| Dash          | Space          | Run faster than ever before                 |
 
 ### Game Elements
 
 - **Platform**
   - Horizontal
-  - Can vary in size
   - Both sides have collision
   - Always supports you :D
 - **One Way Platform**
@@ -40,21 +77,23 @@ There is currently no information about controls in the game, so here you go:
   - Fall through it with the _Fallthrough_ key
 - **Wall**
   - Vertical
-  - Can vary in size
   - Both sides have collision
-  - Can be scaled easily by moving towards it and jumping
-- **Invisible Wall**
-  - Like a **Wall** but is invisible
-  - Currently only used in _Level Select_
-  - Cannot be climbed
+  - Can be scaled easily by moving towards it and jumping like no-one's watching
+- **Spring**
+  - Jump on it to go higher and higher and higher
+  - And higher
 - **Spike**
   - Triangular
   - Don't touch!
 - **Turret**
   - Shoots projectiles straight at regular intervals
-- **Moving Platform**
-  - Also like a **Platform**
-  - Moves
+- **Enemies**
+  - Diamond shaped
+  - Moves back and forth and tries to kill you
+- **Key**
+  - Looks like a... key
+  - Bobs up and down and glows
+  - Collect it and finish the level to unlock the next secret level
 - **Finish**
   - Circular
   - Get here to win!
