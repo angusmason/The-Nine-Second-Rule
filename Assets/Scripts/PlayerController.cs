@@ -121,9 +121,6 @@ namespace TNSR
                     platform.rotationalOffset = 180;
                 }
 
-            if (sliding = grounded && MoveInput.y < 0)
-                animator.SetTrigger("startSliding");
-
             var dustEmission = dust.emission;
             dustEmission.rateOverTime = MoveInput.x != 0 && grounded ? 50 : 0;
         }

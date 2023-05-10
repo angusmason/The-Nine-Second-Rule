@@ -5056,6 +5056,8 @@ MonoBehaviour:
   speed: 10
   jumpForce: 8.5
   MoveInput: {x: 0, y: 0}
+  coyoteTime: 0.2
+  dashTime: 0.2
   startDistance: 0.25
   extraJumps: 1
   groundCheck: {fileID: 2257004465348808485}
@@ -5940,7 +5942,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.7
+      scalar: 0.4
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -5993,7 +5995,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 2.5
+      scalar: 2
       minScalar: 1.5
       maxCurve:
         serializedVersion: 2
@@ -6111,8 +6113,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.2
-      minScalar: 0.1
+      scalar: 0.1
+      minScalar: 0.06
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -6804,7 +6806,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 20
+        scalar: 15
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -7955,7 +7957,7 @@ ParticleSystem:
     m_Curve:
       serializedVersion: 2
       minMaxState: 0
-      scalar: -0.5
+      scalar: -0.3
       minScalar: 0
       maxCurve:
         serializedVersion: 2
