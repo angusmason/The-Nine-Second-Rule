@@ -106,9 +106,19 @@ namespace TNSR
                 rb.velocity.y
             );
 
-            if (rb.simulated)
+            transform.localScale = new Vector3(
+                (
+                    MoveInput.x == 0
+                        ? transform.localScale.x
+                        : Mathf.Sign(MoveInput.x)
+                ) * PlayerSize,
+                PlayerSize,
+                PlayerSize
+            );
+
+            // if (rb.simulated)
                 // Checks if the direction which the player sprite is facing should be flipped
-                transform.localScale = new Vector3(Mathf.Sign(MoveInput.x) * PlayerSize, PlayerSize, PlayerSize);
+                // transform.localScale = new Vector3(Mathf.Sign(MoveInput.x) * PlayerSize, PlayerSize, PlayerSize);
 
             grounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
             // Coyote time
