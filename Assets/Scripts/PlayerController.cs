@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Security.Cryptography;
 using TNSR.Levels;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -17,7 +18,10 @@ namespace TNSR
         [SerializeField] float coyoteTime;
         float coyoteTimeCounter;
         // Dashing variables
-        bool dashed = false;
+        bool canDash = true;
+        bool isDashing;
+        [SerializeField] float dashingPower = 24f;
+        [SerializeField] float dashingTime = 0.2f;
         [SerializeField] float dashTime;
 
         // Finished and at start variables
@@ -83,11 +87,14 @@ namespace TNSR
             crossfade = FindFirstObjectByType<Crossfade>();
             trailRenderer = GetComponentInChildren<TrailRenderer>();
             newBest = FindFirstObjectByType<NewBest>();
-            dashed = false;
+            canDash = true;
         }
 
         void FixedUpdate()
         {
+            if (isDashing)
+                return;
+
             rb.velocity = new Vector2(
                 (
                     MoveInput.x == 0
@@ -98,9 +105,11 @@ namespace TNSR
                 ) * speed,
                 rb.velocity.y
             );
+
             if (rb.simulated)
                 // Checks if the direction which the player sprite is facing should be flipped
                 transform.localScale = new Vector3(Mathf.Sign(MoveInput.x) * PlayerSize, PlayerSize, PlayerSize);
+
             grounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
             // Coyote time
             coyoteTimeCounter = grounded ? coyoteTime : coyoteTimeCounter - Time.deltaTime;
@@ -123,6 +132,9 @@ namespace TNSR
 
         void Update()
         {
+            if (isDashing)
+                return;
+
             // Jumping
             if (isGrounded) extraJumps = extraJumpsValue;
 
@@ -133,6 +145,7 @@ namespace TNSR
                 rb.velocity = currentSpring.transform.up * springForce;
                 extraJumps = -1;
             }
+
             animator.SetBool("isRunning", MoveInput.x != 0);
             animator.SetBool("isJumping", !isGrounded);
             animator.SetBool("isWallSliding", wallSliding);
@@ -170,8 +183,15 @@ namespace TNSR
 
         IEnumerator Dash()
         {
-            yield return new WaitForSeconds(dashTime);
-            speed /= 2;
+            if (SceneManager.GetActiveScene().buildIndex != 0)
+                canDash = false;
+            isDashing = true;
+            float originalGravity = rb.gravityScale;
+            rb.gravityScale = 0f;
+            rb.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
+            yield return new WaitForSeconds(dashingTime);
+            rb.gravityScale = originalGravity;
+            isDashing = false;
         }
 
         // Respawning
@@ -185,8 +205,8 @@ namespace TNSR
             countdown.ResetTime();
             trailRenderer.Clear();
             trailRenderer.enabled = true;
-            dashed = false;
             currentSpring = null;
+            canDash = true;
         }
 
         // Collisions
@@ -320,13 +340,10 @@ namespace TNSR
         }
         public void OnDash()
         {
-            if (dashed) return;
-            speed *= 2;
-            if (SceneManager.GetActiveScene().buildIndex != 0)
+            if (canDash)
             {
-                dashed = true;
+                StartCoroutine(Dash());
             }
-            StartCoroutine(Dash());
         }
     }
 }
