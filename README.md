@@ -45,10 +45,7 @@ macOS builds are not signed yet, so permissions are needed to run them.
     # assuming the game is in your Downloads folder
    ```
 
-2. Attempt to open the game by double-clicking the `.app`. This should fail.
-3. Open System Preferences (or System Settings on macOS Ventura).
-4. Navigate to _Privacy and Security_. You should see a message about the game being blocked. Click _Open Anyway_. You may need to enter your password.
-5. Double click the `.app` again. This time it should open successfully.
+2. Open the game as an administrator, by right clicking and clicking 'Open' in the context menu.
 
 ## Usage
 
