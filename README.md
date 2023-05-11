@@ -15,6 +15,24 @@ _The Nine Second Rule_ is a 2D platformer game made in Unity.
 
 Alternatively, use `nightly.link` to generate a download link for a specific branch other than `main` (the branch that'll be used for full game releases).
 
+#### Linux and Windows
+
+Linux and Windows builds do not need any special permissions to run.
+
+#### macOS
+
+macOS builds are not signed yet, so permissions are needed to run them.
+
+1. Open _Terminal_ and run the following command:
+
+   ```bash
+    chmod +x ~/Downloads/The\ Nine\ Second\ Rule\ -\ StandaloneOSX.app/Contents/MacOS/The\ Nine\ Second\ Rule
+   ```
+
+2. Open the game as an administrator, by right clicking and clicking 'Open' in the context menu.
+
+### Notes on Downloads
+
 1. View branches [here](https://github.com/notangoose/The-Nine-Second-Rule/branches) and pick one.
 2. Copy the branch name (e.g. `main`).
 3. Use the link `https://nightly.link/notangoose/The-Nine-Second-Rule/workflows/main/<BRANCH>/Build-Standalone<PLATFORM>.zip`.
@@ -28,28 +46,7 @@ Alternatively, use `nightly.link` to generate a download link for a specific bra
    `main` branch, macOS: `https://nightly.link/notangoose/The-Nine-Second-Rule/workflows/main/main/Build-StandaloneOSX.zip`
    `cool-new-feature` branch, Windows 64-bit: `https://nightly.link/notangoose/The-Nine-Second-Rule/workflows/main/cool-new-feature/Build-StandaloneWindows64.zip`
 
-### Notes on Downloads
-
-#### Linux and Windows
-
-Linux and Windows builds do not need any special permissions to run.
-
-#### macOS
-
-macOS builds are not signed yet, so permissions are needed to run them.
-
-1. Add `+x` permissions to the executable (not the `.app`!). Open _Terminal_ and run the following command:
-
-   ```bash
-    chmod +x ~/Downloads/The\ Nine\ Second\ Rule\ -\ StandaloneOSX.app/Contents/MacOS/The\ Nine\ Second\ Rule
-    # assuming the game is in your Downloads folder
-   ```
-
-2. Open the game as an administrator, by right clicking and clicking 'Open' in the context menu.
-
-## Usage
-
-### Controls
+## Controls
 
 There is currently no information about controls in the game, so here you go:
 
@@ -63,7 +60,7 @@ There is currently no information about controls in the game, so here you go:
 | Reset         | R              | Respawn the player at the starting position |
 | Dash          | Space          | Run faster than ever before                 |
 
-### Game Elements
+## Game Elements
 
 - **Platform**
   - Horizontal
