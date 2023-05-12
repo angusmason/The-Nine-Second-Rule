@@ -87,8 +87,36 @@ namespace TNSR
             canDash = true;
         }
 
-        void FixedUpdate()
+        void Update()
         {
+            // Jumping
+            if (isGrounded) extraJumps = extraJumpsValue;
+
+            // Spring jumping
+            if (currentSpring != null)
+            {
+                animator.SetTrigger("takeOff");
+                rb.velocity = currentSpring.transform.up * springForce;
+                extraJumps = -1;
+            }
+
+            animator.SetBool("isRunning", MoveInput.x != 0);
+            animator.SetBool("isJumping", !isGrounded);
+            animator.SetBool("isWallSliding", wallSliding);
+
+            if (wallSliding)
+                extraJumps = extraJumpsValue;
+            if (!(Vector3.Distance(transform.localPosition, Vector3.zero) < startDistance) && !finished)
+                countdown.StartCounting();
+            if (oneWayPlatforms.Length > 0)
+                if (oneWayPlatforms[0].rotationalOffset == 180 && !flipping)
+                    StartCoroutine(FlipEffectors());
+            if (MoveInput.y < 0)
+                foreach (var platform in oneWayPlatforms)
+                {
+                    platform.rotationalOffset = 180;
+                }
+
             if (!isDashing)
             {
                 rb.velocity = new Vector2(
@@ -130,40 +158,6 @@ namespace TNSR
             currentSpring = Physics2D.OverlapCircle(groundCheck.position, checkRadius, spring);
         }
 
-        void Update()
-        {
-            // if (isDashing)
-            //     return;
-
-            // Jumping
-            if (isGrounded) extraJumps = extraJumpsValue;
-
-            // Spring jumping
-            if (currentSpring != null)
-            {
-                animator.SetTrigger("takeOff");
-                rb.velocity = currentSpring.transform.up * springForce;
-                extraJumps = -1;
-            }
-
-            animator.SetBool("isRunning", MoveInput.x != 0);
-            animator.SetBool("isJumping", !isGrounded);
-            animator.SetBool("isWallSliding", wallSliding);
-
-            if (wallSliding)
-                extraJumps = extraJumpsValue;
-            if (!(Vector3.Distance(transform.localPosition, Vector3.zero) < startDistance) && !finished)
-                countdown.StartCounting();
-            if (oneWayPlatforms.Length > 0)
-                if (oneWayPlatforms[0].rotationalOffset == 180 && !flipping)
-                    StartCoroutine(FlipEffectors());
-            if (MoveInput.y < 0)
-                foreach (var platform in oneWayPlatforms)
-                {
-                    platform.rotationalOffset = 180;
-                }
-        }
-
         IEnumerator DisableWallJumping()
         {
             yield return new WaitForSeconds(wallJumpTime);
@@ -186,7 +180,7 @@ namespace TNSR
             if (SceneManager.GetActiveScene().buildIndex != 0)
                 canDash = false;
             isDashing = true;
-            float originalGravity = rb.gravityScale;
+            var originalGravity = rb.gravityScale;
             rb.gravityScale = 0f;
             rb.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
             yield return new WaitForSeconds(dashingTime);
@@ -221,10 +215,7 @@ namespace TNSR
             }
         }
 
-        public void DisableMotion()
-        {
-            rb.simulated = false;
-        }
+        public void DisableMotion() => rb.simulated = false;
         void OnTriggerEnter2D(Collider2D collider)
         {
             if (collider.gameObject.CompareTag("Finish") && crossfade.FadingState != Crossfade.Fading.FadingIn)
@@ -252,9 +243,7 @@ namespace TNSR
                                 };
                             }
                             else
-                            {
                                 LoadNextScene(buildIndex);
-                            }
                             LevelSaver.UpdateData(new(buildIndex - 1, countdown.Time));
                         },
                         (alpha) =>
@@ -281,20 +270,16 @@ namespace TNSR
         void OnTriggerStay2D(Collider2D collider)
         {
             if (collider.GetComponent<MovingPlatform>())
-            {
                 // Set the parent of the player to the moving platform, so it moves with it
                 transform.parent = collider.transform;
-            }
         }
 
         // Called on the frame that the player exits the trigger
         void OnTriggerExit2D(Collider2D collider)
         {
             if (collider.GetComponent<MovingPlatform>())
-            {
                 // Clear the parent of the player
                 transform.parent = null;
-            }
         }
 
         public void OnMove(InputValue value)
