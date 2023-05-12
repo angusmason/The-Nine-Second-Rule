@@ -15,8 +15,7 @@ namespace TNSR
         [SerializeField] float speed;
         [SerializeField] float jumpForce;
         [HideInInspector] public Vector2 MoveInput;
-        [SerializeField] float coyoteTime;
-        float coyoteTimeCounter;
+
         // Dashing variables
         bool canDash = true;
         bool isDashing;
@@ -39,7 +38,6 @@ namespace TNSR
         [SerializeField] int extraJumpsValue;
 
         // Ground check variables
-        bool grounded;
         bool isGrounded;
         [SerializeField] Transform groundCheck;
         [SerializeField] float checkRadius;
@@ -92,38 +90,31 @@ namespace TNSR
 
         void FixedUpdate()
         {
-            if (isDashing)
-                return;
-
-            rb.velocity = new Vector2(
-                (
+            if (!isDashing)
+            {
+                rb.velocity = new Vector2(
                     MoveInput.x == 0
-                        ? 0
-                        : MoveInput.x > 0
-                            ? 1
-                            : -1
-                ) * speed,
-                rb.velocity.y
-            );
-
+                    ? 0
+                    : MoveInput.x > 0
+                        ? speed
+                        : -speed,
+                    rb.velocity.y
+                );
+            }
             transform.localScale = new Vector3(
                 (
                     MoveInput.x == 0
                         ? transform.localScale.x
-                        : Mathf.Sign(MoveInput.x)
-                ) * PlayerSize,
+                        : MoveInput.x > 0
+                            ? PlayerSize
+                            : -PlayerSize
+                ),
                 PlayerSize,
                 PlayerSize
             );
 
-            // if (rb.simulated)
-                // Checks if the direction which the player sprite is facing should be flipped
-                // transform.localScale = new Vector3(Mathf.Sign(MoveInput.x) * PlayerSize, PlayerSize, PlayerSize);
+            isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
 
-            grounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
-            // Coyote time
-            coyoteTimeCounter = grounded ? coyoteTime : coyoteTimeCounter - Time.deltaTime;
-            isGrounded = coyoteTimeCounter > 0f;
             // Wall sliding
             isTouchingFront = Physics2D.OverlapCircle(frontCheck.position, checkWallRadius, whatIsWall);
 
@@ -142,8 +133,8 @@ namespace TNSR
 
         void Update()
         {
-            if (isDashing)
-                return;
+            // if (isDashing)
+            //     return;
 
             // Jumping
             if (isGrounded) extraJumps = extraJumpsValue;
@@ -337,7 +328,6 @@ namespace TNSR
             {
                 if (!isGrounded && extraJumps <= 0)
                     return;
-                coyoteTimeCounter = 0f;
                 animator.SetTrigger("takeOff");
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 extraJumps--;
@@ -351,9 +341,7 @@ namespace TNSR
         public void OnDash()
         {
             if (canDash)
-            {
                 StartCoroutine(Dash());
-            }
         }
     }
 }
