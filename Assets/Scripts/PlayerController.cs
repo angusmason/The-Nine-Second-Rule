@@ -158,6 +158,9 @@ namespace TNSR
             // Checks if player is on spring
             currentSpring = Physics2D.OverlapCircle(groundCheck.position, checkRadius, spring);
 
+
+            if (trailRenderer == null)
+                return;
             trailRenderer.widthMultiplier = Mathf.Lerp(
                 trailRenderer.widthMultiplier,
                 isDashing ? 2 : 1,
