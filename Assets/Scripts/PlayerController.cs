@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using TNSR.Levels;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -156,6 +157,28 @@ namespace TNSR
 
             // Checks if player is on spring
             currentSpring = Physics2D.OverlapCircle(groundCheck.position, checkRadius, spring);
+
+            trailRenderer.widthMultiplier = Mathf.Lerp(
+                trailRenderer.widthMultiplier,
+                isDashing ? 2 : 1,
+                Time.deltaTime * 7
+            );
+            trailRenderer.colorGradient = new Gradient()
+            {
+                colorKeys = new[] {
+                        new GradientColorKey(Color.white, 0),
+                        new GradientColorKey(Color.white, 1),
+                    },
+                alphaKeys = new[] {
+                        new GradientAlphaKey(0, 0),
+                        new GradientAlphaKey(Mathf.Lerp(
+                            trailRenderer.colorGradient.alphaKeys.Where(key => key.alpha > 0).Single().alpha * 255,
+                            isDashing ? 255 : 110,
+                            Time.deltaTime * 9
+                        ) / 255f, 0.25f),
+                        new GradientAlphaKey(0, 1),
+                    }
+            };
         }
 
         IEnumerator DisableWallJumping()
