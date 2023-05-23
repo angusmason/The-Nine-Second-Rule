@@ -1,6 +1,8 @@
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 
 namespace TNSR
 {
@@ -8,27 +10,40 @@ namespace TNSR
     public class CameraController : MonoBehaviour
     {
         [SerializeField] Transform player;
-        const float smoothTime = .2f;
-        Vector3 velocity;
+        PlayerController playerController;
+        new Camera camera;
+        LensDistortion lensDistortion;
+        float originalIntensity;
 
         void Start()
         {
-            var camera = GetComponent<Camera>();
+            playerController = player.GetComponent<PlayerController>();
+            camera = GetComponent<Camera>();
+            lensDistortion = camera.GetComponent<Volume>()
+                .sharedProfile
+                .components
+                .Single(component => component is LensDistortion)
+                    as LensDistortion;
+            originalIntensity = lensDistortion.intensity.value;
 
-            int buildIndex = SceneManager.GetActiveScene().buildIndex;
+            var buildIndex = SceneManager.GetActiveScene().buildIndex;
             if (buildIndex != 0)
                 camera.backgroundColor = Resources
                     .Load<LevelColours>("LevelColours")
                     .levelColours[buildIndex - 1];
         }
 
-        void LateUpdate()
+        void Update()
         {
-            transform.position = Vector3.SmoothDamp(
+            transform.position = Vector3.Lerp(
                 transform.position,
-                player.position,
-                ref velocity,
-                smoothTime * Time.timeScale
+                player.transform.position,
+                Time.deltaTime * 5
+            );
+            lensDistortion.intensity.value = Mathf.Lerp(
+                lensDistortion.intensity.value,
+                playerController.isDashing ? originalIntensity + 0.3f : originalIntensity,
+                Time.deltaTime * 5
             );
         }
     }

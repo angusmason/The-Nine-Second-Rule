@@ -18,7 +18,7 @@ namespace TNSR
 
         // Dashing variables
         bool canDash = true;
-        bool isDashing;
+        [HideInInspector] public bool isDashing;
         [SerializeField] float dashingPower = 24f;
         [SerializeField] float dashingTime = 0.2f;
         [SerializeField] float dashTime;
