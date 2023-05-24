@@ -269,6 +269,7 @@ namespace TNSR
                                 };
                             }
                             else
+                            {
                                 LoadNextScene(buildIndex);
                             }
                             LevelSaver.UpdateData(new(buildIndex - 1, countdown.TimeTaken));
