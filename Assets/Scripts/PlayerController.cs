@@ -258,9 +258,15 @@ namespace TNSR
                     (
                         () =>
                         {
-                            if (LevelSaver.GetLevel(buildIndex - 1) != null
-                                && countdown.TimeTaken.TotalMilliseconds < LevelSaver
-                                    .GetLevel(buildIndex - 1).TimeMilliseconds)
+                            var levelDatum = LevelSaver.GetLevel(buildIndex - 1);
+                            if (
+                                countdown.TimeTaken.TotalMilliseconds <
+                                (
+                                    levelDatum != null
+                                        ? levelDatum.TimeMilliseconds
+                                        : double.MaxValue
+                                )
+                            )
                             {
                                 newBest.Show();
                                 newBest.OnDone += (object sender, EventArgs e) =>
