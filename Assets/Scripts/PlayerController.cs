@@ -69,6 +69,7 @@ namespace TNSR
         Crossfade crossfade;
         TrailRenderer trailRenderer;
         NewBest newBest;
+        bool blockInput = false;
 
         void Start()
         {
@@ -120,26 +121,32 @@ namespace TNSR
 
             if (!isDashing)
             {
-                rb.velocity = new Vector2(
-                    MoveInput.x == 0
-                    ? 0
-                    : MoveInput.x > 0
-                        ? speed
-                        : -speed,
-                    rb.velocity.y
-                );
-            }
-            transform.localScale = new Vector3(
-                (
-                    MoveInput.x == 0
-                        ? transform.localScale.x
+                if (!blockInput)
+                {
+                    rb.velocity = new Vector2(
+                        MoveInput.x == 0
+                        ? 0
                         : MoveInput.x > 0
-                            ? PlayerSize
-                            : -PlayerSize
-                ),
-                PlayerSize,
-                PlayerSize
-            );
+                            ? speed
+                            : -speed,
+                        rb.velocity.y
+                    );
+                    transform.localScale = new Vector3(
+                        MoveInput.x == 0
+                            ? transform.localScale.x
+                            : MoveInput.x > 0
+                                ? PlayerSize
+                                : -PlayerSize,
+                        PlayerSize,
+                        PlayerSize
+                    );
+                }
+                else
+                {
+                    animator.SetBool("isRunning", false);
+                }
+            }
+
 
             isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
 
@@ -227,6 +234,7 @@ namespace TNSR
             trailRenderer.enabled = true;
             currentSpring = null;
             canDash = true;
+            blockInput = true;
         }
 
         // Collisions
@@ -309,7 +317,11 @@ namespace TNSR
         }
 
         public void OnMove(InputValue value)
-            => MoveInput = value.Get<Vector2>();
+        {
+            blockInput = false;
+            MoveInput = value.Get<Vector2>();
+        }
+
         public void OnReset()
             => Respawn();
         public void OnEscape()
@@ -334,6 +346,7 @@ namespace TNSR
         }
         public void OnJump()
         {
+            if (blockInput) return;
             if (!wallSliding)
             {
                 if (!isGrounded && extraJumps <= 0)
@@ -350,7 +363,7 @@ namespace TNSR
         }
         public void OnDash()
         {
-            if (canDash)
+            if (canDash && !blockInput)
                 StartCoroutine(Dash());
         }
     }
