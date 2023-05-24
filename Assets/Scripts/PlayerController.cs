@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using TNSR.Levels;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -14,10 +15,12 @@ namespace TNSR
         [SerializeField] float speed;
         [SerializeField] float jumpForce;
         [HideInInspector] public Vector2 MoveInput;
-        [SerializeField] float coyoteTime;
-        float coyoteTimeCounter;
+
         // Dashing variables
-        bool dashed = false;
+        bool canDash = true;
+        bool isDashing;
+        [SerializeField] float dashingPower = 24f;
+        [SerializeField] float dashingTime = 0.2f;
         [SerializeField] float dashTime;
 
         // Finished and at start variables
@@ -35,7 +38,6 @@ namespace TNSR
         [SerializeField] int extraJumpsValue;
 
         // Ground check variables
-        bool grounded;
         bool isGrounded;
         [SerializeField] Transform groundCheck;
         [SerializeField] float checkRadius;
@@ -83,42 +85,7 @@ namespace TNSR
             crossfade = FindFirstObjectByType<Crossfade>();
             trailRenderer = GetComponentInChildren<TrailRenderer>();
             newBest = FindFirstObjectByType<NewBest>();
-            dashed = false;
-        }
-
-        void FixedUpdate()
-        {
-            rb.velocity = new Vector2(
-                (
-                    MoveInput.x == 0
-                        ? 0
-                        : MoveInput.x > 0
-                            ? 1
-                            : -1
-                ) * speed,
-                rb.velocity.y
-            );
-            if (rb.simulated)
-                // Checks if the direction which the player sprite is facing should be flipped
-                transform.localScale = new Vector3(Mathf.Sign(MoveInput.x) * PlayerSize, PlayerSize, PlayerSize);
-            grounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
-            // Coyote time
-            coyoteTimeCounter = grounded ? coyoteTime : coyoteTimeCounter - Time.deltaTime;
-            isGrounded = coyoteTimeCounter > 0f;
-            // Wall sliding
-            isTouchingFront = Physics2D.OverlapCircle(frontCheck.position, checkWallRadius, whatIsWall);
-
-            wallSliding = isTouchingFront && !isGrounded && MoveInput.x != 0;
-
-            if (wallSliding)
-                rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
-
-            // Wall jumping
-            if (wallJumping)
-                rb.velocity = new Vector2(xWallForce * -MoveInput.x, yWallForce);
-
-            // Checks if player is on spring
-            currentSpring = Physics2D.OverlapCircle(groundCheck.position, checkRadius, spring);
+            canDash = true;
         }
 
         void Update()
@@ -133,6 +100,7 @@ namespace TNSR
                 rb.velocity = currentSpring.transform.up * springForce;
                 extraJumps = -1;
             }
+
             animator.SetBool("isRunning", MoveInput.x != 0);
             animator.SetBool("isJumping", !isGrounded);
             animator.SetBool("isWallSliding", wallSliding);
@@ -149,6 +117,71 @@ namespace TNSR
                 {
                     platform.rotationalOffset = 180;
                 }
+
+            if (!isDashing)
+            {
+                rb.velocity = new Vector2(
+                    MoveInput.x == 0
+                    ? 0
+                    : MoveInput.x > 0
+                        ? speed
+                        : -speed,
+                    rb.velocity.y
+                );
+            }
+            transform.localScale = new Vector3(
+                (
+                    MoveInput.x == 0
+                        ? transform.localScale.x
+                        : MoveInput.x > 0
+                            ? PlayerSize
+                            : -PlayerSize
+                ),
+                PlayerSize,
+                PlayerSize
+            );
+
+            isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
+
+            // Wall sliding
+            isTouchingFront = Physics2D.OverlapCircle(frontCheck.position, checkWallRadius, whatIsWall);
+
+            wallSliding = isTouchingFront && !isGrounded && MoveInput.x != 0;
+
+            if (wallSliding)
+                rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
+
+            // Wall jumping
+            if (wallJumping)
+                rb.velocity = new Vector2(xWallForce * -MoveInput.x, yWallForce);
+
+            // Checks if player is on spring
+            currentSpring = Physics2D.OverlapCircle(groundCheck.position, checkRadius, spring);
+
+
+            if (trailRenderer == null)
+                return;
+            trailRenderer.widthMultiplier = Mathf.Lerp(
+                trailRenderer.widthMultiplier,
+                isDashing ? 2 : 1,
+                Time.deltaTime * 7
+            );
+            trailRenderer.colorGradient = new Gradient()
+            {
+                colorKeys = new[] {
+                        new GradientColorKey(Color.white, 0),
+                        new GradientColorKey(Color.white, 1),
+                    },
+                alphaKeys = new[] {
+                        new GradientAlphaKey(0, 0),
+                        new GradientAlphaKey(Mathf.Lerp(
+                            trailRenderer.colorGradient.alphaKeys.Where(key => key.alpha > 0).Single().alpha * 255,
+                            isDashing ? 255 : 110,
+                            Time.deltaTime * 9
+                        ) / 255f, 0.25f),
+                        new GradientAlphaKey(0, 1),
+                    }
+            };
         }
 
         IEnumerator DisableWallJumping()
@@ -170,8 +203,15 @@ namespace TNSR
 
         IEnumerator Dash()
         {
-            yield return new WaitForSeconds(dashTime);
-            speed /= 2;
+            if (SceneManager.GetActiveScene().buildIndex != 0)
+                canDash = false;
+            isDashing = true;
+            var originalGravity = rb.gravityScale;
+            rb.gravityScale = 0f;
+            rb.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
+            yield return new WaitForSeconds(dashingTime);
+            rb.gravityScale = originalGravity;
+            isDashing = false;
         }
 
         // Respawning
@@ -185,8 +225,8 @@ namespace TNSR
             countdown.ResetTime();
             trailRenderer.Clear();
             trailRenderer.enabled = true;
-            dashed = false;
             currentSpring = null;
+            canDash = true;
         }
 
         // Collisions
@@ -201,10 +241,7 @@ namespace TNSR
             }
         }
 
-        public void DisableMotion()
-        {
-            rb.simulated = false;
-        }
+        public void DisableMotion() => rb.simulated = false;
         void OnTriggerEnter2D(Collider2D collider)
         {
             if (collider.gameObject.CompareTag("Finish") && crossfade.FadingState != Crossfade.Fading.FadingIn)
@@ -221,9 +258,15 @@ namespace TNSR
                     (
                         () =>
                         {
-                            if (LevelSaver.GetLevel(buildIndex - 1) != null
-                                && countdown.Time.TotalMilliseconds < LevelSaver
-                                    .GetLevel(buildIndex - 1).TimeMilliseconds)
+                            var levelDatum = LevelSaver.GetLevel(buildIndex - 1);
+                            if (
+                                countdown.Time.TotalMilliseconds <
+                                (
+                                    levelDatum != null
+                                        ? levelDatum.TimeMilliseconds
+                                        : double.MaxValue
+                                )
+                            )
                             {
                                 newBest.Show();
                                 newBest.OnDone += (object sender, EventArgs e) =>
@@ -232,9 +275,7 @@ namespace TNSR
                                 };
                             }
                             else
-                            {
                                 LoadNextScene(buildIndex);
-                            }
                             LevelSaver.UpdateData(new(buildIndex - 1, countdown.Time));
                         },
                         (alpha) =>
@@ -261,20 +302,16 @@ namespace TNSR
         void OnTriggerStay2D(Collider2D collider)
         {
             if (collider.GetComponent<MovingPlatform>())
-            {
                 // Set the parent of the player to the moving platform, so it moves with it
                 transform.parent = collider.transform;
-            }
         }
 
         // Called on the frame that the player exits the trigger
         void OnTriggerExit2D(Collider2D collider)
         {
             if (collider.GetComponent<MovingPlatform>())
-            {
                 // Clear the parent of the player
                 transform.parent = null;
-            }
         }
 
         public void OnMove(InputValue value)
@@ -307,7 +344,6 @@ namespace TNSR
             {
                 if (!isGrounded && extraJumps <= 0)
                     return;
-                coyoteTimeCounter = 0f;
                 animator.SetTrigger("takeOff");
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 extraJumps--;
@@ -320,13 +356,8 @@ namespace TNSR
         }
         public void OnDash()
         {
-            if (dashed) return;
-            speed *= 2;
-            if (SceneManager.GetActiveScene().buildIndex != 0)
-            {
-                dashed = true;
-            }
-            StartCoroutine(Dash());
+            if (canDash)
+                StartCoroutine(Dash());
         }
     }
 }
