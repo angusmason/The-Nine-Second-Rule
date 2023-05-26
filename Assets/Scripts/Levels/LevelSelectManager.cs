@@ -10,6 +10,8 @@ namespace TNSR.Levels
         [SerializeField] Transform player;
         [SerializeField] string[] nonLevelScenes;
         [SerializeField] GameObject levelPrefab;
+        [SerializeField] GameObject platformPrefab;
+        [SerializeField] GameObject platformParent;
         [SerializeField] float spacing;
 
         void Start()
@@ -31,6 +33,15 @@ namespace TNSR.Levels
                     Quaternion.identity,
                     transform
                 ).GetComponent<Level>();
+                Instantiate(
+                    platformPrefab,
+                    new(
+                        transform.position.x + index * spacing,
+                        platformParent.transform.position.y
+                    ),
+                    Quaternion.identity,
+                    platformParent.transform
+                );
                 level.player = player;
                 level.buildIndex = index;
                 level.colour = Resources
