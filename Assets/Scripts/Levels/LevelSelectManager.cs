@@ -22,7 +22,9 @@ namespace TNSR.Levels
 
             foreach (var (scene, index) in scenes.Select((scene, index) => (scene, index)))
             {
-                var level = Instantiate(levelPrefab, new(
+                var level = Instantiate(
+                    levelPrefab,
+                    new(
                         transform.position.x + index * spacing,
                         transform.position.y
                     ),

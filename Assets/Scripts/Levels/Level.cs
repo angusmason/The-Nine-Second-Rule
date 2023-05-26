@@ -30,6 +30,8 @@ namespace TNSR.Levels
         void Start()
         {
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            if (buildIndex % 10 == 0)
+                transform.position += Vector3.up * 2;
             originalPosition = spriteRenderer.transform.position;
             randomX = Random.Range(-2 * Mathf.PI, 2 * Mathf.PI);
             randomY = Random.Range(-0.3f, 0.5f);
