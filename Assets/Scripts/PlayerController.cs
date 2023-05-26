@@ -287,7 +287,7 @@ namespace TNSR
                             else
                                 LoadNextScene(buildIndex);
 
-                            var key = FindObjectOfType<Key>();
+                            var key = FindObjectOfType<KeyBehaviour>();
                             LevelSaver.UpdateData(
                                 key == null
                                     ? new(buildIndex - 1, countdown.Time)

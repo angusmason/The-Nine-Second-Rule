@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 namespace TNSR
 {
-    public class Key : MonoBehaviour
+    public class KeyBehaviour : MonoBehaviour
     {
         Transform player;
         [SerializeField] float collectDistance;
