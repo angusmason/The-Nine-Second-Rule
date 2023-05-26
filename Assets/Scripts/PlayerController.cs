@@ -69,6 +69,7 @@ namespace TNSR
         Crossfade crossfade;
         TrailRenderer trailRenderer;
         NewBest newBest;
+        public event EventHandler Respawned = (object sender, EventArgs e) => { };
 
         void Start()
         {
@@ -227,6 +228,7 @@ namespace TNSR
             trailRenderer.enabled = true;
             currentSpring = null;
             canDash = true;
+            Respawned.Invoke(this, EventArgs.Empty);
         }
 
         // Collisions
@@ -276,7 +278,13 @@ namespace TNSR
                             }
                             else
                                 LoadNextScene(buildIndex);
-                            LevelSaver.UpdateData(new(buildIndex - 1, countdown.Time));
+
+                            var key = FindObjectOfType<Key>();
+                            LevelSaver.UpdateData(
+                                key == null
+                                    ? new(buildIndex - 1, countdown.Time)
+                                    : new(buildIndex - 1, countdown.Time, key.collected)
+                            );
                         },
                         (alpha) =>
                         {

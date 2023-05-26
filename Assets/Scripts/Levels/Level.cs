@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -30,7 +31,13 @@ namespace TNSR.Levels
         void Start()
         {
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-            if ((buildIndex + 1) % 10 == 0)
+            if (
+                (buildIndex + 1) % 10 == 0
+                && Enumerable
+                    .Range(buildIndex - 9, 9)
+                    .Select(i => LevelSaver.GetLevel(i).CompletedWithKey)
+                    .Count(completed => completed) != 1
+            )
                 transform.position += Vector3.up * 4;
             originalPosition = spriteRenderer.transform.position;
             randomX = Random.Range(-2 * Mathf.PI, 2 * Mathf.PI);

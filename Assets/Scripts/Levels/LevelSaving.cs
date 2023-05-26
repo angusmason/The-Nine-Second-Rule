@@ -35,8 +35,13 @@ namespace TNSR.Levels
                 LevelData.Levels = LevelData.Levels
                     .Concat(new LevelDatum[] { newLevelDatum })
                     .ToArray();
-            else if (force || newLevelDatum.TimeMilliseconds < matchingLevel.TimeMilliseconds)
-                matchingLevel.TimeMilliseconds = newLevelDatum.TimeMilliseconds;
+            else
+            {
+                if (force || newLevelDatum.TimeMilliseconds < matchingLevel.TimeMilliseconds)
+                    matchingLevel.TimeMilliseconds = newLevelDatum.TimeMilliseconds;
+                if (force || newLevelDatum.CompletedWithKey)
+                    matchingLevel.CompletedWithKey = newLevelDatum.CompletedWithKey;
+            }
             Save();
         }
         public static void ClearAllData()
@@ -74,11 +79,13 @@ namespace TNSR.Levels
     {
         public int LevelIndex;
         public double TimeMilliseconds;
+        public bool CompletedWithKey;
 
-        public LevelDatum(int levelIndex, TimeSpan timeCompleted)
+        public LevelDatum(int levelIndex, TimeSpan timeCompleted, bool completedWithKey = false)
         {
             LevelIndex = levelIndex;
             TimeMilliseconds = timeCompleted.TotalMilliseconds;
+            CompletedWithKey = completedWithKey;
         }
     }
 }
