@@ -31,13 +31,14 @@ namespace TNSR.Levels
         {
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();
             if ((buildIndex + 1) % 10 == 0)
-                transform.position += Vector3.up * 2;
+                transform.position += Vector3.up * 4;
             originalPosition = spriteRenderer.transform.position;
             randomX = Random.Range(-2 * Mathf.PI, 2 * Mathf.PI);
             randomY = Random.Range(-0.3f, 0.5f);
             completed = LevelSaver.GetLevel(buildIndex) != null;
             crossfade = FindFirstObjectByType<Crossfade>();
             light = spriteRenderer.GetComponent<Light2D>();
+            spriteRenderer.transform.localEulerAngles = 90 * Random.Range(1, 5) * Vector3.forward;
         }
 
         void Update()
