@@ -10,6 +10,8 @@ namespace TNSR.Levels
         [SerializeField] Transform player;
         [SerializeField] string[] nonLevelScenes;
         [SerializeField] GameObject levelPrefab;
+        [SerializeField] GameObject platformPrefab;
+        [SerializeField] GameObject platformParent;
         [SerializeField] float spacing;
 
         void Start()
@@ -22,13 +24,24 @@ namespace TNSR.Levels
 
             foreach (var (scene, index) in scenes.Select((scene, index) => (scene, index)))
             {
-                var level = Instantiate(levelPrefab, new(
+                var level = Instantiate(
+                    levelPrefab,
+                    new(
                         transform.position.x + index * spacing,
                         transform.position.y
                     ),
                     Quaternion.identity,
                     transform
                 ).GetComponent<Level>();
+                Instantiate(
+                    platformPrefab,
+                    new(
+                        transform.position.x + index * spacing,
+                        platformParent.transform.position.y
+                    ),
+                    Quaternion.identity,
+                    platformParent.transform
+                );
                 level.player = player;
                 level.buildIndex = index;
                 level.colour = Resources
