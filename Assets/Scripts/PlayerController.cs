@@ -71,6 +71,7 @@ namespace TNSR
         NewBest newBest;
         public event EventHandler Respawned = (object sender, EventArgs e) => { };
         bool blockInput = false;
+        float originalGravity;
 
         void Start()
         {
@@ -88,6 +89,7 @@ namespace TNSR
             trailRenderer = GetComponentInChildren<TrailRenderer>();
             newBest = FindFirstObjectByType<NewBest>();
             canDash = true;
+            originalGravity = rb.gravityScale;
         }
 
         void Update()
@@ -214,7 +216,6 @@ namespace TNSR
             if (SceneManager.GetActiveScene().buildIndex != 0)
                 canDash = false;
             isDashing = true;
-            var originalGravity = rb.gravityScale;
             rb.gravityScale = 0f;
             rb.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
             yield return new WaitForSeconds(dashingTime);
