@@ -27,6 +27,7 @@ namespace TNSR.Levels
         public Color colour;
         public SpriteRenderer background;
         new Light2D light;
+        bool disabled = false;
 
         void Start()
         {
@@ -38,7 +39,10 @@ namespace TNSR.Levels
                     .Select(i => LevelSaver.GetLevel(i).CompletedWithKey)
                     .Count(completed => completed) != 1
             )
+            {
                 transform.position += Vector3.up * 4;
+                disabled = true;
+            }
             originalPosition = spriteRenderer.transform.position;
             randomX = Random.Range(-2 * Mathf.PI, 2 * Mathf.PI);
             randomY = Random.Range(-0.3f, 0.5f);
@@ -46,6 +50,7 @@ namespace TNSR.Levels
             crossfade = FindFirstObjectByType<Crossfade>();
             light = spriteRenderer.GetComponent<Light2D>();
             spriteRenderer.transform.localEulerAngles = 90 * Random.Range(1, 5) * Vector3.forward;
+
         }
 
         void Update()
@@ -113,6 +118,7 @@ namespace TNSR.Levels
             );
             if (crossfade.FadingState == Crossfade.Fading.FadingIn) return;
             if (!selected) return;
+            if (disabled) return;
             if (Mathf.Abs(transform.position.y - player.position.y) < playerHeightThreshold)
             {
                 var vacuum = new GameObject("Vacuum");
