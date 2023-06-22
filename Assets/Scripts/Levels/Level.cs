@@ -36,7 +36,7 @@ namespace TNSR.Levels
                 (buildIndex + 1) % 10 == 0
                 && Enumerable
                     .Range(buildIndex - 9, 9)
-                    .Select(i => LevelSaver.GetLevel(i).CompletedWithKey)
+                    .Select(index => LevelSaver.GetLevel(index)?.CompletedWithKey ?? false)
                     .Count(completed => completed) != 1
             )
             {
@@ -50,7 +50,6 @@ namespace TNSR.Levels
             crossfade = FindFirstObjectByType<Crossfade>();
             light = spriteRenderer.GetComponent<Light2D>();
             spriteRenderer.transform.localEulerAngles = 90 * Random.Range(1, 5) * Vector3.forward;
-
         }
 
         void Update()
