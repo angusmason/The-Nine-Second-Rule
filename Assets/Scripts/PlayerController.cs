@@ -270,29 +270,27 @@ namespace TNSR
                         {
                             var levelDatum = LevelSaver.GetLevel(buildIndex - 1);
                             var key = FindObjectOfType<KeyBehaviour>();
+                            var unlocked = key != null && key.collected && levelDatum == null;
+                            var newBest = countdown.Time.TotalMilliseconds <
+                                (
+                                    levelDatum != null
+                                        ? levelDatum.TimeMilliseconds
+                                        : double.MaxValue
+                                );
+
                             LevelSaver.UpdateData(
                                 key == null
                                     ? new(buildIndex - 1, countdown.Time)
                                     : new(buildIndex - 1, countdown.Time, key.collected)
                             );
-                            if (key != null && key.collected && levelDatum == null)
+                            if (unlocked || newBest)
                             {
-                                endText.Show($"LEVEL {Mathf.CeilToInt(buildIndex / 10f) * 10} UNLOCKED!");
-                                endText.OnDone += (object sender, EventArgs e) =>
-                                {
-                                    LoadNextScene(buildIndex);
-                                };
-                            }
-                            else if (
-                                countdown.Time.TotalMilliseconds <
-                                (
-                                    levelDatum != null
-                                        ? levelDatum.TimeMilliseconds
-                                        : double.MaxValue
-                                )
-                            )
-                            {
-                                endText.Show($"NEW BEST\nOF {countdown.Time:s'.'ff}!");
+                                var text = "";
+                                if (newBest)
+                                    text += $"NEW BEST\nOF {countdown.Time:s'.'ff}!\n\n";
+                                if (unlocked)
+                                    text += $"LEVEL {Mathf.CeilToInt(buildIndex / 10f) * 10} UNLOCKED!";
+                                endText.Show(text);
                                 endText.OnDone += (object sender, EventArgs e) =>
                                 {
                                     LoadNextScene(buildIndex);
