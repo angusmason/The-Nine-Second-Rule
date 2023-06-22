@@ -68,7 +68,7 @@ namespace TNSR
         bool flipping;
         Crossfade crossfade;
         TrailRenderer trailRenderer;
-        NewBest newBest;
+        EndText newBest;
         public event EventHandler Respawned = (object sender, EventArgs e) => { };
         bool blockInput = false;
         float originalGravity;
@@ -87,7 +87,7 @@ namespace TNSR
             oneWayPlatforms = FindObjectsByType<PlatformEffector2D>(FindObjectsSortMode.None);
             crossfade = FindFirstObjectByType<Crossfade>();
             trailRenderer = GetComponentInChildren<TrailRenderer>();
-            newBest = FindFirstObjectByType<NewBest>();
+            newBest = FindFirstObjectByType<EndText>();
             canDash = true;
             originalGravity = rb.gravityScale;
         }
@@ -279,7 +279,7 @@ namespace TNSR
                                 )
                             )
                             {
-                                newBest.Show();
+                                newBest.Show($"NEW BEST\nOF {countdown.Time:s'.'ff}!");
                                 newBest.OnDone += (object sender, EventArgs e) =>
                                 {
                                     LoadNextScene(buildIndex);

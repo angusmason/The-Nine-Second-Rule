@@ -204,21 +204,9 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2342270648685339911, guid: 8d4c497f1f83a46dea8e7c293a8f9122, type: 3}
-      propertyPath: DoFadeIn
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3589010229494794397, guid: 8d4c497f1f83a46dea8e7c293a8f9122, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4533513176147468319, guid: 8d4c497f1f83a46dea8e7c293a8f9122, type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5651422258233791674, guid: 8d4c497f1f83a46dea8e7c293a8f9122, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6256380245092498396, guid: 8d4c497f1f83a46dea8e7c293a8f9122, type: 3}
       propertyPath: m_Pivot.x
