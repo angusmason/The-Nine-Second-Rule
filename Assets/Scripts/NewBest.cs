@@ -10,8 +10,7 @@ namespace TNSR
         TextMeshProUGUI text;
         bool showing;
         Countdown countdown;
-        public event DoneEventHandler OnDone;
-        public delegate void DoneEventHandler(object sender, EventArgs args);
+        public event EventHandler OnDone;
         bool keeping;
         void Start()
         {
