@@ -147,9 +147,6 @@ namespace TNSR
                 }
             }
 
-
-            isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
-
             // Wall sliding
             isTouchingFront = Physics2D.OverlapCircle(frontCheck.position, checkWallRadius, whatIsWall);
 
@@ -240,6 +237,8 @@ namespace TNSR
         // Collisions
         void OnCollisionEnter2D(Collision2D collision)
         {
+            if (whatIsGround == (whatIsGround | (1 << collision.gameObject.layer)))
+                isGrounded = true;
             switch (collision.gameObject.tag)
             {
                 case "Enemy":
@@ -247,6 +246,12 @@ namespace TNSR
                     Respawn();
                     break;
             }
+        }
+
+        void OnCollisionExit2D(Collision2D collision)
+        {
+            if (whatIsGround == (whatIsGround | (1 << collision.gameObject.layer)))
+                isGrounded = false;
         }
 
         public void DisableMotion() => rb.simulated = false;
