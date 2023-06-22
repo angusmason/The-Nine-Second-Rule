@@ -31,7 +31,7 @@ namespace TNSR
             );
             if (!showing)
                 return;
-            text.text = $"NEW BEST\nOF {countdown.Time:s'.'ff}!";
+            text.text = $"NEW BEST\nOF {countdown.TimeTaken:s'.'ff}!";
             if (text.transform.localScale.x < 0.99f)
                 return;
             text.transform.localScale = Vector3.one;

@@ -274,7 +274,7 @@ namespace TNSR
                         {
                             var levelDatum = LevelSaver.GetLevel(buildIndex - 1);
                             if (
-                                countdown.Time.TotalMilliseconds <
+                                countdown.TimeTaken.TotalMilliseconds <
                                 (
                                     levelDatum != null
                                         ? levelDatum.TimeMilliseconds
@@ -289,8 +289,10 @@ namespace TNSR
                                 };
                             }
                             else
+                            {
                                 LoadNextScene(buildIndex);
-                            LevelSaver.UpdateData(new(buildIndex - 1, countdown.Time));
+                            }
+                            LevelSaver.UpdateData(new(buildIndex - 1, countdown.TimeTaken));
                         },
                         (alpha) =>
                         {
