@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 
 namespace TNSR
 {
@@ -8,27 +7,22 @@ namespace TNSR
     public class CameraController : MonoBehaviour
     {
         [SerializeField] Transform player;
-        const float smoothTime = .2f;
-        Vector3 velocity;
 
         void Start()
         {
-            var camera = GetComponent<Camera>();
-
             int buildIndex = SceneManager.GetActiveScene().buildIndex;
             if (buildIndex != 0)
-                camera.backgroundColor = Resources
+                GameObject.Find("/Background").GetComponent<SpriteRenderer>().color = Resources
                     .Load<LevelColours>("LevelColours")
                     .levelColours[buildIndex - 1];
         }
 
         void LateUpdate()
         {
-            transform.position = Vector3.SmoothDamp(
+            transform.position = Vector3.Lerp(
                 transform.position,
                 player.position,
-                ref velocity,
-                smoothTime * Time.timeScale
+                Time.deltaTime * 5
             );
         }
     }
