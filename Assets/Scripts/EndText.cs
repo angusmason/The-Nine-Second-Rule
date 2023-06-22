@@ -5,13 +5,12 @@ using UnityEngine;
 
 namespace TNSR
 {
-    public class NewBest : MonoBehaviour
+    public class EndText : MonoBehaviour
     {
         TextMeshProUGUI text;
         bool showing;
         Countdown countdown;
-        public event DoneEventHandler OnDone;
-        public delegate void DoneEventHandler(object sender, EventArgs args);
+        public event EventHandler OnDone;
         bool keeping;
         void Start()
         {
@@ -31,7 +30,6 @@ namespace TNSR
             );
             if (!showing)
                 return;
-            text.text = $"NEW BEST\nOF {countdown.Time:s'.'ff}!";
             if (text.transform.localScale.x < 0.99f)
                 return;
             text.transform.localScale = Vector3.one;
@@ -48,6 +46,10 @@ namespace TNSR
             }
         }
 
-        public void Show() => showing = true;
+        public void Show(string text)
+        {
+            this.text.text = text;
+            showing = true;
+        }
     }
 }

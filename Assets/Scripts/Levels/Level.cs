@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -26,16 +27,29 @@ namespace TNSR.Levels
         public Color colour;
         public SpriteRenderer background;
         new Light2D light;
+        bool disabled = false;
 
         void Start()
         {
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            if (
+                (buildIndex + 1) % 10 == 0
+                && Enumerable
+                    .Range(buildIndex - 9, 9)
+                    .Select(index => LevelSaver.GetLevel(index)?.CompletedWithKey ?? false)
+                    .Count(completed => completed) != 1
+            )
+            {
+                transform.position += Vector3.up * 4;
+                disabled = true;
+            }
             originalPosition = spriteRenderer.transform.position;
             randomX = Random.Range(-2 * Mathf.PI, 2 * Mathf.PI);
             randomY = Random.Range(-0.3f, 0.5f);
             completed = LevelSaver.GetLevel(buildIndex) != null;
             crossfade = FindFirstObjectByType<Crossfade>();
             light = spriteRenderer.GetComponent<Light2D>();
+            spriteRenderer.transform.localEulerAngles = 90 * Random.Range(1, 5) * Vector3.forward;
         }
 
         void Update()
@@ -103,6 +117,7 @@ namespace TNSR.Levels
             );
             if (crossfade.FadingState == Crossfade.Fading.FadingIn) return;
             if (!selected) return;
+            if (disabled) return;
             if (Mathf.Abs(transform.position.y - player.position.y) < playerHeightThreshold)
             {
                 var vacuum = new GameObject("Vacuum");
