@@ -21,7 +21,6 @@ namespace TNSR
         bool isDashing;
         [SerializeField] float dashingPower = 24f;
         [SerializeField] float dashingTime = 0.2f;
-        [SerializeField] float dashTime;
 
         // Finished and at start variables
 
@@ -68,7 +67,7 @@ namespace TNSR
         bool flipping;
         Crossfade crossfade;
         TrailRenderer trailRenderer;
-        EndText newBest;
+        EndText endText;
         public event EventHandler Respawned = (object sender, EventArgs e) => { };
         bool blockInput = false;
         float originalGravity;
@@ -87,7 +86,7 @@ namespace TNSR
             oneWayPlatforms = FindObjectsByType<PlatformEffector2D>(FindObjectsSortMode.None);
             crossfade = FindFirstObjectByType<Crossfade>();
             trailRenderer = GetComponentInChildren<TrailRenderer>();
-            newBest = FindFirstObjectByType<EndText>();
+            endText = FindFirstObjectByType<EndText>();
             canDash = true;
             originalGravity = rb.gravityScale;
         }
@@ -261,7 +260,7 @@ namespace TNSR
                 DisableMotion();
                 countdown.StopCounting();
                 countdown.Finished = true;
-                int buildIndex = SceneManager.GetActiveScene().buildIndex;
+                var buildIndex = SceneManager.GetActiveScene().buildIndex;
                 var vacuum = new GameObject("Vacuum");
                 vacuum.transform.position = collider.transform.position;
                 transform.parent = vacuum.transform;
@@ -270,7 +269,21 @@ namespace TNSR
                         () =>
                         {
                             var levelDatum = LevelSaver.GetLevel(buildIndex - 1);
-                            if (
+                            var key = FindObjectOfType<KeyBehaviour>();
+                            LevelSaver.UpdateData(
+                                key == null
+                                    ? new(buildIndex - 1, countdown.Time)
+                                    : new(buildIndex - 1, countdown.Time, key.collected)
+                            );
+                            if (key != null && key.collected && levelDatum == null)
+                            {
+                                endText.Show($"LEVEL {Mathf.CeilToInt(buildIndex / 10f) * 10} UNLOCKED!");
+                                endText.OnDone += (object sender, EventArgs e) =>
+                                {
+                                    LoadNextScene(buildIndex);
+                                };
+                            }
+                            else if (
                                 countdown.Time.TotalMilliseconds <
                                 (
                                     levelDatum != null
@@ -279,21 +292,14 @@ namespace TNSR
                                 )
                             )
                             {
-                                newBest.Show($"NEW BEST\nOF {countdown.Time:s'.'ff}!");
-                                newBest.OnDone += (object sender, EventArgs e) =>
+                                endText.Show($"NEW BEST\nOF {countdown.Time:s'.'ff}!");
+                                endText.OnDone += (object sender, EventArgs e) =>
                                 {
                                     LoadNextScene(buildIndex);
                                 };
                             }
                             else
                                 LoadNextScene(buildIndex);
-
-                            var key = FindObjectOfType<KeyBehaviour>();
-                            LevelSaver.UpdateData(
-                                key == null
-                                    ? new(buildIndex - 1, countdown.Time)
-                                    : new(buildIndex - 1, countdown.Time, key.collected)
-                            );
                         },
                         (alpha) =>
                         {
