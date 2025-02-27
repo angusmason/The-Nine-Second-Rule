@@ -100,7 +100,7 @@ namespace TNSR
             if (currentSpring != null)
             {
                 animator.SetTrigger("takeOff");
-                rb.velocity = currentSpring.transform.up * springForce;
+                rb.linearVelocity = currentSpring.transform.up * springForce;
                 extraJumps = -1;
             }
 
@@ -125,13 +125,13 @@ namespace TNSR
             {
                 if (!blockInput)
                 {
-                    rb.velocity = new Vector2(
+                    rb.linearVelocity = new Vector2(
                         MoveInput.x == 0
                         ? 0
                         : MoveInput.x > 0
                             ? speed
                             : -speed,
-                        rb.velocity.y
+                        rb.linearVelocity.y
                     );
                     transform.localScale = new Vector3(
                         MoveInput.x == 0
@@ -155,11 +155,11 @@ namespace TNSR
             wallSliding = isTouchingFront && !isGrounded && MoveInput.x != 0;
 
             if (wallSliding)
-                rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Clamp(rb.linearVelocity.y, -wallSlidingSpeed, float.MaxValue));
 
             // Wall jumping
             if (wallJumping)
-                rb.velocity = new Vector2(xWallForce * -MoveInput.x, yWallForce);
+                rb.linearVelocity = new Vector2(xWallForce * -MoveInput.x, yWallForce);
 
             // Checks if player is on spring
             currentSpring = Physics2D.OverlapCircle(groundCheck.position, checkRadius, spring);
@@ -213,7 +213,7 @@ namespace TNSR
                 canDash = false;
             isDashing = true;
             rb.gravityScale = 0f;
-            rb.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
+            rb.linearVelocity = new Vector2(transform.localScale.x * dashingPower, 0f);
             yield return new WaitForSeconds(dashingTime);
             rb.gravityScale = originalGravity;
             isDashing = false;
@@ -225,7 +225,7 @@ namespace TNSR
             trailRenderer.enabled = false;
             if (!rb.simulated) return;
             transform.position = Vector3.zero;
-            rb.velocity = Vector3.zero;
+            rb.linearVelocity = Vector3.zero;
             countdown.StopCounting();
             countdown.ResetTime();
             trailRenderer.Clear();
@@ -364,7 +364,7 @@ namespace TNSR
                 if (!isGrounded && extraJumps <= 0)
                     return;
                 animator.SetTrigger("takeOff");
-                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
                 extraJumps--;
             }
             else
