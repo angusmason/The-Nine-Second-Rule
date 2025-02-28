@@ -37,7 +37,7 @@ jobs:
           targetPlatform: ${{ matrix.targetPlatform }}
           unityVersion: 2022.2.6f1
           buildName: The Nine Second Rule - ${{ matrix.targetPlatform }}
-      - uses: actions/upload-artifact@v3.1.2
+      - uses: actions/upload-artifact@v4.6.1
         with:
           name: Build-${{ matrix.targetPlatform }}
           path: build/${{ matrix.targetPlatform }}
