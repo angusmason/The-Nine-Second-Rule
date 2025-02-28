@@ -35,7 +35,7 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: ${{ matrix.targetPlatform }}
-          unityVersion: 2022.2.6f1
+          unityVersion: 6000.0.40f1
           buildName: The Nine Second Rule - ${{ matrix.targetPlatform }}
       - uses: actions/upload-artifact@v4.6.1
         with:
