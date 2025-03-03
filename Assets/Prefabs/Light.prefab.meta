@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Prefabs/Lantern.prefab.meta
 guid: d387859df1f474b379618fb5e0c3d54f
-========
-guid: bcb9e1584950245c6a718a3ab76c90cb
->>>>>>>> e1b7e20abe233675fb462c8baaf4a97fb2b56ce1:Assets/Prefabs/Global Light.prefab.meta~level-select-lighting
 PrefabImporter:
   externalObjects: {}
   userData: 
