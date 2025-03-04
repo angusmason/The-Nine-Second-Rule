@@ -23,21 +23,21 @@ jobs:
           - StandaloneLinux64 # Build a Linux 64-bit standalone.
     steps:
       - uses: actions/checkout@v3.3.0
-      - uses: actions/cache@v3.2.5
+      - uses: actions/cache@v4.2.2
         with:
           path: Library
           key: Library-${{ matrix.targetPlatform }}
           restore-keys: Library-
-      - uses: game-ci/unity-builder@v2.1.2
+      - uses: game-ci/unity-builder@v4.3.0
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: ${{ matrix.targetPlatform }}
-          unityVersion: 2022.2.6f1
+          unityVersion: 6000.0.40f1
           buildName: The Nine Second Rule - ${{ matrix.targetPlatform }}
-      - uses: actions/upload-artifact@v3.1.2
+      - uses: actions/upload-artifact@v4.6.1
         with:
           name: Build-${{ matrix.targetPlatform }}
           path: build/${{ matrix.targetPlatform }}

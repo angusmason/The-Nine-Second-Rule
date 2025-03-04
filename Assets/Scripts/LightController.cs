@@ -1,10 +1,11 @@
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 public class LightController : MonoBehaviour
 {
     DistanceJoint2D distanceJoint;
     LineRenderer lineRenderer;
+
+    public Material material;
 
     void Start()
     {
@@ -16,9 +17,7 @@ public class LightController : MonoBehaviour
         lineRenderer.startWidth = lineRenderer.endWidth = 0.14f;
         lineRenderer.startColor = lineRenderer.endColor = Color.white;
         lineRenderer.numCapVertices = 5;
-        Addressables.LoadAssetAsync<Material>("Sprite-Lit-Default").Completed += (material) => {
-            lineRenderer.material = material.Result;
-        };
+        lineRenderer.material = material;
     }
     void Update()
     {

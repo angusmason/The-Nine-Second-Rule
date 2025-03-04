@@ -25,7 +25,7 @@ namespace TNSR.Levels
         Crossfade crossfade;
         public Color colour;
         public SpriteRenderer background;
-        new Light2D light;
+        Light2D backgroundLight;
 
         void Start()
         {
@@ -35,7 +35,7 @@ namespace TNSR.Levels
             randomY = Random.Range(-0.3f, 0.5f);
             completed = LevelSaver.GetLevel(buildIndex) != null;
             crossfade = FindFirstObjectByType<Crossfade>();
-            light = spriteRenderer.GetComponent<Light2D>();
+            backgroundLight = spriteRenderer.GetComponent<Light2D>();
         }
 
         void Update()
@@ -91,13 +91,13 @@ namespace TNSR.Levels
                 selected ? colour : background.color,
                 lerpSpeed
             );
-            light.color = Color.Lerp(
-                light.color,
-                selected ? colour : light.color,
+            backgroundLight.color = Color.Lerp(
+                backgroundLight.color,
+                selected ? colour : backgroundLight.color,
                 lerpSpeed
             );
-            light.intensity = Mathf.Lerp(
-                light.intensity,
+            backgroundLight.intensity = Mathf.Lerp(
+                backgroundLight.intensity,
                 selected ? 1 : 0,
                 lerpSpeed
             );
